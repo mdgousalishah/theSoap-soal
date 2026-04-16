@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Soap & Soul | Shop Our Collection</title>
+    
+    <!-- Google Fonts for Elegant Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* CSS VARIABLES - High-End Olive & Pink Palette (Matched to Home/About) */
+        :root {
+            --brand-dark: #3b4524;
+            --brand-light: #f9e8ea;
+            --brand-accent: #8a9a5b;
+            --brand-accent-light: #d4e0b6;
+            --text-main: #2c3316;
+            --text-muted: #6b705c;
+            --surface: #fff4f5;
+            --border-color: #e8d8da;
+            --transition-slow: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-fast: all 0.3s ease;
+        }
+
+        /* BASE OVERRIDES */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--brand-light);
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color var(--transition-fast), color var(--transition-fast);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6, .font-serif {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+        }
+
+        /* Fluid Typography overrides for extreme mobile screens */
+        .display-4 { font-size: clamp(2.2rem, 6vw, 3.5rem) !important; }
+        .display-5 { font-size: clamp(1.8rem, 5vw, 2.5rem) !important; }
+
+        /* Responsive Padding */
+        .section-padding { padding: 50px 0; }
+        @media (min-width: 992px) {
+            .section-padding { padding: 100px 0; }
+        }
+        
+        .tracking-widest { letter-spacing: 0.15em; }
+        .tracking-wider { letter-spacing: 0.05em; }
+
+        /* BUTTONS */
+        .btn-luxury {
+            background-color: var(--brand-dark);
+            color: var(--brand-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--brand-dark);
+            border-radius: 0;
+            transition: var(--transition-fast);
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-luxury:hover {
+            background-color: transparent;
+            color: var(--brand-dark);
+        }
+        
+        .btn-outline-luxury {
+            background-color: transparent;
+            color: var(--brand-dark);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            transition: var(--transition-fast);
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            width: 100%;
+        }
+        @media (min-width: 576px) { .btn-outline-luxury.w-sm-auto { width: auto; } }
+        .btn-outline-luxury:hover {
+            border-color: var(--brand-dark);
+            background-color: var(--brand-light);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            padding: 1rem 0;
+            transition: var(--transition-fast);
+            background: rgba(249, 232, 234, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1030;
+        }
+        
+        @media (min-width: 992px) {
+            .navbar {
+                padding: 1.5rem 0;
+                background: transparent;
+                border-bottom: 1px solid transparent;
+                backdrop-filter: none;
+            }
+            .navbar.scrolled {
+                background: rgba(249, 232, 234, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 1rem 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            color: var(--brand-dark) !important;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+        }
+        @media (min-width: 992px) {
+            .navbar-brand { font-size: 1.8rem; }
+        }
+
+        /* Mobile Menu */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background: var(--surface);
+                padding: 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+                margin-top: 1rem;
+                border: 1px solid var(--border-color);
+            }
+            .nav-link { margin: 10px 0 !important; }
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-main) !important;
+            margin: 0 15px;
+            position: relative;
+            opacity: 0.8;
+            transition: var(--transition-fast);
+        }
+        .nav-link:hover, .nav-link.active { opacity: 1; }
+        
+        .cart-btn {
+            background: none;
+            border: none;
+            color: var(--brand-dark);
+            position: relative;
+            padding: 5px;
+            transition: var(--transition-fast);
+        }
+        .cart-btn:hover { color: var(--brand-accent); }
+        .cart-count {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            background-color: var(--brand-accent);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 600;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* PAGE HERO */
+        .page-hero {
+            padding-top: 130px;
+            padding-bottom: 60px;
+            background-color: var(--brand-light);
+            position: relative;
+            text-align: center;
+        }
+        @media (min-width: 992px) {
+            .page-hero {
+                padding-top: 150px;
+                padding-bottom: 80px;
+            }
+        }
+
+        /* SHOP FILTERS */
+        .shop-controls {
+            margin-bottom: 3rem;
+            background: var(--surface);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.5rem;
+            border-radius: 0;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: var(--transition-fast);
+            margin: 0.25rem;
+        }
+        .filter-btn:hover, .filter-btn.active { 
+            border-color: var(--brand-dark); 
+            color: var(--brand-light);
+            background: var(--brand-dark);
+        }
+        .search-input-wrapper { position: relative; }
+        .search-input-wrapper .search-icon { 
+            position: absolute; left: 15px; top: 50%; 
+            transform: translateY(-50%); color: var(--text-muted); width: 18px;
+        }
+        .search-input { 
+            padding-left: 45px; 
+            border-radius: 0; 
+            border-color: var(--border-color);
+            background: transparent;
+            color: var(--text-main);
+        }
+        .search-input:focus {
+            border-color: var(--brand-dark);
+            box-shadow: none;
+        }
+
+        /* PRODUCT CARDS (Synced with Home) */
+        .product-card {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            transition: var(--transition-fast);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .product-card:hover {
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            transform: translateY(-5px);
+        }
+        .product-img-wrap {
+            position: relative;
+            overflow: hidden;
+            padding-top: 100%; /* 1:1 Aspect Ratio */
+            border-bottom: 1px solid var(--border-color);
+        }
+        .product-img-wrap img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        .product-card:hover .product-img-wrap img {
+            transform: scale(1.05);
+        }
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--surface);
+            color: var(--brand-dark);
+            font-weight: 600;
+            font-size: 0.65rem;
+            padding: 0.4rem 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            z-index: 2;
+            border: 1px solid var(--border-color);
+        }
+        .product-price { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            color: var(--brand-dark); 
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* FORMS & OFFCANVAS */
+        .form-control, .form-select { 
+            padding: 0.8rem 1rem; 
+            border: 1px solid var(--border-color); 
+            border-radius: 0;
+            font-size: 0.85rem;
+            background: transparent;
+            color: var(--text-main);
+            width: 100%;
+            max-width: 100%;
+        }
+        .form-control:focus, .form-select:focus { 
+            box-shadow: none; 
+            border-color: var(--brand-dark); 
+        }
+        .form-select {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .offcanvas { 
+            border-left: 1px solid var(--border-color); 
+            font-family: 'Montserrat', sans-serif;
+            width: 100%;
+            max-width: 400px;
+        }
+        .cart-item-img { width: 70px; height: 70px; object-fit: cover; border-radius: 0; border: 1px solid var(--border-color); }
+        .qty-btn { 
+            width: 24px; height: 24px; 
+            border: 1px solid var(--border-color); 
+            background: transparent; 
+            color: var(--text-main);
+            display: inline-flex; align-items: center; justify-content: center; 
+            font-size: 0.8rem;
+            transition: var(--transition-fast); 
+        }
+        .qty-btn:hover { border-color: var(--brand-dark); background: var(--brand-light); }
+
+        /* SHIPPING PROGRESS BAR */
+        .shipping-progress-container {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .progress { 
+            height: 4px; 
+            background-color: var(--border-color); 
+            overflow: hidden; 
+            border-radius: 0; 
+            margin-top: 10px;
+        }
+        .progress-bar { background-color: var(--brand-dark); transition: width 0.5s ease; }
+
+        /* FOOTER */
+        footer { 
+            background-color: var(--surface); 
+            border-top: 1px solid var(--border-color);
+            padding-top: 3rem;
+            padding-bottom: 2rem;
+            margin-top: auto;
+        }
+        @media (min-width: 992px) {
+            footer { padding-top: 4rem; }
+        }
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+        .footer-link:hover { color: var(--brand-dark); }
+        .social-links a { color: var(--brand-dark); transition: var(--transition-fast); text-decoration: none; }
+        .social-links a:hover { color: var(--brand-accent); }
+
+        /* ANIMATIONS */
+        .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* DARK MODE STYLES */
+        body.dark-mode {
+            --brand-dark: #f9e8ea;
+            --brand-light: #161811;
+            --brand-accent: #a5b576;
+            --brand-accent-light: #414a2a;
+            --text-main: #e8e3e4;
+            --text-muted: #a3a69a;
+            --surface: #1e2117;
+            --border-color: #2f3325;
+        }
+        
+        body.dark-mode .page-hero { background-color: var(--brand-light); }
+        body.dark-mode .navbar { background: rgba(22, 24, 17, 0.95); }
+        
+        @media (max-width: 991.98px) {
+            body.dark-mode .navbar-collapse { background: var(--surface); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        }
+        
+        body.dark-mode .form-control::placeholder { color: #777; }
+        body.dark-mode .search-input { color: var(--text-main); }
+        body.dark-mode .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
+        body.dark-mode .border, body.dark-mode .border-top, body.dark-mode .border-bottom, body.dark-mode .border-start, body.dark-mode .border-end { border-color: var(--border-color) !important; }
+        body.dark-mode .product-badge { background-color: var(--surface); color: var(--text-main); border-color: var(--border-color); }
+        
+        /* MODAL OVERRIDES FOR TEXT */
+        .modal-body ul { padding-left: 1.2rem; }
+        body.dark-mode select option { background-color: var(--surface); color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR (Synced with Home/About) -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
+        <div class="container-fluid px-3 px-lg-5">
+            <a class="navbar-brand py-0 d-flex align-items-center" href="index.html">
+                <img src="shop/Logo.png" alt="The Soap & Soul Logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;" onerror="this.src='https://via.placeholder.com/40?text=S'">
+                <span>The Soap & Soul.</span>
+            </a>
+            
+            <div class="d-flex align-items-center order-lg-last">
+                <a href="https://www.instagram.com/the.soapandsoul?igsh=eGV5bHVqZGxpYXM2" target="_blank" class="cart-btn d-none d-md-flex align-items-center justify-content-center" aria-label="Instagram">
+                    <i data-lucide="instagram" stroke-width="1.5" width="20"></i>
+                </a>
+                <a href="https://www.facebook.com/share/1ESqzBqs2J/?mibextid=wwXIfr" target="_blank" class="cart-btn d-none d-md-flex align-items-center justify-content-center" aria-label="Facebook">
+                    <i data-lucide="facebook" stroke-width="1.5" width="20"></i>
+                </a>
+                <a href="mailto:the.soapandsoul@gmail.com" target="_blank" class="cart-btn d-none d-md-flex align-items-center justify-content-center me-2" aria-label="Email">
+                    <i data-lucide="mail" stroke-width="1.5" width="20"></i>
+                </a>
+                <button class="cart-btn" id="theme-toggle" type="button" aria-label="Toggle Dark Mode">
+                    <i data-lucide="moon" stroke-width="1.5"></i>
+                </button>
+                <button class="cart-btn ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                    <i data-lucide="shopping-bag" stroke-width="1.5"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <button class="navbar-toggler border-0 shadow-none ms-2 p-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <i data-lucide="menu" stroke-width="1.5" style="color: currentColor;"></i>
+                </button>
+            </div>
+
+            <!-- CORRECTED RELATIVE PATHS (Shop is Active) -->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav text-center text-lg-start">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="shop.html">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item d-md-none mt-4 mb-2">
+                        <div class="d-flex justify-content-center gap-4">
+                            <a href="https://www.instagram.com/the.soapandsoul?igsh=eGV5bHVqZGxpYXM2" target="_blank" style="color: var(--text-main);"><i data-lucide="instagram" width="24"></i></a>
+                            <a href="https://www.facebook.com/share/1ESqzBqs2J/?mibextid=wwXIfr" target="_blank" style="color: var(--text-main);"><i data-lucide="facebook" width="24"></i></a>
+                            <a href="mailto:the.soapandsoul@gmail.com" target="_blank" style="color: var(--text-main);"><i data-lucide="mail" width="24"></i></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <header class="page-hero">
+        <div class="container px-4 fade-up">
+            <span class="text-uppercase tracking-widest text-muted small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">The Catalog</span>
+            <h1 class="display-4 font-serif mb-4" style="color: var(--brand-dark);">Our Collection</h1>
+            <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto 1.5rem auto;"></div>
+            <p class="lead mx-auto text-muted" style="max-width: 600px; font-size: 0.95rem;">Discover our full range of artisanal, handcrafted soaps made for your skin & soul.</p>
+        </div>
+    </header>
+
+    <!-- SHOP PRODUCTS GRID -->
+    <section class="section-padding pt-0 flex-grow-1" id="shop-products">
+        <div class="container px-4 px-lg-5">
+            
+            <!-- CONTROLS: Filtering and Searching -->
+            <div class="shop-controls fade-up">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-8">
+                        <div class="d-flex flex-wrap gap-2" id="category-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="floral">Floral & Delicate</button>
+                            <button class="filter-btn" data-filter="detox">Detox & Cleanse</button>
+                            <button class="filter-btn" data-filter="soothing">Soothing & Gentle</button>
+                            <button class="filter-btn" data-filter="fresh">Fresh & Earthy</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="search-input-wrapper">
+                            <i data-lucide="search" class="search-icon"></i>
+                            <input type="text" id="search-input" class="form-control search-input" placeholder="Search for soaps, ingredients...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUCT GRID -->
+            <div class="row g-4 g-lg-5 justify-content-center" id="product-grid">
+                <!-- Products dynamically injected via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (Synced with Home/About) -->
+    <footer>
+        <div class="container px-4 px-lg-5">
+            <div class="row gy-4 gy-lg-5 gx-4 mb-5">
+                <div class="col-12 col-lg-4 text-center text-lg-start">
+                    <h2 class="font-serif fs-4 mb-3">
+                        <img src="shop/Logo.png" alt="The Soap & Soul Logo" style="height: 60px; border-radius: 4px; margin-bottom: 5px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/60?text=S'">
+                    </h2>
+                    <p class="text-muted small fw-light mb-4 mx-auto mx-lg-0" style="max-width: 300px;">Elevating the science of botanical skincare. Purify, nourish, and restore with uncompromising quality.</p>
+                </div>
+                
+                <div class="col-6 col-sm-4 col-lg-2 offset-lg-1 text-start">
+                    <h5 class="text-uppercase tracking-wider small fw-bold mb-4" style="color: var(--brand-dark);">Collection</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="shop.html" class="footer-link">All Products</a></li>
+                        <li class="mb-2"><a href="shop.html" class="footer-link">Signature Soaps</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#customizeModal">Custom Orders</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Accessories</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-6 col-sm-4 col-lg-2 text-start">
+                    <h5 class="text-uppercase tracking-wider small fw-bold mb-4" style="color: var(--brand-dark);">Support</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li class="mb-2"><a class="footer-link" data-bs-toggle="modal" data-bs-target="#shippingModal">Shipping & Returns</a></li>
+                        <li class="mb-2"><a class="footer-link" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a></li>
+                        <li class="mb-2"><a class="footer-link" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-sm-4 col-lg-3 text-start mt-4 mt-sm-0">
+                    <h5 class="text-uppercase tracking-wider small fw-bold mb-4" style="color: var(--brand-dark);">Connect</h5>
+                    <ul class="list-unstyled social-links">
+                        <li class="mb-3">
+                            <a href="https://www.instagram.com/the.soapandsoul?igsh=eGV5bHVqZGxpYXM2" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
+                                <i data-lucide="instagram" width="20" stroke-width="1.5"></i>
+                                <span class="footer-link d-inline-block m-0 p-0">Instagram</span>
+                            </a>
+                        </li>
+                        <li class="mb-3">
+                            <a href="https://www.facebook.com/share/1ESqzBqs2J/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
+                                <i data-lucide="facebook" width="20" stroke-width="1.5"></i>
+                                <span class="footer-link d-inline-block m-0 p-0">Facebook</span>
+                            </a>
+                        </li>
+                        <li class="mb-3">
+                            <a href="mailto:the.soapandsoul@gmail.com" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
+                                <i data-lucide="mail" width="20" stroke-width="1.5"></i>
+                                <span class="footer-link d-inline-block m-0 p-0">Email Us</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-top pt-4 text-center">
+                <p class="text-muted small fw-light mb-1">&copy; 2026 The Soap & Soul. All rights reserved.</p>
+                <p class="text-muted small fw-light mb-0">Website designed and developed by Kamel Shah</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOOTSTRAP OFFCANVAS CART -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" style="background-color: var(--brand-light);">
+        <div class="offcanvas-header border-bottom py-4 px-4">
+            <h5 class="offcanvas-title font-serif fs-5">Your Shopping Bag</h5>
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column p-0">
+            
+            <!-- FREE SHIPPING PROGRESS BAR -->
+            <div class="shipping-progress-container d-none" id="shipping-tracker">
+                <p class="small mb-2 text-center text-muted" id="shipping-text">Add <span class="fw-bold text-dark">₹0.00</span> more to get <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING</span></p>
+                <div class="progress">
+                    <div class="progress-bar" id="shipping-bar" role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="cart-items-container" class="flex-grow-1 overflow-auto p-3 p-md-4">
+                <!-- Cart Items Injected Here -->
+            </div>
+            
+            <div class="p-3 p-md-4 border-top" style="background-color: var(--surface);">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <span class="text-uppercase tracking-widest small text-muted fw-bold">Subtotal</span>
+                    <span class="fs-5 fw-bold font-serif text-dark" id="cart-total-price" style="color: var(--brand-dark) !important;">₹0.00</span>
+                </div>
+                <button class="btn-luxury w-100" id="btn-checkout">Secure Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOTSTRAP CHECKOUT MODAL -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light);">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                    <h4 class="modal-title w-100 text-center font-serif fs-4" style="color: var(--brand-dark);">Complete Order</h4>
+                    <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="checkout-form">
+                        <div class="mb-3">
+                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Full Name</label>
+                            <input type="text" id="checkout-name" class="form-control" required>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 col-sm-6">
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Email</label>
+                                <input type="email" id="checkout-email" class="form-control" required>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Phone</label>
+                                <input type="tel" id="checkout-phone" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Address</label>
+                            <input type="text" id="checkout-address" class="form-control" required>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-12 col-sm-6">
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">City</label>
+                                <input type="text" id="checkout-city" class="form-control" required>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Postal Code</label>
+                                <input type="text" id="checkout-zip" class="form-control" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-luxury w-100 mt-2">Place Order via WhatsApp</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOMIZATION FORM MODAL -->
+    <div class="modal fade" id="customizeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light);">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                    <h4 class="modal-title w-100 text-center font-serif fs-4" style="color: var(--brand-dark);">Custom Soap Request</h4>
+                    <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 px-md-5 pt-2">
+                    <p class="text-center text-muted small fw-light mb-4">Tell us about your vision, and we'll craft the perfect botanical blend just for you.</p>
+                    <form id="customize-form">
+                        <div class="mb-3">
+                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Full Name</label>
+                            <input type="text" id="cust-name" class="form-control" required>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 col-sm-6">
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Email</label>
+                                <input type="email" id="cust-email" class="form-control" required>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Phone Number</label>
+                                <input type="tel" id="cust-phone" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Select Base Soap <span class="text-lowercase fw-normal" style="opacity: 0.8;">(Prices shown are base prices, final price varies after customisation)</span></label>
+                            <select id="cust-base-soap" class="form-select" required>
+                                <option value="" disabled selected>Select a soap to customize...</option>
+                                <option value="(Malaika) Rose">(Malaika) Rose - ₹150/-</option>
+                                <option value="Ubtan">Ubtan - ₹150/-</option>
+                                <option value="(Dulhan soap) Chiksa">(Dulhan soap) Chiksa - ₹200/-</option>
+                                <option value="Neem">Neem - ₹100/-</option>
+                                <option value="Orange">Orange - ₹120/-</option>
+                                <option value="Lemon">Lemon - ₹100/-</option>
+                                <option value="Rose">Rose - ₹150/-</option>
+                                <option value="Charcoal">Charcoal - ₹150/-</option>
+                                <option value="Coffee">Coffee - ₹150/-</option>
+                                <option value="Chandan">Chandan - ₹200/-</option>
+                                <option value="Mulethi soap">Mulethi soap - ₹150/-</option>
+                                <option value="Rice soap">Rice soap - ₹150/-</option>
+                                <option value="Hunny bunny">Hunny bunny - ₹200/-</option>
+                                <option value="Forever love">Forever love - ₹200/-</option>
+                                <option value="Completely Custom">Create Completely New Custom Soap</option>
+                            </select>
+                        </div>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 col-sm-6">
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Occasion / Purpose</label>
+                                <select id="cust-purpose" class="form-select" required>
+                                    <option value="" disabled selected>Select an option...</option>
+                                    <option value="Wedding or Event Favors">Wedding or Event Favors</option>
+                                    <option value="Corporate Gifts">Corporate Gifts</option>
+                                    <option value="Personal / Skin Concerns">Personal / Skin Concerns</option>
+                                    <option value="Wholesale / Boutique">Wholesale / Boutique</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Estimated Quantity</label>
+                                <input type="number" id="cust-qty" class="form-control" placeholder="Minimum batch sizes apply" required>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Scent, Color & Ingredient Vision</label>
+                            <textarea id="cust-preferences" class="form-control" rows="3" placeholder="e.g., I'd love a lavender & oat bar, very gentle for sensitive skin, with a natural green swirl..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-luxury w-100 mt-2">Send Request via WhatsApp</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHIPPING MODAL -->
+    <div class="modal fade" id="shippingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light);">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                    <h4 class="modal-title w-100 font-serif fs-4" style="color: var(--brand-dark);">Shipping & Return Policy</h4>
+                    <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 p-md-5 pt-3">
+                    <p class="text-muted small tracking-wider text-uppercase mb-4">The Soap & Soul</p>
+                    
+                    <h5 class="font-serif fs-5 mt-4 mb-2" style="color: var(--brand-dark);">Shipping Policy</h5>
+                    <ul class="text-muted small fw-light mb-4">
+                        <li class="mb-1">All orders are processed within 2–3 working days after order confirmation.</li>
+                        <li class="mb-1">Shipping charges are to be paid by the customer and will be calculated at checkout.</li>
+                        <li class="mb-1">Delivery timelines may vary depending on the customer’s location and courier service.</li>
+                    </ul>
+
+                    <h5 class="font-serif fs-5 mt-4 mb-2" style="color: var(--brand-dark);">Minimum Order Value</h5>
+                    <ul class="text-muted small fw-light mb-4">
+                        <li class="mb-1">For deliveries outside Aurangabad or outside India, a minimum order value of ₹500 is required.</li>
+                    </ul>
+
+                    <h5 class="font-serif fs-5 mt-4 mb-2" style="color: var(--brand-dark);">Order Cancellation</h5>
+                    <ul class="text-muted small fw-light mb-4">
+                        <li class="mb-1">Orders can be cancelled only before shipment.</li>
+                        <li class="mb-1">Once the order is shipped, cancellation will not be possible.</li>
+                    </ul>
+
+                    <h5 class="font-serif fs-5 mt-4 mb-2" style="color: var(--brand-dark);">Return & Refund Policy</h5>
+                    <ul class="text-muted small fw-light mb-4">
+                        <li class="mb-1">Due to the hygiene and personal care nature of our products, returns are not accepted once the product is delivered.</li>
+                        <li class="mb-1">In case of damaged, defective, or incorrect products, customers must inform us within 24 hours of delivery with proper proof (photos/videos).</li>
+                        <li class="mb-1">After verification, we may offer a replacement or refund, as applicable.</li>
+                    </ul>
+
+                    <h5 class="font-serif fs-5 mt-4 mb-2" style="color: var(--brand-dark);">Contact Information</h5>
+                    <p class="text-muted small fw-light mb-1">For any shipping or return-related queries, please contact:</p>
+                    <p class="text-muted small fw-bold mb-1">📧 the.soapandsoul@gmail.com</p>
+                    <p class="text-muted small fw-bold mb-0">📞 +91 98765 43210</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMS MODAL -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light);">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                    <h4 class="modal-title w-100 font-serif fs-4" style="color: var(--brand-dark);">Terms & Conditions</h4>
+                    <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 p-md-5 pt-3">
+                    <p class="text-muted small tracking-wider text-uppercase mb-3">The Soap & Soul</p>
+                    <p class="text-muted small fw-light mb-4">By accessing and using our website, you agree to the following terms:</p>
+                    
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">1. Product Information</h5>
+                    <p class="text-muted small fw-light mb-4">All products are handmade, and slight variations in color, shape, or fragrance may occur. We strive to provide accurate descriptions and images.</p>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">2. Pricing & Payment</h5>
+                    <p class="text-muted small fw-light mb-4">All prices are listed in INR (₹) and are subject to change without prior notice.</p>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">3. Shipping Charges</h5>
+                    <p class="text-muted small fw-light mb-4">Shipping charges are the responsibility of the customer and will be added during checkout.</p>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">4. Order Processing</h5>
+                    <p class="text-muted small fw-light mb-4">Orders are processed within 2–3 working days.</p>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">5. Cancellation Policy</h5>
+                    <p class="text-muted small fw-light mb-4">Orders can only be cancelled before shipment. Once shipped, cancellation is not allowed.</p>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">6. Customization Orders</h5>
+                    <ul class="text-muted small fw-light mb-4">
+                        <li class="mb-1">For customized soaps, customers must contact us directly before placing an order.</li>
+                        <li class="mb-1">Customized products are made specifically as per customer requirements and cannot be cancelled once confirmed.</li>
+                    </ul>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">7. Allergy Disclaimer</h5>
+                    <ul class="text-muted small fw-light mb-4">
+                        <li class="mb-1">Customers are advised to inform us about any skin allergies or sensitivities before placing an order.</li>
+                        <li class="mb-1">The Soap & Soul will not be responsible for any adverse reactions if such information is not disclosed in advance.</li>
+                    </ul>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">8. Order Acceptance</h5>
+                    <p class="text-muted small fw-light mb-4">We reserve the right to cancel or refuse any order due to stock unavailability, pricing errors, or suspicious activity.</p>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">9. Website Usage</h5>
+                    <p class="text-muted small fw-light mb-4">Users agree not to misuse the website for any unlawful or fraudulent activities.</p>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">10. Intellectual Property</h5>
+                    <p class="text-muted small fw-light mb-4">All content including logo, images, and text belongs to The Soap & Soul and cannot be used without permission.</p>
+
+                    <div class="border-top pt-3 mt-4">
+                        <p class="text-muted small fw-bold mb-0">We reserve the right to update these terms at any time without prior notice.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRIVACY MODAL -->
+    <div class="modal fade" id="privacyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light);">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                    <h4 class="modal-title w-100 font-serif fs-4" style="color: var(--brand-dark);">Privacy Policy</h4>
+                    <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 p-md-5 pt-3">
+                    <p class="text-muted small tracking-wider text-uppercase mb-3">The Soap & Soul</p>
+                    <p class="text-muted small fw-light mb-4">At The Soap & Soul, we are committed to protecting your personal information and privacy.</p>
+                    
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">Information We Collect</h5>
+                    <ul class="text-muted small fw-light mb-4">
+                        <li class="mb-1">Name, phone number, and email address</li>
+                        <li class="mb-1">Shipping and billing address</li>
+                        <li class="mb-1">Order details and purchase history</li>
+                    </ul>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">How We Use Your Information</h5>
+                    <ul class="text-muted small fw-light mb-4">
+                        <li class="mb-1">To process and deliver your orders</li>
+                        <li class="mb-1">To communicate order updates and support</li>
+                        <li class="mb-1">To improve our products and services</li>
+                    </ul>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">Data Sharing</h5>
+                    <ul class="text-muted small fw-light mb-4">
+                        <li class="mb-1">We do not sell or share your personal information with third parties.</li>
+                        <li class="mb-1">Your data may be shared only with trusted partners such as courier or payment services for order fulfillment.</li>
+                    </ul>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">Data Security</h5>
+                    <p class="text-muted small fw-light mb-4">We take reasonable steps to protect your personal information from unauthorized access or misuse.</p>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">Cookies</h5>
+                    <p class="text-muted small fw-light mb-4">Our website may use cookies to enhance user experience and improve functionality.</p>
+
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">User Consent</h5>
+                    <p class="text-muted small fw-light mb-4">By using our website, you agree to the collection and use of your information as per this policy.</p>
+
+                    <h5 class="font-serif fs-5 mt-4 mb-2" style="color: var(--brand-dark);">Contact Information</h5>
+                    <p class="text-muted small fw-light mb-1">For any privacy-related concerns, please contact:</p>
+                    <p class="text-muted small fw-bold mb-0">📧 the.soapandsoul@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- CUSTOM JAVASCRIPT LOGIC -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // --- ENHANCED PRODUCT DATA (Using Uploaded Local Images) ---
+        const productsData = [
+            { id: 1, name: "(Malaika) Rose", desc: "Romantic rose essence for luxurious hydration and floral balance.", price: 150.00, category: "floral", img: "shop/rose.png", badge: "Best Seller" },
+            { id: 2, name: "Ayurvedic Ubtan", desc: "Traditional turmeric and herbs for a natural, glowing complexion.", price: 150.00, category: "soothing", img: "shop/ubtan.png" },
+            { id: 3, name: "(Dulhan) Chiksha", desc: "A luxurious bridal blend for that perfect, flawless wedding glow.", price: 200.00, category: "soothing", img: "shop/chiksha (dulhan).png", badge: "Premium" },
+            { id: 4, name: "Purifying Neem", desc: "Antibacterial neem leaves to protect, heal, and clarify the skin.", price: 100.00, category: "fresh", img: "shop/neem.png" },
+            { id: 5, name: "Vitamin C Orange", desc: "Zesty orange extract to brighten, invigorate, and revitalize your skin.", price: 120.00, category: "fresh", img: "shop/orange.png" },
+            { id: 6, name: "Zesty Lemon", desc: "Refreshing lemon zest for an energizing and deep cleanse.", price: 100.00, category: "fresh", img: "https://images.unsplash.com/photo-1584305574647-0cc949a2bb9f?q=80&w=800&auto=format&fit=crop" },
+            { id: 7, name: "Charcoal Detox", desc: "Activated charcoal to draw out impurities and deeply cleanse pores.", price: 150.00, category: "detox", img: "shop/Charcoal.png", badge: "Trending" },
+            { id: 8, name: "Coffee Bean Bloom", desc: "Exfoliating coffee grounds to awaken your senses and smooth skin.", price: 150.00, category: "detox", img: "shop/coofee.png" },
+            { id: 9, name: "Pure Chandan", desc: "Rich, woody aroma of sandalwood for a calming, spiritual cleanse.", price: 200.00, category: "fresh", img: "shop/chandan.png" },
+            { id: 10, name: "Mulethi Soothing Bar", desc: "Healing mulethi extract to soothe irritation and even out skin tone.", price: 150.00, category: "soothing", img: "shop/multahi.png" },
+            { id: 11, name: "Rice Brightening", desc: "Gentle rice extract to beautifully brighten, soften, and nourish.", price: 150.00, category: "soothing", img: "shop/rice.png", badge: "New" },
+            { id: 12, name: "Hunny Bunny Baby", desc: "Ultra-gentle lotus and honey formulation for delicate baby skin.", price: 200.00, category: "soothing", img: "shop/HoneyBunny.png" },
+            { id: 13, name: "Forever Love", desc: "A beautifully sculpted blend for deep hydration and celebrating love.", price: 200.00, category: "floral", img: "shop/AloeVera&Glycerine.png" }
+        ];
+
+        // --- STATE ---
+        let cart = JSON.parse(localStorage.getItem('soapSoulCart')) || [];
+        let currentFilter = "all";
+        let searchQuery = "";
+        const FREE_SHIPPING_THRESHOLD = 2000.00;
+
+        // --- DOM ELEMENTS ---
+        const productGrid = document.getElementById('product-grid');
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartCount = document.getElementById('cart-count');
+        const cartTotalPrice = document.getElementById('cart-total-price');
+
+        // --- INITIALIZE ---
+        function init() {
+            // Cart Hydration
+            if (cart.length > 0) {
+                cart = cart.map(cartItem => {
+                    const currentProduct = productsData.find(p => p.id === cartItem.id);
+                    if (currentProduct) {
+                        return { ...cartItem, img: currentProduct.img, name: currentProduct.name, price: currentProduct.price };
+                    }
+                    return cartItem;
+                });
+                localStorage.setItem('soapSoulCart', JSON.stringify(cart));
+            }
+
+            renderProducts();
+            setupEventListeners();
+            setupScrollObserver();
+            updateCartUI(); 
+            initDarkMode();
+            
+            // Check initial scroll for navbar
+            const navbar = document.getElementById('navbar');
+            if(window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            }
+        }
+
+        // --- RENDER PRODUCTS WITH FILTERS ---
+        function renderProducts() {
+            if(!productGrid) return;
+            productGrid.innerHTML = '';
+            
+            const filteredProducts = productsData.filter(product => {
+                const matchesFilter = currentFilter === 'all' || product.category === currentFilter;
+                const matchesSearch = product.name.toLowerCase().includes(searchQuery) || product.desc.toLowerCase().includes(searchQuery);
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filteredProducts.length === 0) {
+                productGrid.innerHTML = `
+                    <div class="col-12 text-center py-5 fade-up">
+                        <i data-lucide="search-x" class="text-muted mb-3" style="width: 48px; height: 48px;"></i>
+                        <h4 class="font-serif" style="color: var(--brand-dark);">No products found</h4>
+                        <p class="text-muted small">Try adjusting your filters or search terms.</p>
+                        <button class="btn-outline-luxury mt-3 w-100 w-sm-auto" onclick="resetFilters()">Clear Filters</button>
+                    </div>`;
+                lucide.createIcons();
+                setupScrollObserver();
+                return;
+            }
+
+            filteredProducts.forEach((product, index) => {
+                const delay = (index % 3) * 0.1; 
+                const badgeHTML = product.badge ? `<div class="product-badge">${product.badge}</div>` : '';
+
+                const safeName = product.name.replace(/'/g, "\\'");
+                const safeImg = product.img.replace(/'/g, "\\'");
+
+                productGrid.innerHTML += `
+                    <div class="col-md-6 col-lg-4 fade-up" style="transition-delay: ${delay}s;">
+                        <div class="product-card">
+                            ${badgeHTML}
+                            <div class="product-img-wrap">
+                                <img src="${product.img}" alt="${product.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                            </div>
+                            <div class="p-4 text-center d-flex flex-column flex-grow-1">
+                                <h5 class="font-serif mb-2" style="color: var(--brand-dark);">${product.name}</h5>
+                                <p class="text-muted small mb-3 flex-grow-1">${product.desc}</p>
+                                <div class="mt-auto">
+                                    <p class="product-price mb-3">₹${product.price.toFixed(2)}</p>
+                                    <button class="btn-outline-luxury w-100" onclick="addToCart(${product.id}, '${safeName}', ${product.price}, '${safeImg}')">Add to Bag</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            setupScrollObserver(); 
+        }
+
+        window.resetFilters = () => {
+            currentFilter = "all";
+            searchQuery = "";
+            document.getElementById('search-input').value = "";
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+            renderProducts();
+        }
+
+        // --- CART FUNCTIONS ---
+        window.addToCart = (id, name, price, img) => {
+            const existingItemIndex = cart.findIndex(item => item.id === id);
+            
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].qty += 1;
+            } else {
+                cart.push({ id, name, price, img, qty: 1 });
+            }
+            
+            localStorage.setItem('soapSoulCart', JSON.stringify(cart));
+            updateCartUI();
+            
+            const offcanvasElement = document.getElementById('cartOffcanvas');
+            const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
+            bsOffcanvas.show();
+        };
+
+        window.updateQty = (productId, change) => {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex > -1) {
+                cart[itemIndex].qty += change;
+                if (cart[itemIndex].qty <= 0) cart.splice(itemIndex, 1);
+                localStorage.setItem('soapSoulCart', JSON.stringify(cart));
+                updateCartUI();
+            }
+        };
+
+        window.removeFromCart = (productId) => {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('soapSoulCart', JSON.stringify(cart));
+            updateCartUI();
+        };
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            if(cartCount) {
+                cartCount.textContent = totalItems;
+            }
+            
+            const checkoutBtn = document.getElementById('btn-checkout');
+            const trackerDiv = document.getElementById('shipping-tracker');
+            const trackerText = document.getElementById('shipping-text');
+            const trackerBar = document.getElementById('shipping-bar');
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="h-100 d-flex flex-column align-items-center justify-content-center text-muted">
+                        <i data-lucide="shopping-bag" class="mb-3" style="width: 32px; height: 32px; opacity: 0.3;"></i>
+                        <p class="small tracking-wider text-uppercase">Your bag is empty</p>
+                    </div>`;
+                checkoutBtn.disabled = true;
+                checkoutBtn.style.opacity = '0.5';
+                if (trackerDiv) trackerDiv.classList.add('d-none');
+            } else {
+                checkoutBtn.disabled = false;
+                checkoutBtn.style.opacity = '1';
+                if (trackerDiv) trackerDiv.classList.remove('d-none');
+                let cartHTML = '';
+                
+                if (trackerBar && trackerText) {
+                    let progressPercent = Math.min((totalPrice / FREE_SHIPPING_THRESHOLD) * 100, 100);
+                    trackerBar.style.width = `${progressPercent}%`;
+                    
+                    if (totalPrice >= FREE_SHIPPING_THRESHOLD) {
+                        trackerText.innerHTML = `You've unlocked <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING!</span> 🎉`;
+                        trackerBar.style.backgroundColor = 'var(--brand-accent)';
+                    } else {
+                        let needed = (FREE_SHIPPING_THRESHOLD - totalPrice).toFixed(2);
+                        trackerText.innerHTML = `Add <span class="fw-bold" style="color: var(--text-main);">₹${needed}</span> more to get <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING</span>`;
+                        trackerBar.style.backgroundColor = 'var(--brand-dark)';
+                    }
+                }
+                
+                cart.forEach(item => {
+                    cartHTML += `
+                        <div class="d-flex align-items-center mb-3 mb-md-4 p-2 border" style="background-color: var(--surface);">
+                            <img src="${item.img}" alt="${item.name}" class="cart-item-img me-3" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1 font-serif fs-6" style="color: var(--brand-dark);">${item.name}</h6>
+                                <div class="text-muted fw-bold mb-2 small">₹${(item.price * item.qty).toFixed(2)}</div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+                                    <span class="small fw-bold px-2">${item.qty}</span>
+                                    <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+                                </div>
+                            </div>
+                            <button class="btn btn-link text-muted p-0 ms-2" onclick="removeFromCart(${item.id})" style="opacity: 0.6;">
+                                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+                cartItemsContainer.innerHTML = cartHTML;
+            }
+            lucide.createIcons();
+            cartTotalPrice.textContent = `₹${totalPrice.toFixed(2)}/-`;
+        }
+
+        // --- EVENT LISTENERS ---
+        function setupEventListeners() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentFilter = e.target.getAttribute('data-filter');
+                    renderProducts();
+                });
+            });
+
+            const searchInput = document.getElementById('search-input');
+            if(searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    searchQuery = e.target.value.toLowerCase().trim();
+                    renderProducts();
+                });
+            }
+
+            document.getElementById('btn-checkout').addEventListener('click', () => {
+                const offcanvasElement = document.getElementById('cartOffcanvas');
+                const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
+                bsOffcanvas.hide();
+                
+                setTimeout(() => {
+                    const modalElement = document.getElementById('checkoutModal');
+                    const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                    bsModal.show();
+                }, 300);
+            });
+
+            // WHATSAPP CHECKOUT LOGIC
+            document.getElementById('checkout-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById('checkout-name').value;
+                const email = document.getElementById('checkout-email').value;
+                const phone = document.getElementById('checkout-phone').value;
+                const address = document.getElementById('checkout-address').value;
+                const city = document.getElementById('checkout-city').value;
+                const zip = document.getElementById('checkout-zip').value;
+
+                if (cart.length === 0) return;
+
+                let orderSummary = '';
+                let total = 0;
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.qty;
+                    total += itemTotal;
+                    orderSummary += `- ${item.qty}x ${item.name} (₹${itemTotal.toFixed(2)})\n`;
+                });
+
+                let shippingCost = total >= FREE_SHIPPING_THRESHOLD ? 0 : 50;
+                let shippingText = total >= FREE_SHIPPING_THRESHOLD ? "Free" : `₹${shippingCost.toFixed(2)}`;
+                let finalTotal = total + shippingCost;
+
+                const message = `*New Order: The Soap & Soul* 🌿\n\n` +
+                                `*Customer Details:*\n` +
+                                `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\n` +
+                                `*Shipping Address:*\n${address}, ${city}, ${zip}\n\n` +
+                                `*Order Summary:*\n${orderSummary}\n` +
+                                `*Shipping:* ${shippingText}\n` +
+                                `*Total Amount:* ₹${finalTotal.toFixed(2)}/-\n\n` +
+                                `Please confirm my order.`;
+
+                const whatsappNumber = "919876543210"; // REPLACE WITH ACTUAL NUMBER
+                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+
+                cart = []; 
+                localStorage.removeItem('soapSoulCart');
+                updateCartUI();
+                
+                const modalElement = document.getElementById('checkoutModal');
+                const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                bsModal.hide();
+                e.target.reset();
+            });
+
+            // WHATSAPP CUSTOMIZATION LOGIC
+            const customizeForm = document.getElementById('customize-form');
+            if (customizeForm) {
+                customizeForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const name = document.getElementById('cust-name').value;
+                    const email = document.getElementById('cust-email').value;
+                    const phone = document.getElementById('cust-phone').value;
+                    const baseSoap = document.getElementById('cust-base-soap').value;
+                    const purpose = document.getElementById('cust-purpose').value;
+                    const qty = document.getElementById('cust-qty').value;
+                    const preferences = document.getElementById('cust-preferences').value;
+
+                    const message = `*Custom Soap Inquiry: The Soap & Soul* ✨\n\n` +
+                                    `*Client Details:*\n` +
+                                    `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\n` +
+                                    `*Request Details:*\n` +
+                                    `Base Soap Selected: ${baseSoap}\n` +
+                                    `Purpose: ${purpose}\n` +
+                                    `Estimated Quantity: ${qty} bars\n\n` +
+                                    `*Preferences & Vision:*\n${preferences}\n\n` +
+                                    `I would love to discuss custom formulations and final pricing!`;
+
+                    const whatsappNumber = "919876543210"; // REPLACE WITH ACTUAL NUMBER
+                    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+
+                    const modalElement = document.getElementById('customizeModal');
+                    const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                    bsModal.hide();
+                    e.target.reset();
+                });
+            }
+
+            // Sticky Navbar logic
+            window.addEventListener('scroll', () => {
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Close mobile menu on click
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    const navbarToggler = document.querySelector('.navbar-toggler');
+                    const bsCollapse = bootstrap.Collapse.getInstance(document.getElementById('navbarNav'));
+                    if(bsCollapse && window.getComputedStyle(navbarToggler).display !== 'none') {
+                        bsCollapse.hide();
+                    }
+                });
+            });
+        }
+
+        // --- SCROLL ANIMATIONS ---
+        function setupScrollObserver() {
+            const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            setTimeout(() => {
+                document.querySelectorAll('.fade-up:not(.visible)').forEach(element => observer.observe(element));
+            }, 100);
+        }
+
+        // --- DARK MODE LOGIC ---
+        function initDarkMode() {
+            const themeToggle = document.getElementById('theme-toggle');
+            if(!themeToggle) return;
+            const body = document.body;
+
+            if (localStorage.getItem('theme') === 'dark') {
+                body.classList.add('dark-mode');
+            }
+
+            const updateIcon = () => {
+                const isDark = body.classList.contains('dark-mode');
+                themeToggle.innerHTML = `<i data-lucide="${isDark ? 'sun' : 'moon'}" stroke-width="1.5"></i>`;
+                lucide.createIcons();
+            };
+
+            updateIcon();
+
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+                updateIcon();
+            });
+        }
+
+        // Run
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
