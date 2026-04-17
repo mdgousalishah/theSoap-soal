@@ -196,17 +196,22 @@
         .home-hero {
             position: relative;
             height: 100vh;
-            min-height: 600px;
+            min-height: 550px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: url('index/Logo.png') center/cover no-repeat;
+            background-color: var(--brand-light); /* Fallback color matching brand */
+            background-image: url('index/Logo.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            /* CRITICAL FIX: "contain" ensures no edges are clipped on mobile */
+            background-size: contain; 
         }
         .home-hero::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(249, 232, 234, 0.65); /* Keeps the image visible but readable */
+            background: rgba(249, 232, 234, 0.70); /* Smoothes out the edges if contain leaves gaps */
             z-index: 1;
         }
         .hero-content {
@@ -214,8 +219,16 @@
             z-index: 2;
             text-align: center;
             padding-top: 80px;
+            padding-left: 20px;
+            padding-right: 20px;
         }
-        
+        @media (min-width: 768px) {
+            .home-hero {
+                /* Back to cover on desktop where the wide aspect ratio fits normally */
+                background-size: cover; 
+            }
+        }
+
         /* Highlighted Owner Name Pill */
         .owner-highlight {
             background-color: var(--brand-dark);
@@ -241,6 +254,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
         .product-card:hover {
             box-shadow: 0 15px 35px rgba(0,0,0,0.08);
@@ -249,7 +263,8 @@
         .product-img-wrap {
             position: relative;
             overflow: hidden;
-            padding-top: 100%;
+            padding-top: 100%; /* 1:1 Aspect Ratio */
+            border-bottom: 1px solid var(--border-color);
         }
         .product-img-wrap img {
             position: absolute;
@@ -261,15 +276,24 @@
         .product-card:hover .product-img-wrap img {
             transform: scale(1.05);
         }
+        .product-price { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            color: var(--brand-dark); 
+            font-family: 'Montserrat', sans-serif;
+        }
 
         /* REVIEWS */
         .review-card {
             background-color: var(--surface);
             border: 1px solid var(--border-color);
-            padding: 2.5rem;
+            padding: 2.5rem 1.5rem;
             height: 100%;
             text-align: center;
             transition: var(--transition-fast);
+        }
+        @media (min-width: 768px) {
+            .review-card { padding: 2.5rem; }
         }
         .review-card:hover {
             border-color: var(--brand-accent);
@@ -347,7 +371,7 @@
             font-size: 0.8rem;
             transition: var(--transition-fast); 
         }
-        .qty-btn:hover { border-color: var(--brand-dark); }
+        .qty-btn:hover { border-color: var(--brand-dark); background: var(--brand-light); }
         
         /* SHIPPING PROGRESS BAR */
         .shipping-progress-container {
@@ -421,7 +445,7 @@
 </head>
 <body>
 
-    <!-- NAVBAR (Updated Links) -->
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
         <div class="container-fluid px-3 px-lg-5">
             <a class="navbar-brand py-0 d-flex align-items-center" href="index.html">
@@ -493,6 +517,7 @@
                 <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto;"></div>
             </div>
 
+            <!-- Changed to gy-4 on mobile for better stacking gaps -->
             <div class="row g-4 g-lg-5">
                 <!-- Product 1: Rose -->
                 <div class="col-md-6 col-lg-4 fade-up">
@@ -504,7 +529,7 @@
                             <h5 class="font-serif mb-2" style="color: var(--brand-dark);">(Malaika) Rose</h5>
                             <p class="text-muted small mb-3">Romantic rose essence for luxurious hydration and floral balance.</p>
                             <div class="mt-auto">
-                                <p class="fw-bold mb-3">₹150.00</p>
+                                <p class="product-price mb-3">₹150.00</p>
                                 <button class="btn-outline-luxury w-100" onclick="addToCart(1, '(Malaika) Rose', 150, 'index/rose.png')">Add to Bag</button>
                             </div>
                         </div>
@@ -521,7 +546,7 @@
                             <h5 class="font-serif mb-2" style="color: var(--brand-dark);">(Dulhan) Chiksha</h5>
                             <p class="text-muted small mb-3">A luxurious bridal blend for that perfect, flawless wedding glow.</p>
                             <div class="mt-auto">
-                                <p class="fw-bold mb-3">₹200.00</p>
+                                <p class="product-price mb-3">₹200.00</p>
                                 <button class="btn-outline-luxury w-100" onclick="addToCart(3, '(Dulhan) Chiksha', 200, 'index/chiksha (dulhan).png')">Add to Bag</button>
                             </div>
                         </div>
@@ -538,7 +563,7 @@
                             <h5 class="font-serif mb-2" style="color: var(--brand-dark);">Vitamin C Orange</h5>
                             <p class="text-muted small mb-3">Zesty orange extract to brighten, invigorate, and revitalize your skin.</p>
                             <div class="mt-auto">
-                                <p class="fw-bold mb-3">₹120.00</p>
+                                <p class="product-price mb-3">₹120.00</p>
                                 <button class="btn-outline-luxury w-100" onclick="addToCart(5, 'Vitamin C Orange', 120, 'index/orange.png')">Add to Bag</button>
                             </div>
                         </div>
@@ -547,7 +572,8 @@
             </div>
 
             <div class="text-center mt-5 pt-3 fade-up">
-                <a href="shop.html" class="btn-luxury">Explore More Collection</a>
+                <!-- Converted to w-100 w-sm-auto for mobile friendly tapping -->
+                <a href="shop.html" class="btn-luxury w-100 w-sm-auto px-5">Explore More Collection</a>
             </div>
         </div>
     </section>
@@ -567,6 +593,7 @@
                             Looking for a signature scent for your boutique, personalized wedding favors, or a therapeutic blend crafted specifically for your unique skin needs? Work directly with our master artisan to create a custom batch of cold-process soap tailored perfectly to your exact specifications.
                         </p>
                         
+                        <!-- Converted to w-100 w-sm-auto for mobile friendly tapping -->
                         <button class="btn-luxury w-100 w-sm-auto px-5" data-bs-toggle="modal" data-bs-target="#customizeModal">Request Custom Soap</button>
                     </div>
                 </div>
@@ -583,6 +610,7 @@
                 <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto;"></div>
             </div>
 
+            <!-- Changed to gy-4 on mobile for better stacking gaps -->
             <div class="row g-4 justify-content-center">
                 <!-- Review 1 -->
                 <div class="col-md-6 col-lg-4 fade-up">
@@ -792,7 +820,7 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Select Base Soap <span class="text-lowercase fw-normal" style="opacity: 0.8;">(Prices shown are base prices, final price varies after customisation)</span></label>
+                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Select Base Soap <span class="text-lowercase fw-normal" style="opacity: 0.8;">(Prices shown are base prices)</span></label>
                             <select id="cust-base-soap" class="form-select" required>
                                 <option value="" disabled selected>Select a soap to customize...</option>
                                 <option value="(Malaika) Rose">(Malaika) Rose - ₹150/-</option>
@@ -1027,7 +1055,7 @@
 
         // --- INITIALIZE ---
         function init() {
-            // Cart Hydration 
+            // Cart Hydration
             if (cart.length > 0) {
                 cart = cart.map(cartItem => {
                     const currentProduct = productsData.find(p => p.id === cartItem.id);
@@ -1044,6 +1072,7 @@
             updateCartUI(); 
             initDarkMode();
             
+            // Check initial scroll for navbar
             const navbar = document.getElementById('navbar');
             if(window.scrollY > 50) {
                 navbar.classList.add('scrolled');
@@ -1051,13 +1080,16 @@
         }
 
         // --- CART FUNCTIONS ---
+        
         window.addToCart = (id, name, price, img) => {
             const existingItemIndex = cart.findIndex(item => item.id === id);
+            
             if (existingItemIndex > -1) {
                 cart[existingItemIndex].qty += 1;
             } else {
                 cart.push({ id, name, price, img, qty: 1 });
             }
+            
             localStorage.setItem('soapSoulCart', JSON.stringify(cart));
             updateCartUI();
             
@@ -1110,6 +1142,7 @@
                 if (trackerDiv) trackerDiv.classList.remove('d-none');
                 let cartHTML = '';
                 
+                // Update Free Shipping Progress Bar
                 if (trackerBar && trackerText) {
                     let progressPercent = Math.min((totalPrice / FREE_SHIPPING_THRESHOLD) * 100, 100);
                     trackerBar.style.width = `${progressPercent}%`;
@@ -1151,6 +1184,7 @@
 
         // --- EVENT LISTENERS ---
         function setupEventListeners() {
+            // CHECKOUT BUTTON
             document.getElementById('btn-checkout').addEventListener('click', () => {
                 const offcanvasElement = document.getElementById('cartOffcanvas');
                 const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
@@ -1281,7 +1315,7 @@
             }, observerOptions);
 
             setTimeout(() => {
-                document.querySelectorAll('.fade-up').forEach(element => observer.observe(element));
+                document.querySelectorAll('.fade-up:not(.visible)').forEach(element => observer.observe(element));
             }, 100);
         }
 
