@@ -189,6 +189,102 @@
             align-items: center;
         }
 
+        /* EXPANDABLE NAVBAR SEARCH */
+        .nav-search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .nav-search-input {
+            width: 0;
+            opacity: 0;
+            border: none;
+            border-bottom: 1px solid transparent;
+            background: transparent;
+            color: var(--text-main);
+            transition: var(--transition-fast);
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+        }
+        .nav-search-input:focus {
+            outline: none;
+        }
+        .nav-search-container.active .nav-search-input {
+            width: 130px;
+            opacity: 1;
+            padding: 0.2rem 0.5rem;
+            border-bottom-color: var(--brand-dark);
+            margin-left: 0.5rem;
+        }
+        @media (min-width: 768px) {
+            .nav-search-container.active .nav-search-input {
+                width: 200px;
+            }
+        }
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 15px;
+            background-color: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: 280px;
+            max-height: 350px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1050;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .nav-search-container.active .search-suggestions.show {
+            display: block;
+        }
+        .suggestion-item {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color var(--transition-fast);
+            cursor: pointer;
+        }
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        .suggestion-item:hover {
+            background-color: var(--brand-light);
+            color: var(--brand-dark);
+        }
+        .suggestion-img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .suggestion-info {
+            flex-grow: 1;
+            overflow: hidden;
+        }
+        .suggestion-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            margin: 0 0 3px 0;
+            color: var(--brand-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .suggestion-price {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-muted);
+        }
+
         /* Highlighted Owner Name Pill */
         .owner-highlight {
             background-color: var(--brand-dark);
@@ -347,7 +443,22 @@
             font-size: 0.8rem;
             transition: var(--transition-fast); 
         }
-        .qty-btn:hover { border-color: var(--brand-dark); }
+        .qty-btn:hover { border-color: var(--brand-dark); background: var(--brand-light); }
+
+        /* SHIPPING PROGRESS BAR */
+        .shipping-progress-container {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .progress { 
+            height: 4px; 
+            background-color: var(--border-color); 
+            overflow: hidden; 
+            border-radius: 0; 
+            margin-top: 10px;
+        }
+        .progress-bar { background-color: var(--brand-dark); transition: width 0.5s ease; }
 
         /* FOOTER */
         footer { 
@@ -399,6 +510,10 @@
         body.dark-mode .border, body.dark-mode .border-top, body.dark-mode .border-bottom, body.dark-mode .border-start, body.dark-mode .border-end { border-color: var(--border-color) !important; }
         body.dark-mode .aesthetic-box, body.dark-mode .customization-card::after { border-color: var(--brand-accent); opacity: 0.2; }
 
+        body.dark-mode .nav-search-input { color: var(--text-main); }
+        body.dark-mode .nav-search-container.active .nav-search-input { border-bottom-color: var(--brand-accent); }
+        body.dark-mode .suggestion-item:hover { background-color: var(--brand-light); color: var(--text-main); }
+
         /* MODAL OVERRIDES FOR TEXT */
         .modal-body ul { padding-left: 1.2rem; }
         body.dark-mode select option { background-color: var(--surface); color: var(--text-main); }
@@ -421,9 +536,19 @@
                 <a href="https://www.facebook.com/share/1ESqzBqs2J/?mibextid=wwXIfr" target="_blank" class="cart-btn d-none d-md-flex align-items-center justify-content-center" aria-label="Facebook">
                     <i data-lucide="facebook" stroke-width="1.5" width="20"></i>
                 </a>
-                <a href="mailto:the.soapandsoul@gmail.com" target="_blank" class="cart-btn d-none d-md-flex align-items-center justify-content-center me-2" aria-label="Email">
-                    <i data-lucide="mail" stroke-width="1.5" width="20"></i>
-                </a>
+                
+                <!-- EXPANDABLE SEARCH -->
+                <div class="nav-search-container me-2 ms-2 ms-md-0">
+                    <button class="cart-btn d-flex align-items-center justify-content-center" id="nav-search-btn" aria-label="Search">
+                        <i data-lucide="search" stroke-width="1.5" width="20"></i>
+                    </button>
+                    <input type="text" id="nav-search-input" class="nav-search-input" placeholder="Search...">
+                    <!-- Suggestions Dropdown -->
+                    <div id="nav-search-suggestions" class="search-suggestions">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
                 <button class="cart-btn" id="theme-toggle" type="button" aria-label="Toggle Dark Mode">
                     <i data-lucide="moon" stroke-width="1.5"></i>
                 </button>
@@ -446,7 +571,6 @@
                         <div class="d-flex justify-content-center gap-4">
                             <a href="https://www.instagram.com/the.soapandsoul?igsh=eGV5bHVqZGxpYXM2" target="_blank" style="color: var(--text-main);"><i data-lucide="instagram" width="24"></i></a>
                             <a href="https://www.facebook.com/share/1ESqzBqs2J/?mibextid=wwXIfr" target="_blank" style="color: var(--text-main);"><i data-lucide="facebook" width="24"></i></a>
-                            <a href="mailto:the.soapandsoul@gmail.com" target="_blank" style="color: var(--text-main);"><i data-lucide="mail" width="24"></i></a>
                         </div>
                     </li>
                 </ul>
@@ -664,9 +788,19 @@
             <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column p-0">
+            
+            <!-- FREE SHIPPING PROGRESS BAR -->
+            <div class="shipping-progress-container d-none" id="shipping-tracker">
+                <p class="small mb-2 text-center text-muted" id="shipping-text">Add <span class="fw-bold text-dark">₹0.00</span> more to get <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING</span></p>
+                <div class="progress">
+                    <div class="progress-bar" id="shipping-bar" role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
+
             <div id="cart-items-container" class="flex-grow-1 overflow-auto p-3 p-md-4">
                 <!-- Cart Items Injected Here -->
             </div>
+            
             <div class="p-3 p-md-4 border-top" style="background-color: var(--surface);">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <span class="text-uppercase tracking-widest small text-muted fw-bold">Subtotal</span>
@@ -957,8 +1091,26 @@
         // Initialize Icons
         lucide.createIcons();
 
+        // Products data needed for Search & Cart Hydration
+        const productsData = [
+            { id: 1, name: "(Malaika) Rose", price: 150.00, img: "shop/rose.png" },
+            { id: 2, name: "Ayurvedic Ubtan", price: 150.00, img: "shop/ubtan.png" },
+            { id: 3, name: "(Dulhan) Chiksha", price: 200.00, img: "shop/chiksha (dulhan).png" },
+            { id: 4, name: "Purifying Neem", price: 100.00, img: "shop/neem.png" },
+            { id: 5, name: "Vitamin C Orange", price: 120.00, img: "shop/orange.png" },
+            { id: 6, name: "Zesty Lemon", price: 100.00, img: "shop/lemon.jpeg" },
+            { id: 7, name: "Charcoal Detox", price: 150.00, img: "shop/Charcoal.png" },
+            { id: 8, name: "Coffee Bean Bloom", price: 150.00, img: "shop/coofee.png" },
+            { id: 9, name: "Pure Chandan", price: 200.00, img: "shop/chandan.png" },
+            { id: 10, name: "Mulethi Soothing Bar", price: 150.00, img: "shop/multahi.png" },
+            { id: 11, name: "Rice Brightening", price: 150.00, img: "shop/rice.png" },
+            { id: 12, name: "Hunny Bunny Baby", price: 200.00, img: "shop/HoneyBunny.png" },
+            { id: 13, name: "Forever Love", price: 200.00, img: "shop/AloeVera&Glycerine.png" }
+        ];
+
         // --- STATE ---
         let cart = JSON.parse(localStorage.getItem('soapSoulCart')) || [];
+        const FREE_SHIPPING_THRESHOLD = 2000.00;
 
         // --- DOM ELEMENTS ---
         const cartItemsContainer = document.getElementById('cart-items-container');
@@ -967,16 +1119,100 @@
 
         // --- INITIALIZE ---
         function init() {
+            // Cart Hydration
+            if (cart.length > 0) {
+                cart = cart.map(cartItem => {
+                    const currentProduct = productsData.find(p => p.id === cartItem.id);
+                    if (currentProduct) {
+                        return { ...cartItem, img: currentProduct.img, name: currentProduct.name, price: currentProduct.price };
+                    }
+                    return cartItem;
+                });
+                localStorage.setItem('soapSoulCart', JSON.stringify(cart));
+            }
+
             setupEventListeners();
             setupScrollObserver();
             updateCartUI(); 
             initDarkMode();
+            initSearch();
             
             // Check initial scroll for navbar
             const navbar = document.getElementById('navbar');
             if(window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             }
+        }
+
+        // --- SEARCH FUNCTIONS ---
+        function initSearch() {
+            const searchContainer = document.querySelector('.nav-search-container');
+            const searchBtn = document.getElementById('nav-search-btn');
+            const searchInput = document.getElementById('nav-search-input');
+            const suggestionsBox = document.getElementById('nav-search-suggestions');
+
+            if (!searchContainer) return;
+
+            // Toggle expanding search bar
+            searchBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                searchContainer.classList.toggle('active');
+                if (searchContainer.classList.contains('active')) {
+                    searchInput.focus();
+                } else {
+                    searchInput.value = '';
+                    suggestionsBox.classList.remove('show');
+                }
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!searchContainer.contains(e.target)) {
+                    searchContainer.classList.remove('active');
+                    searchInput.value = '';
+                    suggestionsBox.classList.remove('show');
+                }
+            });
+
+            // Prevent auto-close when clicking inside input or suggestions
+            searchInput.addEventListener('click', (e) => e.stopPropagation());
+            suggestionsBox.addEventListener('click', (e) => e.stopPropagation());
+
+            // Handle input to filter suggestions
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                
+                if (query.length === 0) {
+                    suggestionsBox.classList.remove('show');
+                    return;
+                }
+
+                const filteredProducts = productsData.filter(product => 
+                    product.name.toLowerCase().includes(query)
+                );
+
+                if (filteredProducts.length === 0) {
+                    suggestionsBox.innerHTML = '<div class="p-3 text-center text-muted small tracking-wider text-uppercase">No products found</div>';
+                    suggestionsBox.classList.add('show');
+                    return;
+                }
+
+                let html = '';
+                filteredProducts.forEach(product => {
+                    // Redirects to shop.html with a query parameter holding the product ID
+                    html += `
+                        <a href="shop.html?productId=${product.id}" class="suggestion-item">
+                            <img src="${product.img}" alt="${product.name}" class="suggestion-img" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                            <div class="suggestion-info">
+                                <h6 class="suggestion-title">${product.name}</h6>
+                                <p class="suggestion-price">₹${product.price.toFixed(2)}</p>
+                            </div>
+                        </a>
+                    `;
+                });
+                suggestionsBox.innerHTML = html;
+                suggestionsBox.classList.add('show');
+            });
         }
 
         // --- CART FUNCTIONS ---
@@ -1016,10 +1252,16 @@
 
         function updateCartUI() {
             const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
             if(cartCount) {
                 cartCount.textContent = totalItems;
             }
+            
             const checkoutBtn = document.getElementById('btn-checkout');
+            const trackerDiv = document.getElementById('shipping-tracker');
+            const trackerText = document.getElementById('shipping-text');
+            const trackerBar = document.getElementById('shipping-bar');
 
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = `
@@ -1029,15 +1271,32 @@
                     </div>`;
                 checkoutBtn.disabled = true;
                 checkoutBtn.style.opacity = '0.5';
+                if (trackerDiv) trackerDiv.classList.add('d-none');
             } else {
                 checkoutBtn.disabled = false;
                 checkoutBtn.style.opacity = '1';
+                if (trackerDiv) trackerDiv.classList.remove('d-none');
                 let cartHTML = '';
+                
+                // Update Free Shipping Progress Bar
+                if (trackerBar && trackerText) {
+                    let progressPercent = Math.min((totalPrice / FREE_SHIPPING_THRESHOLD) * 100, 100);
+                    trackerBar.style.width = `${progressPercent}%`;
+                    
+                    if (totalPrice >= FREE_SHIPPING_THRESHOLD) {
+                        trackerText.innerHTML = `You've unlocked <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING!</span> 🎉`;
+                        trackerBar.style.backgroundColor = 'var(--brand-accent)';
+                    } else {
+                        let needed = (FREE_SHIPPING_THRESHOLD - totalPrice).toFixed(2);
+                        trackerText.innerHTML = `Add <span class="fw-bold" style="color: var(--text-main);">₹${needed}</span> more to get <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING</span>`;
+                        trackerBar.style.backgroundColor = 'var(--brand-dark)';
+                    }
+                }
                 
                 cart.forEach(item => {
                     cartHTML += `
                         <div class="d-flex align-items-center mb-3 mb-md-4 p-2 border" style="background-color: var(--surface);">
-                            <img src="${item.img}" alt="${item.name}" class="cart-item-img me-3">
+                            <img src="${item.img}" alt="${item.name}" class="cart-item-img me-3" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
                             <div class="flex-grow-1">
                                 <h6 class="mb-1 font-serif fs-6" style="color: var(--brand-dark);">${item.name}</h6>
                                 <div class="text-muted fw-bold mb-2 small">₹${(item.price * item.qty).toFixed(2)}</div>
@@ -1056,7 +1315,6 @@
                 cartItemsContainer.innerHTML = cartHTML;
             }
             lucide.createIcons();
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
             cartTotalPrice.textContent = `₹${totalPrice.toFixed(2)}/-`;
         }
 
@@ -1096,12 +1354,17 @@
                     orderSummary += `- ${item.qty}x ${item.name} (₹${itemTotal.toFixed(2)})\n`;
                 });
 
+                let shippingCost = total >= FREE_SHIPPING_THRESHOLD ? 0 : 50;
+                let shippingText = total >= FREE_SHIPPING_THRESHOLD ? "Free" : `₹${shippingCost.toFixed(2)}`;
+                let finalTotal = total + shippingCost;
+
                 const message = `*New Order: The Soap & Soul* 🌿\n\n` +
                                 `*Customer Details:*\n` +
                                 `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\n` +
                                 `*Shipping Address:*\n${address}, ${city}, ${zip}\n\n` +
                                 `*Order Summary:*\n${orderSummary}\n` +
-                                `*Total Amount:* ₹${total.toFixed(2)}/-\n\n` +
+                                `*Shipping:* ${shippingText}\n` +
+                                `*Total Amount:* ₹${finalTotal.toFixed(2)}/-\n\n` +
                                 `Please confirm my order.`;
 
                 const whatsappNumber = "919876543210"; // REPLACE WITH ACTUAL NUMBER
@@ -1119,36 +1382,39 @@
             });
 
             // WHATSAPP CUSTOMIZATION LOGIC
-            document.getElementById('customize-form').addEventListener('submit', (e) => {
-                e.preventDefault();
+            const customizeForm = document.getElementById('customize-form');
+            if (customizeForm) {
+                customizeForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
 
-                const name = document.getElementById('cust-name').value;
-                const email = document.getElementById('cust-email').value;
-                const phone = document.getElementById('cust-phone').value;
-                const baseSoap = document.getElementById('cust-base-soap').value;
-                const purpose = document.getElementById('cust-purpose').value;
-                const qty = document.getElementById('cust-qty').value;
-                const preferences = document.getElementById('cust-preferences').value;
+                    const name = document.getElementById('cust-name').value;
+                    const email = document.getElementById('cust-email').value;
+                    const phone = document.getElementById('cust-phone').value;
+                    const baseSoap = document.getElementById('cust-base-soap').value;
+                    const purpose = document.getElementById('cust-purpose').value;
+                    const qty = document.getElementById('cust-qty').value;
+                    const preferences = document.getElementById('cust-preferences').value;
 
-                const message = `*Custom Soap Inquiry: The Soap & Soul* ✨\n\n` +
-                                `*Client Details:*\n` +
-                                `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\n` +
-                                `*Request Details:*\n` +
-                                `Base Soap Selected: ${baseSoap}\n` +
-                                `Purpose: ${purpose}\n` +
-                                `Estimated Quantity: ${qty} bars\n\n` +
-                                `*Preferences & Vision:*\n${preferences}\n\n` +
-                                `I would love to discuss custom formulations and final pricing!`;
+                    const message = `*Custom Soap Inquiry: The Soap & Soul* ✨\n\n` +
+                                    `*Client Details:*\n` +
+                                    `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\n` +
+                                    `*Request Details:*\n` +
+                                    `Base Soap Selected: ${baseSoap}\n` +
+                                    `Purpose: ${purpose}\n` +
+                                    `Estimated Quantity: ${qty} bars\n\n` +
+                                    `*Preferences & Vision:*\n${preferences}\n\n` +
+                                    `I would love to discuss custom formulations and final pricing!`;
 
-                const whatsappNumber = "919876543210"; // REPLACE WITH ACTUAL NUMBER
-                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, '_blank');
+                    const whatsappNumber = "919876543210"; // REPLACE WITH ACTUAL NUMBER
+                    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
 
-                const modalElement = document.getElementById('customizeModal');
-                const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
-                bsModal.hide();
-                e.target.reset();
-            });
+                    const modalElement = document.getElementById('customizeModal');
+                    const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                    bsModal.hide();
+                    e.target.reset();
+                });
+            }
 
             // Sticky Navbar logic
             window.addEventListener('scroll', () => {
@@ -1185,7 +1451,7 @@
             }, observerOptions);
 
             setTimeout(() => {
-                document.querySelectorAll('.fade-up').forEach(element => observer.observe(element));
+                document.querySelectorAll('.fade-up:not(.visible)').forEach(element => observer.observe(element));
             }, 100);
         }
 
