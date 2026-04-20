@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Soap & Soul | Shop Our Collection</title>
+    <title>The Soap & Soul | Artisanal Botanical Luxury</title>
     
     <!-- Google Fonts for Elegant Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* CSS VARIABLES - High-End Olive & Pink Palette (Matched to Home/About) */
+        /* CSS VARIABLES - High-End Olive & Pink Palette */
         :root {
             --brand-dark: #3b4524;
             --brand-light: #f9e8ea;
@@ -39,9 +39,6 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             transition: background-color var(--transition-fast), color var(--transition-fast);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
 
         h1, h2, h3, h4, h5, h6, .font-serif {
@@ -50,8 +47,10 @@
         }
 
         /* Fluid Typography overrides for extreme mobile screens */
+        .display-2 { font-size: clamp(2.5rem, 8vw, 4.5rem) !important; }
         .display-4 { font-size: clamp(2.2rem, 6vw, 3.5rem) !important; }
         .display-5 { font-size: clamp(1.8rem, 5vw, 2.5rem) !important; }
+        .display-6 { font-size: clamp(1.5rem, 5vw, 2rem) !important; }
 
         /* Responsive Padding */
         .section-padding { padding: 50px 0; }
@@ -291,65 +290,59 @@
             color: var(--text-muted);
         }
 
-        /* PAGE HERO */
-        .page-hero {
-            padding-top: 130px;
-            padding-bottom: 60px;
-            background-color: var(--brand-light);
+        /* HERO SECTION */
+        .home-hero {
             position: relative;
-            text-align: center;
+            height: 100vh;
+            min-height: 550px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--brand-light); /* Fallback color matching brand */
+            background-image: url('index/Logo.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain; 
         }
-        @media (min-width: 992px) {
-            .page-hero {
-                padding-top: 150px;
-                padding-bottom: 80px;
+        .home-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(249, 232, 234, 0.70); 
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding-top: 80px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        @media (min-width: 768px) {
+            .home-hero {
+                background-size: cover; 
             }
         }
 
-        /* SHOP FILTERS */
-        .shop-controls {
-            margin-bottom: 3rem;
-            background: var(--surface);
-            padding: 1.5rem;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-        }
-        .filter-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            padding: 0.6rem 1.5rem;
-            border-radius: 0;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+        /* Highlighted Owner Name Pill */
+        .owner-highlight {
+            background-color: var(--brand-dark);
+            color: var(--brand-light) !important;
+            padding: 6px 16px;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: var(--transition-fast);
-            margin: 0.25rem;
         }
-        .filter-btn:hover, .filter-btn.active { 
-            border-color: var(--brand-dark); 
-            color: var(--brand-light);
-            background: var(--brand-dark);
-        }
-        .search-input-wrapper { position: relative; }
-        .search-input-wrapper .search-icon { 
-            position: absolute; left: 15px; top: 50%; 
-            transform: translateY(-50%); color: var(--text-muted); width: 18px;
-        }
-        .search-input { 
-            padding-left: 45px; 
-            border-radius: 0; 
-            border-color: var(--border-color);
-            background: transparent;
-            color: var(--text-main);
-        }
-        .search-input:focus {
-            border-color: var(--brand-dark);
-            box-shadow: none;
+        a.owner-highlight:hover {
+            transform: scale(1.05) translateY(-2px);
+            color: var(--surface) !important;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
-        /* PRODUCT CARDS (Synced with Home) */
+        /* PRODUCT CARDS */
         .product-card {
             background: var(--surface);
             border: 1px solid var(--border-color);
@@ -379,6 +372,12 @@
         .product-card:hover .product-img-wrap img {
             transform: scale(1.05);
         }
+        .product-price { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            color: var(--brand-dark); 
+            font-family: 'Montserrat', sans-serif;
+        }
         .product-badge {
             position: absolute;
             top: 15px;
@@ -394,11 +393,57 @@
             z-index: 2;
             border: 1px solid var(--border-color);
         }
-        .product-price { 
-            font-size: 1.1rem; 
-            font-weight: 600; 
-            color: var(--brand-dark); 
-            font-family: 'Montserrat', sans-serif;
+
+        /* REVIEWS */
+        .review-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem 1.5rem;
+            height: 100%;
+            text-align: center;
+            transition: var(--transition-fast);
+        }
+        @media (min-width: 768px) {
+            .review-card { padding: 2.5rem; }
+        }
+        .review-card:hover {
+            border-color: var(--brand-accent);
+        }
+        .stars i {
+            color: #d4af37;
+            width: 18px; height: 18px;
+            fill: currentColor;
+            margin: 0 2px;
+        }
+        .stars i.empty-star {
+            fill: none;
+            opacity: 0.4;
+        }
+
+        /* CUSTOMIZATION SECTION HIGHLIGHT */
+        .customization-card {
+            background-color: var(--brand-light);
+            border: 1px solid var(--brand-accent);
+            padding: 3rem 1.5rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+        }
+        .customization-card::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--border-color);
+            top: 10px;
+            left: -10px;
+            z-index: -1;
+            opacity: 0.8;
+            transition: var(--transition-fast);
+        }
+        @media (min-width: 768px) {
+            .customization-card { padding: 5rem 4rem; }
+            .customization-card::after { top: 15px; left: -15px; }
         }
 
         /* FORMS & OFFCANVAS */
@@ -427,7 +472,7 @@
             width: 100%;
             max-width: 400px;
         }
-        .cart-item-img { width: 70px; height: 70px; object-fit: cover; border-radius: 0; border: 1px solid var(--border-color); }
+        .cart-item-img { width: 70px; height: 70px; object-fit: cover; border-radius: 4px; }
         .qty-btn { 
             width: 24px; height: 24px; 
             border: 1px solid var(--border-color); 
@@ -438,7 +483,7 @@
             transition: var(--transition-fast); 
         }
         .qty-btn:hover { border-color: var(--brand-dark); background: var(--brand-light); }
-
+        
         /* SHIPPING PROGRESS BAR */
         .shipping-progress-container {
             background: var(--surface);
@@ -460,7 +505,6 @@
             border-top: 1px solid var(--border-color);
             padding-top: 3rem;
             padding-bottom: 2rem;
-            margin-top: auto;
         }
         @media (min-width: 992px) {
             footer { padding-top: 4rem; }
@@ -473,7 +517,7 @@
             cursor: pointer;
         }
         .footer-link:hover { color: var(--brand-dark); }
-        .social-links a { color: var(--brand-dark); transition: var(--transition-fast); text-decoration: none; }
+        .social-links a { color: var(--brand-dark); margin-right: 15px; transition: var(--transition-fast); text-decoration: none; }
         .social-links a:hover { color: var(--brand-accent); }
 
         /* ANIMATIONS */
@@ -492,22 +536,23 @@
             --border-color: #2f3325;
         }
         
-        body.dark-mode .page-hero { background-color: var(--brand-light); }
         body.dark-mode .navbar { background: rgba(22, 24, 17, 0.95); }
+        body.dark-mode .home-hero::before { background: rgba(22, 24, 17, 0.75); }
+        body.dark-mode .owner-highlight { background-color: var(--brand-accent); color: #161811 !important; }
         
         @media (max-width: 991.98px) {
             body.dark-mode .navbar-collapse { background: var(--surface); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         }
         
         body.dark-mode .form-control::placeholder { color: #777; }
-        body.dark-mode .search-input { color: var(--text-main); }
         body.dark-mode .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
         body.dark-mode .border, body.dark-mode .border-top, body.dark-mode .border-bottom, body.dark-mode .border-start, body.dark-mode .border-end { border-color: var(--border-color) !important; }
-        body.dark-mode .product-badge { background-color: var(--surface); color: var(--text-main); border-color: var(--border-color); }
+        body.dark-mode .aesthetic-box, body.dark-mode .customization-card::after { border-color: var(--brand-accent); opacity: 0.2; }
         
         body.dark-mode .nav-search-input { color: var(--text-main); }
         body.dark-mode .nav-search-container.active .nav-search-input { border-bottom-color: var(--brand-accent); }
         body.dark-mode .suggestion-item:hover { background-color: var(--brand-light); color: var(--text-main); }
+        body.dark-mode .product-badge { background-color: var(--surface); color: var(--text-main); border-color: var(--border-color); }
 
         /* MODAL OVERRIDES FOR TEXT */
         .modal-body ul { padding-left: 1.2rem; }
@@ -519,11 +564,11 @@
 </head>
 <body>
 
-    <!-- NAVBAR (Synced with Home/About) -->
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
         <div class="container-fluid px-3 px-lg-5">
             <a class="navbar-brand py-0 d-flex align-items-center" href="index.html">
-                <img src="shop/Logo.png" alt="The Soap & Soul Logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;" onerror="this.src='https://via.placeholder.com/40?text=S'">
+                <img src="index/Logo.png" alt="The Soap & Soul Logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;" onerror="this.src='https://via.placeholder.com/40?text=S'">
                 <span>The Soap & Soul.</span>
             </a>
             
@@ -559,12 +604,11 @@
                 </button>
             </div>
 
-            <!-- CORRECTED RELATIVE PATHS (Shop is Active) -->
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav text-center text-lg-start">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="shop.html">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                     <li class="nav-item d-md-none mt-4 mb-2">
                         <div class="d-flex justify-content-center gap-4">
@@ -577,55 +621,176 @@
         </div>
     </nav>
 
-    <!-- PAGE HEADER -->
-    <header class="page-hero">
-        <div class="container px-4 fade-up">
-            <span class="text-uppercase tracking-widest text-muted small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">The Catalog</span>
-            <h1 class="display-4 font-serif mb-4" style="color: var(--brand-dark);">Our Collection</h1>
-            <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto 1.5rem auto;"></div>
-            <p class="lead mx-auto text-muted" style="max-width: 600px; font-size: 0.95rem;">Discover our full range of artisanal, handcrafted soaps made for your skin & soul.</p>
+    <!-- HERO SECTION -->
+    <header class="home-hero">
+        <div class="container hero-content fade-up">
+            <span class="text-uppercase tracking-widest small fw-bold mb-3 d-block" style="color: var(--brand-dark);">Artisanal Apothecary</span>
+            
+            <h1 class="display-2 font-serif mb-4" style="color: var(--brand-dark); line-height: 1.1;">Redefining <br/> Botanical Luxury</h1>
+            
+            <p class="lead mx-auto mb-5" style="max-width: 600px; color: var(--text-main); font-size: 1.1rem;">
+                Handcrafted purity curated by 
+                <a href="about.html" class="owner-highlight mt-2 mt-md-0 d-inline-block text-decoration-none">Ashmira Saher</a>
+            </p>
+            
         </div>
     </header>
 
-    <!-- SHOP PRODUCTS GRID -->
-    <section class="section-padding pt-0 flex-grow-1" id="shop-products">
+    <!-- OUR BELOVED SIGNATURES SECTION -->
+    <section class="section-padding bg-surface">
         <div class="container px-4 px-lg-5">
-            
-            <!-- CONTROLS: Filtering and Searching -->
-            <div class="shop-controls fade-up">
-                <div class="row align-items-center g-4">
-                    <div class="col-lg-8">
-                        <div class="d-flex flex-wrap gap-2" id="category-filters">
-                            <button class="filter-btn active" data-filter="all">All</button>
-                            <button class="filter-btn" data-filter="floral">Floral & Delicate</button>
-                            <button class="filter-btn" data-filter="detox">Detox & Cleanse</button>
-                            <button class="filter-btn" data-filter="soothing">Soothing & Gentle</button>
-                            <button class="filter-btn" data-filter="fresh">Fresh & Earthy</button>
+            <div class="text-center mb-4 mb-lg-5 pb-2 fade-up">
+                <span class="text-uppercase tracking-widest text-muted small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">Handcrafted Wonders</span>
+                <h2 class="display-5 font-serif mb-3" style="color: var(--brand-dark);">Our Beloved Signatures</h2>
+                <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto;"></div>
+            </div>
+
+            <!-- PRODUCT GRID (Now triggers Modal) -->
+            <div class="row g-4 g-lg-5">
+                <!-- Product 1: Rose -->
+                <div class="col-md-6 col-lg-4 fade-up">
+                    <div class="product-card">
+                        <div class="product-badge">Best Seller</div>
+                        <div class="product-img-wrap cursor-pointer" onclick="showProductDetails(1)">
+                            <img src="index/rose.png" alt="(Malaika) Rose Bar" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                        </div>
+                        <div class="p-4 text-center d-flex flex-column flex-grow-1">
+                            <h5 class="font-serif mb-2 cursor-pointer" style="color: var(--brand-dark);" onclick="showProductDetails(1)">(Malaika) Rose</h5>
+                            <p class="text-muted small mb-3">Romantic rose essence for luxurious hydration and floral balance.</p>
+                            <div class="mt-auto">
+                                <p class="product-price mb-3">₹150.00</p>
+                                <button class="btn-outline-luxury w-100" onclick="addToCart(1, '(Malaika) Rose', 150, 'index/rose.png')">Add to Bag</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="search-input-wrapper">
-                            <i data-lucide="search" class="search-icon"></i>
-                            <input type="text" id="search-input" class="form-control search-input" placeholder="Search for soaps, ingredients...">
+                </div>
+
+                <!-- Product 2: Chiksha -->
+                <div class="col-md-6 col-lg-4 fade-up" style="transition-delay: 0.1s;">
+                    <div class="product-card">
+                        <div class="product-badge">Premium</div>
+                        <div class="product-img-wrap cursor-pointer" onclick="showProductDetails(3)">
+                            <img src="index/chiksha (dulhan).png" alt="(Dulhan) Chiksha" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                        </div>
+                        <div class="p-4 text-center d-flex flex-column flex-grow-1">
+                            <h5 class="font-serif mb-2 cursor-pointer" style="color: var(--brand-dark);" onclick="showProductDetails(3)">(Dulhan) Chiksha</h5>
+                            <p class="text-muted small mb-3">A luxurious bridal blend for that perfect, flawless wedding glow.</p>
+                            <div class="mt-auto">
+                                <p class="product-price mb-3">₹200.00</p>
+                                <button class="btn-outline-luxury w-100" onclick="addToCart(3, '(Dulhan) Chiksha', 200, 'index/chiksha (dulhan).png')">Add to Bag</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3: Orange -->
+                <div class="col-md-6 col-lg-4 fade-up" style="transition-delay: 0.2s;">
+                    <div class="product-card">
+                        <div class="product-img-wrap cursor-pointer" onclick="showProductDetails(5)">
+                            <img src="index/orange.png" alt="Vitamin C Orange" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                        </div>
+                        <div class="p-4 text-center d-flex flex-column flex-grow-1">
+                            <h5 class="font-serif mb-2 cursor-pointer" style="color: var(--brand-dark);" onclick="showProductDetails(5)">Vitamin C Orange</h5>
+                            <p class="text-muted small mb-3">Zesty orange extract to brighten, invigorate, and revitalize your skin.</p>
+                            <div class="mt-auto">
+                                <p class="product-price mb-3">₹120.00</p>
+                                <button class="btn-outline-luxury w-100" onclick="addToCart(5, 'Vitamin C Orange', 120, 'index/orange.png')">Add to Bag</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- PRODUCT GRID -->
-            <div class="row g-4 g-lg-5 justify-content-center" id="product-grid">
-                <!-- Products dynamically injected via JavaScript -->
+            <div class="text-center mt-5 pt-3 fade-up">
+                <a href="shop.html" class="btn-luxury w-100 w-sm-auto px-5">Explore More Collection</a>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER (Synced with Home/About) -->
+    <!-- BESPOKE CUSTOMIZATION SECTION -->
+    <section class="section-padding" style="background-color: var(--surface);">
+        <div class="container px-4 px-lg-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-8 fade-up">
+                    <div class="customization-card text-center">
+                        <i data-lucide="sparkles" style="color: var(--brand-accent); width: 40px; height: 40px; margin-bottom: 1.5rem; stroke-width: 1px;"></i>
+                        <span class="text-uppercase tracking-widest small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">Bespoke Creations</span>
+                        <h2 class="display-5 font-serif mb-4" style="color: var(--brand-dark);">Crafted Exclusively For You</h2>
+                        <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto 1.5rem auto;"></div>
+                        
+                        <p class="text-muted mb-5 fw-light mx-auto" style="line-height: 1.8; font-size: 0.95rem; max-width: 600px;">
+                            Looking for a signature scent for your boutique, personalized wedding favors, or a therapeutic blend crafted specifically for your unique skin needs? Work directly with our master artisan to create a custom batch of cold-process soap tailored perfectly to your exact specifications.
+                        </p>
+                        
+                        <button class="btn-luxury w-100 w-sm-auto px-5" data-bs-toggle="modal" data-bs-target="#customizeModal">Request Custom Soap</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CUSTOMER REVIEWS SECTION -->
+    <section class="section-padding" style="background-color: var(--brand-light);">
+        <div class="container px-4 px-lg-5">
+            <div class="text-center mb-4 mb-lg-5 pb-2 fade-up">
+                <span class="text-uppercase tracking-widest text-muted small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">Testimonials</span>
+                <h2 class="display-5 font-serif mb-3" style="color: var(--brand-dark);">Words from Our Patrons</h2>
+                <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto;"></div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Review 1 -->
+                <div class="col-md-6 col-lg-4 fade-up">
+                    <div class="review-card">
+                        <div class="stars mb-3 d-flex justify-content-center align-items-center">
+                            <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+                            <span class="ms-2 small fw-bold mt-1" style="color: #d4af37;">5.0</span>
+                        </div>
+                        <p class="text-muted fw-light fst-italic mb-4" style="line-height: 1.8;">
+                            "The Rose Clay bar is absolutely exquisite. My skin has never felt softer or more balanced. You can truly tell these are crafted with love."
+                        </p>
+                        <h6 class="font-serif mb-0" style="color: var(--brand-dark);">— Priya M.</h6>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="col-md-6 col-lg-4 fade-up" style="transition-delay: 0.1s;">
+                    <div class="review-card">
+                        <div class="stars mb-3 d-flex justify-content-center align-items-center">
+                            <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star" class="empty-star"></i>
+                            <span class="ms-2 small fw-bold mt-1" style="color: #d4af37;">4.0</span>
+                        </div>
+                        <p class="text-muted fw-light fst-italic mb-4" style="line-height: 1.8;">
+                            "Finally, a soap that respects my sensitive skin! The lather is unbelievably creamy. The Soap & Soul has elevated my entire morning routine."
+                        </p>
+                        <h6 class="font-serif mb-0" style="color: var(--brand-dark);">— Ananya S.</h6>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="col-md-6 col-lg-4 fade-up" style="transition-delay: 0.2s;">
+                    <div class="review-card">
+                        <div class="stars mb-3 d-flex justify-content-center align-items-center">
+                            <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+                            <span class="ms-2 small fw-bold mt-1" style="color: #d4af37;">5.0</span>
+                        </div>
+                        <p class="text-muted fw-light fst-italic mb-4" style="line-height: 1.8;">
+                            "I purchased the Eucalyptus & Mint for my husband and he's obsessed. We've officially replaced all commercial soaps in our house."
+                        </p>
+                        <h6 class="font-serif mb-0" style="color: var(--brand-dark);">— Karan D.</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer>
         <div class="container px-4 px-lg-5">
             <div class="row gy-4 gy-lg-5 gx-4 mb-5">
                 <div class="col-12 col-lg-4 text-center text-lg-start">
                     <h2 class="font-serif fs-4 mb-3">
-                        <img src="shop/Logo.png" alt="The Soap & Soul Logo" style="height: 60px; border-radius: 4px; margin-bottom: 5px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/60?text=S'">
+                        <img src="index/Logo.png" alt="The Soap & Soul Logo" style="height: 60px; border-radius: 4px; margin-bottom: 5px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/60?text=S'">
                     </h2>
                     <p class="text-muted small fw-light mb-4 mx-auto mx-lg-0" style="max-width: 300px;">Elevating the science of botanical skincare. Purify, nourish, and restore with uncompromising quality.</p>
                 </div>
@@ -681,7 +846,7 @@
         </div>
     </footer>
 
-    <!-- PRODUCT DETAILS MODAL (NEW) -->
+    <!-- PRODUCT DETAILS MODAL (NEW FOR HOMEPAGE) -->
     <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light); overflow: hidden;">
@@ -738,7 +903,6 @@
             <div id="cart-items-container" class="flex-grow-1 overflow-auto p-3 p-md-4">
                 <!-- Cart Items Injected Here -->
             </div>
-            
             <div class="p-3 p-md-4 border-top" style="background-color: var(--surface);">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <span class="text-uppercase tracking-widest small text-muted fw-bold">Subtotal</span>
@@ -821,7 +985,7 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Select Base Soap <span class="text-lowercase fw-normal" style="opacity: 0.8;">(Prices shown are base prices, final price varies after customisation)</span></label>
+                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Select Base Soap <span class="text-lowercase fw-normal" style="opacity: 0.8;">(Prices shown are base prices)</span></label>
                             <select id="cust-base-soap" class="form-select" required>
                                 <option value="" disabled selected>Select a soap to customize...</option>
                                 <option value="(Malaika) Rose">(Malaika) Rose - ₹150/-</option>
@@ -1028,31 +1192,28 @@
         // Initialize Icons
         lucide.createIcons();
 
-        // Products data needed for Cart Hydration & Search
+        // Products data needed for Search & Cart Hydration
         const productsData = [
-            { id: 1, name: "(Malaika) Rose", desc: "Romantic rose essence for luxurious hydration and floral balance.", fullDesc: "Experience the timeless elegance of fresh roses. This handcrafted bar deeply hydrates while balancing your skin's natural oils. The soothing properties of rose help calm irritation, making it perfect for a relaxing evening routine.", ingredients: "Pure Rose Water, Rose Essential Oil, Saponified Olive & Coconut Oils, Shea Butter, Pink French Clay.", price: 150.00, category: "floral", img: "shop/rose.png", badge: "Best Seller" },
-            { id: 2, name: "Ayurvedic Ubtan", desc: "Traditional turmeric and herbs for a natural, glowing complexion.", fullDesc: "Inspired by ancient Ayurvedic traditions, this Ubtan bar is a powerhouse of natural herbs. It gently exfoliates, brightens the complexion, and helps remove tan naturally, giving you a radiant, healthy glow.", ingredients: "Turmeric Extract, Gram Flour, Sandalwood Powder, Saffron infused Almond Oil, Saponified Botanical Oils.", price: 150.00, category: "soothing", img: "shop/ubtan.png" },
-            { id: 3, name: "(Dulhan) Chiksha", desc: "A luxurious bridal blend for that perfect, flawless wedding glow.", fullDesc: "Our premium bridal blend is crafted for the ultimate pre-wedding pampering. Rich in antioxidants and brightening agents, it leaves your skin feeling exceptionally soft, smooth, and flawlessly radiant.", ingredients: "Chiksha Powder, Saffron, Rose Petals, Sweet Almond Oil, Cocoa Butter, Saponified Coconut Oil.", price: 200.00, category: "soothing", img: "shop/chiksha (dulhan).png", badge: "Premium" },
-            { id: 4, name: "Purifying Neem", desc: "Antibacterial neem leaves to protect, heal, and clarify the skin.", fullDesc: "Harness the power of nature's best antibacterial agent. Our neem soap deeply cleanses pores, helps control acne breakouts, and soothes inflamed skin without stripping away natural moisture.", ingredients: "Organic Neem Extract, Neem Oil, Tea Tree Essential Oil, Aloe Vera, Saponified Palm & Coconut Oils.", price: 100.00, category: "fresh", img: "shop/neem.png" },
-            { id: 5, name: "Vitamin C Orange", desc: "Zesty orange extract to brighten, invigorate, and revitalize your skin.", fullDesc: "Start your day with a burst of citrus! Packed with Vitamin C, this vibrant bar helps to naturally brighten dull skin, even out skin tone, and leave you feeling completely energized and refreshed.", ingredients: "Sweet Orange Essential Oil, Dried Orange Peel, Vitamin C Serum, Mango Butter, Saponified Oils.", price: 120.00, category: "fresh", img: "shop/orange.png" },
-            { id: 6, name: "Zesty Lemon", desc: "Refreshing lemon zest for an energizing and deep cleanse.", fullDesc: "A wonderfully crisp and clean soap that cuts through oils and deeply cleanses the skin. The astringent properties of lemon make this an excellent choice for oily or combination skin types.", ingredients: "Lemon Essential Oil, Fresh Lemon Zest, Lemon Balm, Saponified Olive Oil, Castor Oil.", price: 100.00, category: "fresh", img: "shop/lemon.jpeg" },
-            { id: 7, name: "Charcoal Detox", desc: "Activated charcoal to draw out impurities and deeply cleanse pores.", fullDesc: "The ultimate detox for your skin. Activated charcoal acts like a magnet to draw out dirt, toxins, and impurities from deep within your pores, leaving you with a fresh, clear complexion.", ingredients: "Activated Bamboo Charcoal, Peppermint Essential Oil, Kaolin Clay, Saponified Coconut & Olive Oils.", price: 150.00, category: "detox", img: "shop/Charcoal.png", badge: "Trending" },
-            { id: 8, name: "Coffee Bean Bloom", desc: "Exfoliating coffee grounds to awaken your senses and smooth skin.", fullDesc: "Buff away dead skin cells with finely ground coffee beans. This exfoliating bar promotes healthy circulation, helps reduce the appearance of cellulite, and smells like a fresh morning brew.", ingredients: "Fresh Ground Arabica Coffee, Coffee Essential Oil, Vanilla Extract, Cocoa Butter, Saponified Oils.", price: 150.00, category: "detox", img: "shop/coofee.png" },
-            { id: 9, name: "Pure Chandan", desc: "Rich, woody aroma of sandalwood for a calming, spiritual cleanse.", fullDesc: "Immerse yourself in the rich, woody, and calming aroma of pure Sandalwood (Chandan). Known for its cooling properties, it helps soothe sunburns, clear blemishes, and calm the mind.", ingredients: "Pure Sandalwood Extract, Sandalwood Essential Oil, Multani Mitti (Fuller's Earth), Shea Butter.", price: 200.00, category: "fresh", img: "shop/chandan.png" },
-            { id: 10, name: "Mulethi Soothing Bar", desc: "Healing mulethi extract to soothe irritation and even out skin tone.", fullDesc: "Mulethi (Licorice Root) is a gentle yet highly effective botanical that helps to naturally fade dark spots, soothe irritated skin, and provide a beautifully even and balanced skin tone.", ingredients: "Mulethi (Licorice) Root Powder, Chamomile Extract, Saponified Olive & Coconut Oils, Glycerin.", price: 150.00, category: "soothing", img: "shop/multahi.png" },
-            { id: 11, name: "Rice Brightening", desc: "Gentle rice extract to beautifully brighten, soften, and nourish.", fullDesc: "An Asian beauty secret brought to your daily routine. Rice water and extract work synergistically to shrink pores, tighten the skin, and provide a glassy, hydrated, and brightened finish.", ingredients: "Fermented Rice Water, Rice Bran Oil, Saponified Coconut Oil, Shea Butter, White Kaolin Clay.", price: 150.00, category: "soothing", img: "shop/rice.png", badge: "New" },
-            { id: 12, name: "Hunny Bunny Baby", desc: "Ultra-gentle lotus and honey formulation for delicate baby skin.", fullDesc: "Formulated specifically for the most delicate and sensitive skin. This tear-free, ultra-mild soap combines the healing power of raw honey with soothing lotus extract to cleanse without drying.", ingredients: "Raw Organic Honey, Lotus Extract, Colloidal Oatmeal, Saponified Sweet Almond & Olive Oils.", price: 200.00, category: "soothing", img: "shop/HoneyBunny.png" },
-            { id: 13, name: "Forever Love", desc: "A beautifully sculpted blend for deep hydration and celebrating love.", fullDesc: "A masterfully sculpted soap that acts as a testament to pure botanical hydration. Infused with rich aloe vera and pure glycerin, it locks in moisture, ensuring your skin stays soft and deeply loved.", ingredients: "Pure Aloe Vera Gel, Vegetable Glycerin, Rosewood Essential Oil, Saponified Botanical Oils.", price: 200.00, category: "floral", img: "shop/AloeVera&Glycerine.png" }
+            { id: 1, name: "(Malaika) Rose", desc: "Romantic rose essence for luxurious hydration and floral balance.", fullDesc: "Experience the timeless elegance of fresh roses. This handcrafted bar deeply hydrates while balancing your skin's natural oils. The soothing properties of rose help calm irritation, making it perfect for a relaxing evening routine.", ingredients: "Pure Rose Water, Rose Essential Oil, Saponified Olive & Coconut Oils, Shea Butter, Pink French Clay.", price: 150.00, category: "floral", img: "index/rose.png", badge: "Best Seller" },
+            { id: 2, name: "Ayurvedic Ubtan", desc: "Traditional turmeric and herbs for a natural, glowing complexion.", fullDesc: "Inspired by ancient Ayurvedic traditions, this Ubtan bar is a powerhouse of natural herbs. It gently exfoliates, brightens the complexion, and helps remove tan naturally, giving you a radiant, healthy glow.", ingredients: "Turmeric Extract, Gram Flour, Sandalwood Powder, Saffron infused Almond Oil, Saponified Botanical Oils.", price: 150.00, category: "soothing", img: "index/ubtan.png" },
+            { id: 3, name: "(Dulhan) Chiksha", desc: "A luxurious bridal blend for that perfect, flawless wedding glow.", fullDesc: "Our premium bridal blend is crafted for the ultimate pre-wedding pampering. Rich in antioxidants and brightening agents, it leaves your skin feeling exceptionally soft, smooth, and flawlessly radiant.", ingredients: "Chiksha Powder, Saffron, Rose Petals, Sweet Almond Oil, Cocoa Butter, Saponified Coconut Oil.", price: 200.00, category: "soothing", img: "index/chiksha (dulhan).png", badge: "Premium" },
+            { id: 4, name: "Purifying Neem", desc: "Antibacterial neem leaves to protect, heal, and clarify the skin.", fullDesc: "Harness the power of nature's best antibacterial agent. Our neem soap deeply cleanses pores, helps control acne breakouts, and soothes inflamed skin without stripping away natural moisture.", ingredients: "Organic Neem Extract, Neem Oil, Tea Tree Essential Oil, Aloe Vera, Saponified Palm & Coconut Oils.", price: 100.00, category: "fresh", img: "index/neem.png" },
+            { id: 5, name: "Vitamin C Orange", desc: "Zesty orange extract to brighten, invigorate, and revitalize your skin.", fullDesc: "Start your day with a burst of citrus! Packed with Vitamin C, this vibrant bar helps to naturally brighten dull skin, even out skin tone, and leave you feeling completely energized and refreshed.", ingredients: "Sweet Orange Essential Oil, Dried Orange Peel, Vitamin C Serum, Mango Butter, Saponified Oils.", price: 120.00, category: "fresh", img: "index/orange.png" },
+            { id: 6, name: "Zesty Lemon", desc: "Refreshing lemon zest for an energizing and deep cleanse.", fullDesc: "A wonderfully crisp and clean soap that cuts through oils and deeply cleanses the skin. The astringent properties of lemon make this an excellent choice for oily or combination skin types.", ingredients: "Lemon Essential Oil, Fresh Lemon Zest, Lemon Balm, Saponified Olive Oil, Castor Oil.", price: 100.00, category: "fresh", img: "https://images.unsplash.com/photo-1584305574647-0cc949a2bb9f?q=80&w=800&auto=format&fit=crop" },
+            { id: 7, name: "Charcoal Detox", desc: "Activated charcoal to draw out impurities and deeply cleanse pores.", fullDesc: "The ultimate detox for your skin. Activated charcoal acts like a magnet to draw out dirt, toxins, and impurities from deep within your pores, leaving you with a fresh, clear complexion.", ingredients: "Activated Bamboo Charcoal, Peppermint Essential Oil, Kaolin Clay, Saponified Coconut & Olive Oils.", price: 150.00, category: "detox", img: "index/Charcoal.png", badge: "Trending" },
+            { id: 8, name: "Coffee Bean Bloom", desc: "Exfoliating coffee grounds to awaken your senses and smooth skin.", fullDesc: "Buff away dead skin cells with finely ground coffee beans. This exfoliating bar promotes healthy circulation, helps reduce the appearance of cellulite, and smells like a fresh morning brew.", ingredients: "Fresh Ground Arabica Coffee, Coffee Essential Oil, Vanilla Extract, Cocoa Butter, Saponified Oils.", price: 150.00, category: "detox", img: "index/coofee.png" },
+            { id: 9, name: "Pure Chandan", desc: "Rich, woody aroma of sandalwood for a calming, spiritual cleanse.", fullDesc: "Immerse yourself in the rich, woody, and calming aroma of pure Sandalwood (Chandan). Known for its cooling properties, it helps soothe sunburns, clear blemishes, and calm the mind.", ingredients: "Pure Sandalwood Extract, Sandalwood Essential Oil, Multani Mitti (Fuller's Earth), Shea Butter.", price: 200.00, category: "fresh", img: "index/chandan.png" },
+            { id: 10, name: "Mulethi Soothing Bar", desc: "Healing mulethi extract to soothe irritation and even out skin tone.", fullDesc: "Mulethi (Licorice Root) is a gentle yet highly effective botanical that helps to naturally fade dark spots, soothe irritated skin, and provide a beautifully even and balanced skin tone.", ingredients: "Mulethi (Licorice) Root Powder, Chamomile Extract, Saponified Olive & Coconut Oils, Glycerin.", price: 150.00, category: "soothing", img: "index/multahi.png" },
+            { id: 11, name: "Rice Brightening", desc: "Gentle rice extract to beautifully brighten, soften, and nourish.", fullDesc: "An Asian beauty secret brought to your daily routine. Rice water and extract work synergistically to shrink pores, tighten the skin, and provide a glassy, hydrated, and brightened finish.", ingredients: "Fermented Rice Water, Rice Bran Oil, Saponified Coconut Oil, Shea Butter, White Kaolin Clay.", price: 150.00, category: "soothing", img: "index/rice.png", badge: "New" },
+            { id: 12, name: "Hunny Bunny Baby", desc: "Ultra-gentle lotus and honey formulation for delicate baby skin.", fullDesc: "Formulated specifically for the most delicate and sensitive skin. This tear-free, ultra-mild soap combines the healing power of raw honey with soothing lotus extract to cleanse without drying.", ingredients: "Raw Organic Honey, Lotus Extract, Colloidal Oatmeal, Saponified Sweet Almond & Olive Oils.", price: 200.00, category: "soothing", img: "index/HoneyBunny.png" },
+            { id: 13, name: "Forever Love", desc: "A beautifully sculpted blend for deep hydration and celebrating love.", fullDesc: "A masterfully sculpted soap that acts as a testament to pure botanical hydration. Infused with rich aloe vera and pure glycerin, it locks in moisture, ensuring your skin stays soft and deeply loved.", ingredients: "Pure Aloe Vera Gel, Vegetable Glycerin, Rosewood Essential Oil, Saponified Botanical Oils.", price: 200.00, category: "floral", img: "index/AloeVera&Glycerine.png" }
         ];
 
         // --- STATE ---
         let cart = JSON.parse(localStorage.getItem('soapSoulCart')) || [];
-        let currentFilter = "all";
-        let searchQuery = "";
         const FREE_SHIPPING_THRESHOLD = 2000.00;
 
         // --- DOM ELEMENTS ---
-        const productGrid = document.getElementById('product-grid');
         const cartItemsContainer = document.getElementById('cart-items-container');
         const cartCount = document.getElementById('cart-count');
         const cartTotalPrice = document.getElementById('cart-total-price');
@@ -1071,7 +1232,6 @@
                 localStorage.setItem('soapSoulCart', JSON.stringify(cart));
             }
 
-            renderProducts();
             setupEventListeners();
             setupScrollObserver();
             updateCartUI(); 
@@ -1083,84 +1243,9 @@
             if(window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             }
-
-            // Check for product ID in URL to automatically open modal
-            const urlParams = new URLSearchParams(window.location.search);
-            const productIdParam = urlParams.get('productId');
-            if (productIdParam) {
-                const pId = parseInt(productIdParam);
-                if (!isNaN(pId)) {
-                    // Small delay to ensure everything is rendered
-                    setTimeout(() => showProductDetails(pId), 150);
-                }
-            }
         }
 
-        // --- RENDER PRODUCTS WITH FILTERS ---
-        function renderProducts() {
-            if(!productGrid) return;
-            productGrid.innerHTML = '';
-            
-            const filteredProducts = productsData.filter(product => {
-                const matchesFilter = currentFilter === 'all' || product.category === currentFilter;
-                const matchesSearch = product.name.toLowerCase().includes(searchQuery) || product.desc.toLowerCase().includes(searchQuery);
-                return matchesFilter && matchesSearch;
-            });
-
-            if (filteredProducts.length === 0) {
-                productGrid.innerHTML = `
-                    <div class="col-12 text-center py-5 fade-up">
-                        <i data-lucide="search-x" class="text-muted mb-3" style="width: 48px; height: 48px;"></i>
-                        <h4 class="font-serif" style="color: var(--brand-dark);">No products found</h4>
-                        <p class="text-muted small">Try adjusting your filters or search terms.</p>
-                        <button class="btn-outline-luxury mt-3 w-100 w-sm-auto" onclick="resetFilters()">Clear Filters</button>
-                    </div>`;
-                lucide.createIcons();
-                setupScrollObserver();
-                return;
-            }
-
-            filteredProducts.forEach((product, index) => {
-                const delay = (index % 3) * 0.1; 
-                const badgeHTML = product.badge ? `<div class="product-badge">${product.badge}</div>` : '';
-
-                const safeName = product.name.replace(/'/g, "\\'");
-                const safeImg = product.img.replace(/'/g, "\\'");
-
-                // Added cursor-pointer and onclick to image and title
-                productGrid.innerHTML += `
-                    <div class="col-md-6 col-lg-4 fade-up" style="transition-delay: ${delay}s;">
-                        <div class="product-card">
-                            ${badgeHTML}
-                            <div class="product-img-wrap cursor-pointer" onclick="showProductDetails(${product.id})">
-                                <img src="${product.img}" alt="${product.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
-                            </div>
-                            <div class="p-4 text-center d-flex flex-column flex-grow-1">
-                                <h5 class="font-serif mb-2 cursor-pointer" style="color: var(--brand-dark);" onclick="showProductDetails(${product.id})">${product.name}</h5>
-                                <p class="text-muted small mb-3 flex-grow-1">${product.desc}</p>
-                                <div class="mt-auto">
-                                    <p class="product-price mb-3">₹${product.price.toFixed(2)}</p>
-                                    <button class="btn-outline-luxury w-100" onclick="addToCart(${product.id}, '${safeName}', ${product.price}, '${safeImg}')">Add to Bag</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            setupScrollObserver(); 
-        }
-
-        window.resetFilters = () => {
-            currentFilter = "all";
-            searchQuery = "";
-            document.getElementById('search-input').value = "";
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
-            renderProducts();
-        }
-
-        // --- PRODUCT DETAILS MODAL FUNCTION ---
+        // --- PRODUCT DETAILS MODAL FUNCTION (NEW) ---
         window.showProductDetails = (productId) => {
             const product = productsData.find(p => p.id === productId);
             if (!product) return;
@@ -1189,9 +1274,6 @@
             
             addBtn.onclick = () => {
                 addToCart(product.id, safeName, product.price, safeImg);
-                // Optional: Hide modal after adding to cart
-                // const modalElement = document.getElementById('productDetailsModal');
-                // bootstrap.Modal.getInstance(modalElement).hide();
             };
 
             // Show Modal
@@ -1255,15 +1337,15 @@
 
                 let html = '';
                 filteredProducts.forEach(product => {
-                    // Instantly pop up the product details since we're already on the shop page!
+                    // Redirects to shop.html with the product ID so the shop page can pop it up!
                     html += `
-                        <div class="suggestion-item" onclick="showProductDetails(${product.id}); document.getElementById('nav-search-input').value=''; document.getElementById('nav-search-suggestions').classList.remove('show'); document.querySelector('.nav-search-container').classList.remove('active');">
+                        <a href="shop.html?productId=${product.id}" class="suggestion-item">
                             <img src="${product.img}" alt="${product.name}" class="suggestion-img" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
                             <div class="suggestion-info">
                                 <h6 class="suggestion-title">${product.name}</h6>
                                 <p class="suggestion-price">₹${product.price.toFixed(2)}</p>
                             </div>
-                        </div>
+                        </a>
                     `;
                 });
                 suggestionsBox.innerHTML = html;
@@ -1285,6 +1367,7 @@
             localStorage.setItem('soapSoulCart', JSON.stringify(cart));
             updateCartUI();
             
+            // Show offcanvas logic
             const offcanvasElement = document.getElementById('cartOffcanvas');
             const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
             bsOffcanvas.show();
@@ -1334,6 +1417,7 @@
                 if (trackerDiv) trackerDiv.classList.remove('d-none');
                 let cartHTML = '';
                 
+                // Update Free Shipping Progress Bar
                 if (trackerBar && trackerText) {
                     let progressPercent = Math.min((totalPrice / FREE_SHIPPING_THRESHOLD) * 100, 100);
                     trackerBar.style.width = `${progressPercent}%`;
@@ -1375,23 +1459,7 @@
 
         // --- EVENT LISTENERS ---
         function setupEventListeners() {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    currentFilter = e.target.getAttribute('data-filter');
-                    renderProducts();
-                });
-            });
-
-            const searchInput = document.getElementById('search-input');
-            if(searchInput) {
-                searchInput.addEventListener('input', (e) => {
-                    searchQuery = e.target.value.toLowerCase().trim();
-                    renderProducts();
-                });
-            }
-
+            // CHECKOUT BUTTON
             document.getElementById('btn-checkout').addEventListener('click', () => {
                 const offcanvasElement = document.getElementById('cartOffcanvas');
                 const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
