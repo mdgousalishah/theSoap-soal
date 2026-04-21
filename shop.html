@@ -154,7 +154,7 @@
                 margin-top: 1rem;
                 border: 1px solid var(--border-color);
             }
-            .nav-link { margin: 10px 0 !important; }
+            .nav-link { margin: 10px 0 !important; display: inline-block; }
         }
 
         .nav-link {
@@ -167,8 +167,31 @@
             position: relative;
             opacity: 0.8;
             transition: var(--transition-fast);
+            display: inline-block;
         }
-        .nav-link:hover, .nav-link.active { opacity: 1; }
+        .nav-link:hover { opacity: 1; }
+        
+        /* Active Nav Link Styling */
+        .nav-link.active {
+            opacity: 1;
+            color: var(--brand-dark) !important;
+            font-weight: 700;
+        }
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--brand-dark);
+            transition: width 0.3s ease;
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
         
         .cart-btn {
             background: none;
@@ -181,14 +204,14 @@
         .cart-btn:hover { color: var(--brand-accent); }
         .cart-count {
             position: absolute;
-            top: 0px;
-            right: 0px;
+            top: -2px;
+            right: -5px;
             background-color: var(--brand-accent);
             color: white;
             font-size: 0.6rem;
             font-weight: 600;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -421,36 +444,85 @@
             overflow: hidden;
             white-space: nowrap;
         }
+        
+        /* REDESIGNED CART STYLES */
         .offcanvas { 
             border-left: 1px solid var(--border-color); 
             font-family: 'Montserrat', sans-serif;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
         }
-        .cart-item-img { width: 70px; height: 70px; object-fit: cover; border-radius: 0; border: 1px solid var(--border-color); }
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-img {
+            width: 80px; 
+            height: 80px; 
+            object-fit: cover; 
+            border: 1px solid var(--border-color);
+            background: #fff;
+        }
+        .cart-item-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .cart-item-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: var(--brand-dark);
+            margin-bottom: 5px;
+            line-height: 1.2;
+            padding-right: 20px;
+            position: relative;
+        }
+        .cart-item-remove {
+            position: absolute;
+            top: 0; right: 0;
+            background: none; border: none;
+            color: var(--text-muted);
+            padding: 0; margin: 0;
+            transition: var(--transition-fast);
+        }
+        .cart-item-remove:hover { color: #dc3545; }
+        
+        .qty-controls {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            height: 32px;
+        }
         .qty-btn { 
-            width: 24px; height: 24px; 
-            border: 1px solid var(--border-color); 
+            width: 30px; 
+            height: 100%;
             background: transparent; 
+            border: none;
             color: var(--text-main);
-            display: inline-flex; align-items: center; justify-content: center; 
-            font-size: 0.8rem;
+            display: inline-flex; 
+            align-items: center; justify-content: center; 
+            font-size: 1rem;
             transition: var(--transition-fast); 
         }
-        .qty-btn:hover { border-color: var(--brand-dark); background: var(--brand-light); }
+        .qty-btn:hover { background: var(--brand-light); color: var(--brand-dark); }
+        .qty-val { width: 30px; text-align: center; font-size: 0.85rem; font-weight: 600; }
 
         /* SHIPPING PROGRESS BAR */
         .shipping-progress-container {
             background: var(--surface);
-            padding: 1.5rem;
+            padding: 1.2rem;
             border-bottom: 1px solid var(--border-color);
         }
         .progress { 
-            height: 4px; 
+            height: 6px; 
             background-color: var(--border-color); 
-            overflow: hidden; 
-            border-radius: 0; 
+            border-radius: 3px; 
             margin-top: 10px;
+            overflow: hidden;
         }
         .progress-bar { background-color: var(--brand-dark); transition: width 0.5s ease; }
 
@@ -468,7 +540,7 @@
         .footer-link {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             transition: var(--transition-fast);
             cursor: pointer;
         }
@@ -499,6 +571,7 @@
             body.dark-mode .navbar-collapse { background: var(--surface); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         }
         
+        body.dark-mode .nav-link::after { background: var(--brand-dark); }
         body.dark-mode .form-control::placeholder { color: #777; }
         body.dark-mode .search-input { color: var(--text-main); }
         body.dark-mode .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
@@ -676,26 +749,22 @@
             </div>
             <div class="border-top pt-4 text-center">
                 <p class="text-muted small fw-light mb-1">&copy; 2026 The Soap & Soul. All rights reserved.</p>
-                <p class="text-muted small fw-light mb-0">Website designed and developed by Kamel Shah</p>
             </div>
         </div>
     </footer>
 
-    <!-- PRODUCT DETAILS MODAL (NEW) -->
+    <!-- PRODUCT DETAILS MODAL -->
     <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light); overflow: hidden;">
-                <!-- Close Button -->
                 <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3 z-3 bg-white p-2 rounded-circle" data-bs-dismiss="modal" aria-label="Close" style="opacity: 0.9; box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;"></button>
                 
                 <div class="modal-body p-0">
                     <div class="row g-0">
-                        <!-- Product Image Left Side -->
                         <div class="col-md-6 d-flex align-items-center justify-content-center bg-light" id="modal-product-img-container" style="min-height: 300px; border-right: 1px solid var(--border-color);">
                             <img id="modal-product-img" src="" alt="Product Image" class="img-fluid w-100 h-100" style="object-fit: cover; max-height: 600px;" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
                         </div>
                         
-                        <!-- Product Details Right Side -->
                         <div class="col-md-6 p-4 p-md-5 d-flex flex-column justify-content-center" style="background-color: var(--surface);">
                             <span id="modal-product-badge" class="text-uppercase tracking-widest small fw-bold mb-3 d-none" style="color: var(--brand-accent);"></span>
                             
@@ -719,10 +788,10 @@
         </div>
     </div>
 
-    <!-- BOOTSTRAP OFFCANVAS CART -->
+    <!-- REDESIGNED BOOTSTRAP OFFCANVAS CART -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" style="background-color: var(--brand-light);">
         <div class="offcanvas-header border-bottom py-4 px-4">
-            <h5 class="offcanvas-title font-serif fs-5">Your Shopping Bag</h5>
+            <h5 class="offcanvas-title font-serif fs-4" style="color: var(--brand-dark);">Your Bag</h5>
             <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column p-0">
@@ -735,16 +804,17 @@
                 </div>
             </div>
 
-            <div id="cart-items-container" class="flex-grow-1 overflow-auto p-3 p-md-4">
+            <div id="cart-items-container" class="flex-grow-1 overflow-auto px-4 py-3">
                 <!-- Cart Items Injected Here -->
             </div>
             
-            <div class="p-3 p-md-4 border-top" style="background-color: var(--surface);">
+            <div class="p-4 border-top mt-auto" style="background-color: var(--surface);">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <span class="text-uppercase tracking-widest small text-muted fw-bold">Subtotal</span>
-                    <span class="fs-5 fw-bold font-serif text-dark" id="cart-total-price" style="color: var(--brand-dark) !important;">₹0.00</span>
+                    <span class="text-uppercase tracking-widest small text-muted fw-bold">Estimated Total</span>
+                    <span class="fs-4 fw-bold font-serif text-dark" id="cart-total-price" style="color: var(--brand-dark) !important;">₹0.00</span>
                 </div>
-                <button class="btn-luxury w-100" id="btn-checkout">Secure Checkout</button>
+                <button class="btn-luxury w-100 py-3" id="btn-checkout">Proceed to Checkout</button>
+                <p class="text-center text-muted small mt-3 mb-0" style="font-size: 0.7rem;">Shipping & taxes calculated via WhatsApp</p>
             </div>
         </div>
     </div>
@@ -754,10 +824,11 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light);">
                 <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
-                    <h4 class="modal-title w-100 text-center font-serif fs-4" style="color: var(--brand-dark);">Complete Order</h4>
+                    <h4 class="modal-title w-100 text-center font-serif fs-4" style="color: var(--brand-dark);">Delivery Details</h4>
                     <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4">
+                    <p class="text-center text-muted small mb-4">Your order details will be securely sent to our WhatsApp for confirmation and payment.</p>
                     <form id="checkout-form">
                         <div class="mb-3">
                             <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Full Name</label>
@@ -765,16 +836,16 @@
                         </div>
                         <div class="row g-3 mb-3">
                             <div class="col-12 col-sm-6">
-                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Email</label>
-                                <input type="email" id="checkout-email" class="form-control" required>
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Email (Optional)</label>
+                                <input type="email" id="checkout-email" class="form-control">
                             </div>
                             <div class="col-12 col-sm-6">
-                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Phone</label>
-                                <input type="tel" id="checkout-phone" class="form-control" required>
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">WhatsApp No.</label>
+                                <input type="tel" id="checkout-phone" class="form-control" placeholder="+91" required>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Address</label>
+                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Delivery Address</label>
                             <input type="text" id="checkout-address" class="form-control" required>
                         </div>
                         <div class="row g-3 mb-4">
@@ -783,11 +854,13 @@
                                 <input type="text" id="checkout-city" class="form-control" required>
                             </div>
                             <div class="col-12 col-sm-6">
-                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Postal Code</label>
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Pincode / Zip</label>
                                 <input type="text" id="checkout-zip" class="form-control" required>
                             </div>
                         </div>
-                        <button type="submit" class="btn-luxury w-100 mt-2">Place Order via WhatsApp</button>
+                        <button type="submit" class="btn-luxury w-100 py-3 d-flex align-items-center justify-content-center gap-2">
+                            Place Order via WhatsApp <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -815,13 +888,13 @@
                                 <input type="email" id="cust-email" class="form-control" required>
                             </div>
                             <div class="col-12 col-sm-6">
-                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Phone Number</label>
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">WhatsApp Number</label>
                                 <input type="tel" id="cust-phone" class="form-control" required>
                             </div>
                         </div>
                         
                         <div class="mb-3">
-                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Select Base Soap <span class="text-lowercase fw-normal" style="opacity: 0.8;">(Prices shown are base prices, final price varies after customisation)</span></label>
+                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Select Base Soap <span class="text-lowercase fw-normal" style="opacity: 0.8;">(Prices shown are base prices)</span></label>
                             <select id="cust-base-soap" class="form-select" required>
                                 <option value="" disabled selected>Select a soap to customize...</option>
                                 <option value="(Malaika) Rose">(Malaika) Rose - ₹150/-</option>
@@ -863,14 +936,16 @@
                             <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Scent, Color & Ingredient Vision</label>
                             <textarea id="cust-preferences" class="form-control" rows="3" placeholder="e.g., I'd love a lavender & oat bar, very gentle for sensitive skin, with a natural green swirl..." required></textarea>
                         </div>
-                        <button type="submit" class="btn-luxury w-100 mt-2">Send Request via WhatsApp</button>
+                        <button type="submit" class="btn-luxury w-100 mt-2 py-3 d-flex align-items-center justify-content-center gap-2">
+                            Send Request via WhatsApp <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SHIPPING MODAL -->
+    <!-- POLICY MODALS -->
     <div class="modal fade" id="shippingModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light);">
@@ -1025,21 +1100,24 @@
 
     <!-- CUSTOM JAVASCRIPT LOGIC -->
     <script>
+        // Store Owner's WhatsApp Number (Include Country Code, No '+' sign)
+        const WHATSAPP_NUMBER = "919876543210";
+
         // Initialize Icons
         lucide.createIcons();
 
         // Products data needed for Cart Hydration & Search
         const productsData = [
-            { id: 1, name: "(Malaika) Rose", desc: "Romantic rose essence for luxurious hydration and floral balance.", fullDesc: "Experience the timeless elegance of fresh roses. This handcrafted bar deeply hydrates while balancing your skin's natural oils. The soothing properties of rose help calm irritation, making it perfect for a relaxing evening routine.", ingredients: "Pure Rose Water, Rose Essential Oil, Saponified Olive & Coconut Oils, Shea Butter, Pink French Clay.", price: 150.00, category: "floral", img: "shop/rose.png", badge: "Best Seller" },
+            { id: 1, name: "(Malaika) Rose", desc: "Romantic rose essence for luxurious hydration and floral balance.", fullDesc: "Experience the timeless elegance of fresh roses. This handcrafted bar deeply hydrates while balancing your skin's natural oils. The soothing properties of rose help calm irritation, making it perfect for a relaxing evening routine.", ingredients: "Pure Rose Water, Rose Essential Oil, Saponified Olive & Coconut Oils, Shea Butter, Pink French Clay.", price: 150.00, category: "floral", img: "shop/Rose.png", badge: "Best Seller" },
             { id: 2, name: "Ayurvedic Ubtan", desc: "Traditional turmeric and herbs for a natural, glowing complexion.", fullDesc: "Inspired by ancient Ayurvedic traditions, this Ubtan bar is a powerhouse of natural herbs. It gently exfoliates, brightens the complexion, and helps remove tan naturally, giving you a radiant, healthy glow.", ingredients: "Turmeric Extract, Gram Flour, Sandalwood Powder, Saffron infused Almond Oil, Saponified Botanical Oils.", price: 150.00, category: "soothing", img: "shop/ubtan.png" },
             { id: 3, name: "(Dulhan) Chiksha", desc: "A luxurious bridal blend for that perfect, flawless wedding glow.", fullDesc: "Our premium bridal blend is crafted for the ultimate pre-wedding pampering. Rich in antioxidants and brightening agents, it leaves your skin feeling exceptionally soft, smooth, and flawlessly radiant.", ingredients: "Chiksha Powder, Saffron, Rose Petals, Sweet Almond Oil, Cocoa Butter, Saponified Coconut Oil.", price: 200.00, category: "soothing", img: "shop/chiksha (dulhan).png", badge: "Premium" },
-            { id: 4, name: "Purifying Neem", desc: "Antibacterial neem leaves to protect, heal, and clarify the skin.", fullDesc: "Harness the power of nature's best antibacterial agent. Our neem soap deeply cleanses pores, helps control acne breakouts, and soothes inflamed skin without stripping away natural moisture.", ingredients: "Organic Neem Extract, Neem Oil, Tea Tree Essential Oil, Aloe Vera, Saponified Palm & Coconut Oils.", price: 100.00, category: "fresh", img: "shop/neem.png" },
+            { id: 4, name: "Purifying Neem", desc: "Antibacterial neem leaves to protect, heal, and clarify the skin.", fullDesc: "Harness the power of nature's best antibacterial agent. Our neem soap deeply cleanses pores, helps control acne breakouts, and soothes inflamed skin without stripping away natural moisture.", ingredients: "Organic Neem Extract, Neem Oil, Tea Tree Essential Oil, Aloe Vera, Saponified Palm & Coconut Oils.", price: 100.00, category: "fresh", img: "shop/Neem.png" },
             { id: 5, name: "Vitamin C Orange", desc: "Zesty orange extract to brighten, invigorate, and revitalize your skin.", fullDesc: "Start your day with a burst of citrus! Packed with Vitamin C, this vibrant bar helps to naturally brighten dull skin, even out skin tone, and leave you feeling completely energized and refreshed.", ingredients: "Sweet Orange Essential Oil, Dried Orange Peel, Vitamin C Serum, Mango Butter, Saponified Oils.", price: 120.00, category: "fresh", img: "shop/orange.png" },
-            { id: 6, name: "Zesty Lemon", desc: "Refreshing lemon zest for an energizing and deep cleanse.", fullDesc: "A wonderfully crisp and clean soap that cuts through oils and deeply cleanses the skin. The astringent properties of lemon make this an excellent choice for oily or combination skin types.", ingredients: "Lemon Essential Oil, Fresh Lemon Zest, Lemon Balm, Saponified Olive Oil, Castor Oil.", price: 100.00, category: "fresh", img: "shop/lemon.jpeg" },
+            { id: 6, name: "Zesty Lemon", desc: "Refreshing lemon zest for an energizing and deep cleanse.", fullDesc: "A wonderfully crisp and clean soap that cuts through oils and deeply cleanses the skin. The astringent properties of lemon make this an excellent choice for oily or combination skin types.", ingredients: "Lemon Essential Oil, Fresh Lemon Zest, Lemon Balm, Saponified Olive Oil, Castor Oil.", price: 100.00, category: "fresh", img: "shop/Lemon.jpeg" },
             { id: 7, name: "Charcoal Detox", desc: "Activated charcoal to draw out impurities and deeply cleanse pores.", fullDesc: "The ultimate detox for your skin. Activated charcoal acts like a magnet to draw out dirt, toxins, and impurities from deep within your pores, leaving you with a fresh, clear complexion.", ingredients: "Activated Bamboo Charcoal, Peppermint Essential Oil, Kaolin Clay, Saponified Coconut & Olive Oils.", price: 150.00, category: "detox", img: "shop/Charcoal.png", badge: "Trending" },
-            { id: 8, name: "Coffee Bean Bloom", desc: "Exfoliating coffee grounds to awaken your senses and smooth skin.", fullDesc: "Buff away dead skin cells with finely ground coffee beans. This exfoliating bar promotes healthy circulation, helps reduce the appearance of cellulite, and smells like a fresh morning brew.", ingredients: "Fresh Ground Arabica Coffee, Coffee Essential Oil, Vanilla Extract, Cocoa Butter, Saponified Oils.", price: 150.00, category: "detox", img: "shop/coofee.png" },
-            { id: 9, name: "Pure Chandan", desc: "Rich, woody aroma of sandalwood for a calming, spiritual cleanse.", fullDesc: "Immerse yourself in the rich, woody, and calming aroma of pure Sandalwood (Chandan). Known for its cooling properties, it helps soothe sunburns, clear blemishes, and calm the mind.", ingredients: "Pure Sandalwood Extract, Sandalwood Essential Oil, Multani Mitti (Fuller's Earth), Shea Butter.", price: 200.00, category: "fresh", img: "shop/chandan.png" },
-            { id: 10, name: "Mulethi Soothing Bar", desc: "Healing mulethi extract to soothe irritation and even out skin tone.", fullDesc: "Mulethi (Licorice Root) is a gentle yet highly effective botanical that helps to naturally fade dark spots, soothe irritated skin, and provide a beautifully even and balanced skin tone.", ingredients: "Mulethi (Licorice) Root Powder, Chamomile Extract, Saponified Olive & Coconut Oils, Glycerin.", price: 150.00, category: "soothing", img: "shop/multahi.png" },
+            { id: 8, name: "Coffee Bean Bloom", desc: "Exfoliating coffee grounds to awaken your senses and smooth skin.", fullDesc: "Buff away dead skin cells with finely ground coffee beans. This exfoliating bar promotes healthy circulation, helps reduce the appearance of cellulite, and smells like a fresh morning brew.", ingredients: "Fresh Ground Arabica Coffee, Coffee Essential Oil, Vanilla Extract, Cocoa Butter, Saponified Oils.", price: 150.00, category: "detox", img: "shop/Coofee.png" },
+            { id: 9, name: "Pure Chandan", desc: "Rich, woody aroma of sandalwood for a calming, spiritual cleanse.", fullDesc: "Immerse yourself in the rich, woody, and calming aroma of pure Sandalwood (Chandan). Known for its cooling properties, it helps soothe sunburns, clear blemishes, and calm the mind.", ingredients: "Pure Sandalwood Extract, Sandalwood Essential Oil, Multani Mitti (Fuller's Earth), Shea Butter.", price: 200.00, category: "fresh", img: "shop/Chandan.png" },
+            { id: 10, name: "Mulethi Soothing Bar", desc: "Healing mulethi extract to soothe irritation and even out skin tone.", fullDesc: "Mulethi (Licorice Root) is a gentle yet highly effective botanical that helps to naturally fade dark spots, soothe irritated skin, and provide a beautifully even and balanced skin tone.", ingredients: "Mulethi (Licorice) Root Powder, Chamomile Extract, Saponified Olive & Coconut Oils, Glycerin.", price: 150.00, category: "soothing", img: "shop/Multahi.png" },
             { id: 11, name: "Rice Brightening", desc: "Gentle rice extract to beautifully brighten, soften, and nourish.", fullDesc: "An Asian beauty secret brought to your daily routine. Rice water and extract work synergistically to shrink pores, tighten the skin, and provide a glassy, hydrated, and brightened finish.", ingredients: "Fermented Rice Water, Rice Bran Oil, Saponified Coconut Oil, Shea Butter, White Kaolin Clay.", price: 150.00, category: "soothing", img: "shop/rice.png", badge: "New" },
             { id: 12, name: "Hunny Bunny Baby", desc: "Ultra-gentle lotus and honey formulation for delicate baby skin.", fullDesc: "Formulated specifically for the most delicate and sensitive skin. This tear-free, ultra-mild soap combines the healing power of raw honey with soothing lotus extract to cleanse without drying.", ingredients: "Raw Organic Honey, Lotus Extract, Colloidal Oatmeal, Saponified Sweet Almond & Olive Oils.", price: 200.00, category: "soothing", img: "shop/HoneyBunny.png" },
             { id: 13, name: "Forever Love", desc: "A beautifully sculpted blend for deep hydration and celebrating love.", fullDesc: "A masterfully sculpted soap that acts as a testament to pure botanical hydration. Infused with rich aloe vera and pure glycerin, it locks in moisture, ensuring your skin stays soft and deeply loved.", ingredients: "Pure Aloe Vera Gel, Vegetable Glycerin, Rosewood Essential Oil, Saponified Botanical Oils.", price: 200.00, category: "floral", img: "shop/AloeVera&Glycerine.png" }
@@ -1189,9 +1267,6 @@
             
             addBtn.onclick = () => {
                 addToCart(product.id, safeName, product.price, safeImg);
-                // Optional: Hide modal after adding to cart
-                // const modalElement = document.getElementById('productDetailsModal');
-                // bootstrap.Modal.getInstance(modalElement).hide();
             };
 
             // Show Modal
@@ -1321,9 +1396,9 @@
 
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = `
-                    <div class="h-100 d-flex flex-column align-items-center justify-content-center text-muted">
-                        <i data-lucide="shopping-bag" class="mb-3" style="width: 32px; height: 32px; opacity: 0.3;"></i>
-                        <p class="small tracking-wider text-uppercase">Your bag is empty</p>
+                    <div class="h-100 d-flex flex-column align-items-center justify-content-center text-muted" style="min-height: 250px;">
+                        <i data-lucide="shopping-bag" class="mb-3" style="width: 48px; height: 48px; opacity: 0.2;"></i>
+                        <p class="small tracking-wider text-uppercase font-serif">Your bag is beautifully empty</p>
                     </div>`;
                 checkoutBtn.disabled = true;
                 checkoutBtn.style.opacity = '0.5';
@@ -1332,6 +1407,7 @@
                 checkoutBtn.disabled = false;
                 checkoutBtn.style.opacity = '1';
                 if (trackerDiv) trackerDiv.classList.remove('d-none');
+                
                 let cartHTML = '';
                 
                 if (trackerBar && trackerText) {
@@ -1339,30 +1415,35 @@
                     trackerBar.style.width = `${progressPercent}%`;
                     
                     if (totalPrice >= FREE_SHIPPING_THRESHOLD) {
-                        trackerText.innerHTML = `You've unlocked <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING!</span> 🎉`;
+                        trackerText.innerHTML = `You've unlocked <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING!</span> ✨`;
                         trackerBar.style.backgroundColor = 'var(--brand-accent)';
                     } else {
                         let needed = (FREE_SHIPPING_THRESHOLD - totalPrice).toFixed(2);
-                        trackerText.innerHTML = `Add <span class="fw-bold" style="color: var(--text-main);">₹${needed}</span> more to get <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING</span>`;
+                        trackerText.innerHTML = `Add <span class="fw-bold" style="color: var(--text-main);">₹${needed}</span> more for <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING</span>`;
                         trackerBar.style.backgroundColor = 'var(--brand-dark)';
                     }
                 }
                 
                 cart.forEach(item => {
                     cartHTML += `
-                        <div class="d-flex align-items-center mb-3 mb-md-4 p-2 border" style="background-color: var(--surface);">
-                            <img src="${item.img}" alt="${item.name}" class="cart-item-img me-3" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1 font-serif fs-6" style="color: var(--brand-dark);">${item.name}</h6>
-                                <div class="text-muted fw-bold mb-2 small">₹${(item.price * item.qty).toFixed(2)}</div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
-                                    <span class="small fw-bold px-2">${item.qty}</span>
-                                    <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+                        <div class="cart-item position-relative">
+                            <img src="${item.img}" alt="${item.name}" class="cart-item-img" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                            <div class="cart-item-details">
+                                <div>
+                                    <h6 class="cart-item-title">${item.name}</h6>
+                                    <div class="text-muted fw-bold small">₹${item.price.toFixed(2)}</div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mt-2">
+                                    <div class="qty-controls">
+                                        <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+                                        <div class="qty-val">${item.qty}</div>
+                                        <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+                                    </div>
+                                    <div class="fw-bold text-dark" style="color: var(--brand-dark) !important;">₹${(item.price * item.qty).toFixed(2)}</div>
                                 </div>
                             </div>
-                            <button class="btn btn-link text-muted p-0 ms-2" onclick="removeFromCart(${item.id})" style="opacity: 0.6;">
-                                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+                            <button class="cart-item-remove" onclick="removeFromCart(${item.id})" title="Remove item">
+                                <i data-lucide="x" style="width: 16px; height: 16px;"></i>
                             </button>
                         </div>
                     `;
@@ -1370,7 +1451,7 @@
                 cartItemsContainer.innerHTML = cartHTML;
             }
             lucide.createIcons();
-            cartTotalPrice.textContent = `₹${totalPrice.toFixed(2)}/-`;
+            cartTotalPrice.textContent = `₹${totalPrice.toFixed(2)}`;
         }
 
         // --- EVENT LISTENERS ---
@@ -1417,35 +1498,38 @@
 
                 if (cart.length === 0) return;
 
+                const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
                 let orderSummary = '';
-                let total = 0;
                 cart.forEach(item => {
-                    const itemTotal = item.price * item.qty;
-                    total += itemTotal;
-                    orderSummary += `- ${item.qty}x ${item.name} (₹${itemTotal.toFixed(2)})\n`;
+                    orderSummary += `- ${item.qty}x ${item.name} (₹${(item.price * item.qty).toFixed(2)})\n`;
                 });
 
-                let shippingCost = total >= FREE_SHIPPING_THRESHOLD ? 0 : 50;
-                let shippingText = total >= FREE_SHIPPING_THRESHOLD ? "Free" : `₹${shippingCost.toFixed(2)}`;
-                let finalTotal = total + shippingCost;
+                let shippingCost = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : 50;
+                let shippingText = totalPrice >= FREE_SHIPPING_THRESHOLD ? "Free" : `₹${shippingCost.toFixed(2)}`;
+                let finalTotal = totalPrice + shippingCost;
 
-                const message = `*New Order: The Soap & Soul* 🌿\n\n` +
-                                `*Customer Details:*\n` +
-                                `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\n` +
-                                `*Shipping Address:*\n${address}, ${city}, ${zip}\n\n` +
-                                `*Order Summary:*\n${orderSummary}\n` +
-                                `*Shipping:* ${shippingText}\n` +
-                                `*Total Amount:* ₹${finalTotal.toFixed(2)}/-\n\n` +
-                                `Please confirm my order.`;
+                let msg = `*🛍️ NEW ORDER REQUEST* \n`;
+                msg += `_From: The Soap & Soul Website_\n\n`;
+                msg += `*👤 Customer Details:*\n`;
+                msg += `Name: ${name}\n`;
+                msg += `WhatsApp: ${phone}\n`;
+                if(email) msg += `Email: ${email}\n`;
+                msg += `Address: ${address}, ${city} - ${zip}\n\n`;
+                msg += `*📦 Order Summary:*\n`;
+                msg += orderSummary;
+                
+                msg += `\n*🚚 Shipping:* ${shippingText}\n`;
+                msg += `*💰 Estimated Total: ₹${finalTotal.toFixed(2)}*\n\n`;
+                msg += `Please confirm my order and share payment details. Thank you! ✨`;
 
-                const whatsappNumber = "919876543210"; // REPLACE WITH ACTUAL NUMBER
-                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
                 window.open(whatsappUrl, '_blank');
 
                 cart = []; 
                 localStorage.removeItem('soapSoulCart');
                 updateCartUI();
-                
+
                 const modalElement = document.getElementById('checkoutModal');
                 const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
                 bsModal.hide();
@@ -1466,18 +1550,21 @@
                     const qty = document.getElementById('cust-qty').value;
                     const preferences = document.getElementById('cust-preferences').value;
 
-                    const message = `*Custom Soap Inquiry: The Soap & Soul* ✨\n\n` +
-                                    `*Client Details:*\n` +
-                                    `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\n` +
-                                    `*Request Details:*\n` +
-                                    `Base Soap Selected: ${baseSoap}\n` +
-                                    `Purpose: ${purpose}\n` +
-                                    `Estimated Quantity: ${qty} bars\n\n` +
-                                    `*Preferences & Vision:*\n${preferences}\n\n` +
-                                    `I would love to discuss custom formulations and final pricing!`;
+                    let msg = `*✨ CUSTOM SOAP REQUEST* \n`;
+                    msg += `_From: The Soap & Soul Website_\n\n`;
+                    msg += `*👤 Details:*\n`;
+                    msg += `Name: ${name}\n`;
+                    msg += `WhatsApp: ${phone}\n`;
+                    if(email) msg += `Email: ${email}\n\n`;
+                    msg += `*🧪 Customization Info:*\n`;
+                    msg += `Base Product: ${baseSoap}\n`;
+                    msg += `Occasion/Purpose: ${purpose}\n`;
+                    msg += `Estimated Qty: ${qty}\n\n`;
+                    msg += `*📝 Vision & Preferences:*\n`;
+                    msg += `"${preferences}"\n\n`;
+                    msg += `I would love to discuss this custom order. Thank you!`;
 
-                    const whatsappNumber = "919876543210"; // REPLACE WITH ACTUAL NUMBER
-                    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
                     window.open(whatsappUrl, '_blank');
 
                     const modalElement = document.getElementById('customizeModal');
