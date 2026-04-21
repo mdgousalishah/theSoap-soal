@@ -48,7 +48,8 @@
 
         /* Fluid Typography overrides for extreme mobile screens */
         .display-2 { font-size: clamp(2.5rem, 8vw, 4.5rem) !important; }
-        .display-4 { font-size: clamp(2.2rem, 6vw, 3.5rem) !important; }
+        .display-3 { font-size: clamp(2.2rem, 7vw, 3.5rem) !important; }
+        .display-4 { font-size: clamp(2rem, 6vw, 3rem) !important; }
         .display-5 { font-size: clamp(1.8rem, 5vw, 2.5rem) !important; }
         .display-6 { font-size: clamp(1.5rem, 5vw, 2rem) !important; }
 
@@ -61,6 +62,13 @@
         .tracking-widest { letter-spacing: 0.15em; }
         .tracking-wider { letter-spacing: 0.05em; }
         .cursor-pointer { cursor: pointer; }
+        .pointer-events-none { pointer-events: none; }
+
+        /* Background Utilities */
+        .bg-harmony { background-color: #fffcfb; }
+        .scrub-bg {
+            background: linear-gradient(135deg, #fdf4f0 0%, #f1e4f3 50%, #fdfceb 100%);
+        }
 
         /* BUTTONS */
         .btn-luxury {
@@ -82,7 +90,7 @@
         }
         .btn-luxury:hover {
             background-color: transparent;
-            color: var(--brand-dark);
+            color: var(--brand-dark) !important;
         }
         
         .btn-outline-luxury {
@@ -105,6 +113,29 @@
         .btn-outline-luxury:hover {
             border-color: var(--brand-dark);
             background-color: var(--brand-light);
+        }
+
+        .link-hover-underline {
+            position: relative;
+            text-decoration: none;
+            color: var(--brand-dark);
+            padding-bottom: 2px;
+        }
+        .link-hover-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--brand-dark);
+            transform: scaleX(1);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .link-hover-underline:hover::after {
+            transform: scaleX(0);
+            transform-origin: bottom left;
         }
 
         /* NAVBAR */
@@ -170,7 +201,6 @@
         }
         .nav-link:hover { opacity: 1; }
         
-        /* Active Nav Link Styling */
         .nav-link.active {
             opacity: 1;
             color: var(--brand-dark) !important;
@@ -301,7 +331,6 @@
             object-fit: cover;
             z-index: 0;
         }
-        /* Soft light pink transparent overlay */
         .home-hero::before {
             content: '';
             position: absolute;
@@ -318,7 +347,6 @@
             padding-right: 20px;
         }
 
-        /* Highlighted Owner Name Pill */
         .owner-highlight {
             background-color: var(--brand-dark);
             color: var(--brand-light) !important;
@@ -333,25 +361,6 @@
             transform: scale(1.05) translateY(-2px);
             color: var(--surface) !important;
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
-        /* NEW SCRUB LAUNCH SECTION - IMAGE ONLY */
-        .scrub-launch-section {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            background-color: var(--brand-light);
-            display: block;
-        }
-        .scrub-img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-            transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .scrub-launch-section:hover .scrub-img {
-            transform: scale(1.03); /* Smooth premium zoom effect */
         }
 
         /* PREMIUM VIDEO SECTION */
@@ -510,7 +519,6 @@
             border-color: var(--brand-dark); 
         }
         
-        /* IMPROVED CART STYLES */
         .offcanvas { 
             border-left: 1px solid var(--border-color); 
             font-family: 'Montserrat', sans-serif;
@@ -576,7 +584,6 @@
         .qty-btn:hover { background: var(--brand-light); color: var(--brand-dark); }
         .qty-val { width: 30px; text-align: center; font-size: 0.85rem; font-weight: 600; }
         
-        /* SHIPPING PROGRESS BAR */
         .shipping-progress-container {
             background: var(--surface);
             padding: 1.2rem;
@@ -629,6 +636,8 @@
         body.dark-mode .navbar { background: rgba(22, 24, 17, 0.95); }
         body.dark-mode .home-hero::before { background: rgba(22, 24, 17, 0.75); }
         body.dark-mode .owner-highlight { background-color: var(--brand-accent); color: #161811 !important; }
+        body.dark-mode .bg-harmony { background-color: var(--surface); }
+        body.dark-mode .scrub-bg { background: linear-gradient(135deg, #2a2523 0%, #29242a 50%, #2a2a22 100%); }
         
         @media (max-width: 991.98px) {
             body.dark-mode .navbar-collapse { background: var(--surface); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -716,17 +725,51 @@
         </div>
     </header>
 
-    <!-- NEW SCRUB LAUNCH SECTION - IMAGE ONLY -->
-    <section class="scrub-launch-section fade-up">
-        <img src="index/scrub.png" alt="Coming Soon - Exfoliate. Smooth. Glow Naturally. Body Scrubs: Rose, Lemon, Lavender" class="scrub-img" loading="lazy" onerror="this.src='scrub.jpg'">
+    <!-- NEW SECTION: CRAFTED FOR SKIN'S ULTIMATE HARMONY -->
+    <section class="section-padding bg-harmony">
+        <div class="container px-4 px-lg-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 fade-up">
+                    <img src="index/harmony_bg.jpg" alt="Art of Apothecary Soft Pink Texture" class="img-fluid w-100" style="object-fit: cover; aspect-ratio: 1/1;" onerror="this.src='https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=800&auto=format&fit=crop'">
+                </div>
+                <div class="col-lg-6 fade-up" style="transition-delay: 0.2s;">
+                    <span class="text-uppercase tracking-widest small fw-bold mb-3 d-block text-muted">The Art of Apothecary</span>
+                    <h2 class="display-4 font-serif mb-4" style="color: var(--brand-dark); line-height: 1.2;">Crafted for skin's<br>ultimate harmony.</h2>
+                    <p class="text-muted fw-light mb-5" style="line-height: 1.8; font-size: 1.05rem;">
+                        Every formulation at The Soap & Soul is a testament to purity. Curated by Ashmira Saher, our creations merge ancient botanical wisdom with modern luxury. We believe in uncompromised ingredients, meticulous craftsmanship, and an experience that transcends mere skincare.
+                    </p>
+                    <a href="about.html" class="text-uppercase tracking-widest small fw-bold link-hover-underline">Discover Our Heritage</a>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- PREMIUM VIDEO SECTION -->
-    <section class="premium-video-section fade-up">
-        <video src="index/Skincare_Video_Ge.mp4" autoplay loop muted playsinline preload="auto"></video>
-        <div class="video-overlay-text">
-            <h2 class="font-serif">Nature's Purest Touch</h2>
-            <p class="lead text-white-50 fw-light tracking-wider text-uppercase small">Crafted for your skin's harmony</p>
+    <!-- NEW SECTION: BOTANICAL BODY SCRUBS (REPLACED IMAGE-ONLY AD) -->
+    <section class="section-padding position-relative overflow-hidden scrub-bg">
+        <!-- Decorative background text mimicking the screenshot's 'Coming Soon' -->
+        <div class="position-absolute top-0 start-50 translate-middle-x w-100 text-center pointer-events-none" style="z-index: 0; opacity: 0.3; margin-top: 2rem;">
+            <h2 class="font-serif" style="color: #d8c3d9; font-size: clamp(4rem, 12vw, 12rem); white-space: nowrap;">Coming Soon</h2>
+        </div>
+        
+        <div class="container px-4 px-lg-5 position-relative" style="z-index: 1;">
+            <div class="text-center mb-5 fade-up">
+                <h3 class="font-serif text-muted mb-5 fs-3" style="opacity: 0.8;">Exfoliate. Smooth. Glow Naturally.</h3>
+            </div>
+            
+            <div class="row align-items-center g-5">
+                <div class="col-lg-5 fade-up">
+                    <span class="text-uppercase tracking-widest small fw-bold mb-3 d-block" style="color: var(--brand-accent);">New Launch</span>
+                    <h2 class="display-3 font-serif mb-3" style="color: var(--brand-dark); line-height: 1.1;">Botanical Body<br>Scrubs</h2>
+                    <p class="text-uppercase tracking-widest small fw-bold mb-4 text-muted">Rose • Lemon • Lavender</p>
+                    <p class="text-muted fw-light mb-5" style="line-height: 1.8; font-size: 1.05rem;">
+                        Exfoliate, smooth, and reveal your natural glow. Infused with fresh botanical fragrances and deeply nourishing oils, our new scrubs transform your bathing ritual into a restorative spa experience.
+                    </p>
+                    <a href="shop.html" class="btn-luxury px-5 py-3">Explore Scrubs</a>
+                </div>
+                <div class="col-lg-7 fade-up" style="transition-delay: 0.2s;">
+                    <img src="index/scrub.png" alt="Botanical Body Scrubs - Rose, Lavender, Lemon" class="img-fluid w-100 drop-shadow-lg" style="object-fit: contain; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1)); max-height: 500px;" onerror="this.src='https://images.unsplash.com/photo-1608248593842-8951d2f782c5?q=80&w=800&auto=format&fit=crop'">
+                </div>
+            </div>
         </div>
     </section>
 
@@ -801,8 +844,63 @@
         </div>
     </section>
 
+    <!-- PREMIUM VIDEO SECTION (Moved down here) -->
+    <section class="premium-video-section fade-up">
+        <video src="index/Skincare_Video_Ge.mp4" autoplay loop muted playsinline preload="auto"></video>
+        <div class="video-overlay-text">
+            <h2 class="font-serif">Nature's Purest Touch</h2>
+            <p class="lead text-white-50 fw-light tracking-wider text-uppercase small">Crafted for your skin's harmony</p>
+        </div>
+    </section>
+
+    <!-- UPCOMING LAUNCHES SECTION -->
+    <section class="section-padding" style="background-color: var(--brand-light);">
+        <div class="container px-4 px-lg-5">
+            <div class="text-center mb-4 mb-lg-5 pb-2 fade-up">
+                <span class="text-uppercase tracking-widest small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">Expanding Our Apothecary</span>
+                <h2 class="display-5 font-serif mb-3" style="color: var(--brand-dark);">Upcoming Additions</h2>
+                <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto;"></div>
+            </div>
+
+            <div class="row g-4 g-lg-5 justify-content-center mt-2">
+                <!-- Upcoming 1 -->
+                <div class="col-12 col-md-4 fade-up">
+                    <div class="text-center group">
+                        <div class="overflow-hidden rounded-circle mx-auto mb-4" style="width: 150px; height: 150px; border: 2px solid var(--border-color); padding: 5px;">
+                            <img src="index/upcoming-scrub.jpg" alt="Body Scrubs" class="img-fluid w-100 h-100 rounded-circle" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=400&auto=format&fit=crop'" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                        </div>
+                        <h4 class="font-serif mb-2" style="color: var(--brand-dark);">Botanical Body Scrubs</h4>
+                        <p class="text-muted small fw-light mx-auto" style="max-width: 250px; line-height: 1.6;">Exfoliating blends to reveal your natural glow and elevate your bathing ritual.</p>
+                    </div>
+                </div>
+
+                <!-- Upcoming 2 -->
+                <div class="col-12 col-md-4 fade-up" style="transition-delay: 0.1s;">
+                    <div class="text-center group">
+                        <div class="overflow-hidden rounded-circle mx-auto mb-4" style="width: 150px; height: 150px; border: 2px solid var(--border-color); padding: 5px;">
+                            <img src="index/upcoming-oil.jpg" alt="Hair Oils" class="img-fluid w-100 h-100 rounded-circle" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1608282361661-8ee2449fc61d?q=80&w=400&auto=format&fit=crop'" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                        </div>
+                        <h4 class="font-serif mb-2" style="color: var(--brand-dark);">Nourishing Hair Oils</h4>
+                        <p class="text-muted small fw-light mx-auto" style="max-width: 250px; line-height: 1.6;">Traditional oil blends designed to restore root-to-tip vitality and strength.</p>
+                    </div>
+                </div>
+
+                <!-- Upcoming 3 -->
+                <div class="col-12 col-md-4 fade-up" style="transition-delay: 0.2s;">
+                    <div class="text-center group">
+                        <div class="overflow-hidden rounded-circle mx-auto mb-4" style="width: 150px; height: 150px; border: 2px solid var(--border-color); padding: 5px;">
+                            <img src="index/upcoming-ubtan.jpg" alt="Ubtan Powder" class="img-fluid w-100 h-100 rounded-circle" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1615397323116-3e74c86927eb?q=80&w=400&auto=format&fit=crop'" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                        </div>
+                        <h4 class="font-serif mb-2" style="color: var(--brand-dark);">Traditional Ubtan</h4>
+                        <p class="text-muted small fw-light mx-auto" style="max-width: 250px; line-height: 1.6;">A heritage recipe powder for unmistakable bridal radiance and daily purification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- BESPOKE CUSTOMIZATION SECTION -->
-    <section class="section-padding bg-brand-light">
+    <section class="section-padding" style="background-color: var(--surface);">
         <div class="container px-4 px-lg-5">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-10 col-xl-8 fade-up">
@@ -824,7 +922,7 @@
     </section>
 
     <!-- CUSTOMER REVIEWS SECTION -->
-    <section class="section-padding" style="background-color: var(--surface);">
+    <section class="section-padding bg-brand-light">
         <div class="container px-4 px-lg-5">
             <div class="text-center mb-4 mb-lg-5 pb-2 fade-up">
                 <span class="text-uppercase tracking-widest small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">Testimonials</span>
@@ -1151,7 +1249,6 @@
     <!-- CUSTOM JAVASCRIPT LOGIC -->
     <script>
         // Store Owner's WhatsApp Number (Include Country Code, No '+' sign)
-        // Example: For India +91 9876543210 -> '919876543210'
         const WHATSAPP_NUMBER = "919876543210"; 
 
         // Initialize Icons
@@ -1456,12 +1553,10 @@
                 
                 window.open(waUrl, '_blank');
 
-                // Close Modal & Optional: Clear Cart
+                // Close Modal
                 const modalElement = document.getElementById('checkoutModal');
                 const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
                 bsModal.hide();
-                // To auto-clear cart after sending order un-comment below:
-                // cart = []; localStorage.setItem('soapSoulCart', JSON.stringify(cart)); updateCartUI();
             });
 
             // Handle Bespoke Customization Request -> Redirect to WhatsApp
