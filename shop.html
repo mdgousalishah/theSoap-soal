@@ -8,7 +8,7 @@
     <!-- Google Fonts for Elegant Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Azeret+Mono:wght@400;600&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -106,6 +106,29 @@
         .btn-outline-luxury:hover {
             border-color: var(--brand-dark);
             background-color: var(--brand-light);
+        }
+
+        .link-hover-underline {
+            position: relative;
+            text-decoration: none;
+            color: var(--brand-dark);
+            padding-bottom: 2px;
+        }
+        .link-hover-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--brand-dark);
+            transform: scaleX(1);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .link-hover-underline:hover::after {
+            transform: scaleX(0);
+            transform-origin: bottom left;
         }
 
         /* NAVBAR */
@@ -372,7 +395,7 @@
             box-shadow: none;
         }
 
-        /* PRODUCT CARDS (Synced with Home) */
+        /* PRODUCT CARDS */
         .product-card {
             background: var(--surface);
             border: 1px solid var(--border-color);
@@ -504,7 +527,7 @@
             border: none;
             color: var(--text-main);
             display: inline-flex; 
-            align-items: center; justify-content: center; 
+            align-items: center justify-content center; 
             font-size: 1rem;
             transition: var(--transition-fast); 
         }
@@ -572,7 +595,7 @@
         }
         
         body.dark-mode .nav-link::after { background: var(--brand-dark); }
-        body.dark-mode .form-control::placeholder { color: #777; }
+        body.dark-mode .form-control::placeholder, body.dark-mode .form-select { color: #777; }
         body.dark-mode .search-input { color: var(--text-main); }
         body.dark-mode .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
         body.dark-mode .border, body.dark-mode .border-top, body.dark-mode .border-bottom, body.dark-mode .border-start, body.dark-mode .border-end { border-color: var(--border-color) !important; }
@@ -588,11 +611,569 @@
         
         /* Product Modal Overrides */
         body.dark-mode #modal-product-img-container { background-color: var(--surface) !important; }
+
+        /* =======================================================
+        3D EXPLORER SECTION STYLES (STABLE & ELEGANT)
+        ======================================================= */
+        .explorer-section {
+            --exp-bg-color: #0d110b; /* Deep botanical dark */
+            --exp-text-main: #ffffff;
+            --orb-size: 500px; 
+            
+            position: relative;
+            width: 100%;
+            height: 90vh; 
+            background: var(--exp-bg-color);
+            color: var(--exp-text-main);
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        @media (min-width: 992px) {
+            .explorer-section { height: 80vh; --orb-size: 550px; }
+        }
+
+        .explorer-section .section-title {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: 400;
+            letter-spacing: 6px;
+            z-index: 100;
+            color: rgba(255,255,255,0.9);
+        }
+        .explorer-section .section-title span {
+            font-size: 11px;
+            color: var(--brand-accent);
+            display: block;
+            letter-spacing: 4px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* 3D Universe Container */
+        .explorer-section .universe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            perspective: 1200px;
+            transform-style: preserve-3d;
+            overflow: hidden;
+        }
+
+        .explorer-section .horizon {
+            position: absolute;
+            bottom: -40vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200vw;
+            height: 60vh;
+            background: radial-gradient(ellipse at top, rgba(138, 154, 91, 0.15) 0%, rgba(0,0,0,0.8) 70%);
+            border-radius: 100% 100% 0 0;
+            border-top: 2px solid rgba(138, 154, 91, 0.2);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .explorer-section .product-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 2.5s cubic-bezier(0.33, 0, 0, 1), opacity 2s ease, visibility 2.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none; /* Prevents hidden layers from stealing clicks */
+        }
+
+        .explorer-section .product-layer.active {
+            pointer-events: auto; /* Active layer gets interactions */
+            z-index: 10;
+        }
+
+        .explorer-section .soap-orb-container {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: var(--orb-size);
+            height: var(--orb-size);
+            transition: all 2.5s cubic-bezier(0.33, 0, 0, 1);
+        }
+
+        /* STABLE PRODUCT IMAGE */
+        .explorer-section .soap-orb {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px; 
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .explorer-section .exp-product-info {
+            position: absolute;
+            top: 55%;
+            left: 60%;
+            transform: translateY(-50%) translateZ(100px);
+            width: 380px;
+            opacity: 0;
+            transition: opacity 1s ease 1s, transform 1.5s ease 0.5s;
+            pointer-events: none;
+            background: rgba(10, 10, 10, 0.65);
+            padding: 35px;
+            border-radius: 12px;
+            border-left: 4px solid var(--theme-color, #f39041);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            text-align: left;
+        }
+
+        .explorer-section .product-layer.active .exp-product-info {
+            opacity: 1;
+            transform: translateY(-50%) translateZ(150px);
+            pointer-events: auto;
+        }
+
+        .explorer-section .badge-3d {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: var(--theme-color, #f39041);
+            color: #000;
+            font-weight: 700;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .explorer-section .exp-product-info h1 {
+            margin: 0 0 5px 0;
+            font-size: 28px;
+            font-weight: 400;
+            color: var(--theme-color, #fff);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .explorer-section .exp-product-info h2 {
+            margin: 0 0 15px 0;
+            font-size: 20px;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+        }
+
+        .explorer-section .exp-product-info p {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .explorer-section .btn-3d {
+            display: inline-block;
+            padding: 10px 25px;
+            border: 1px solid var(--theme-color, #f39041);
+            color: white;
+            background: rgba(0,0,0,0.3);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .explorer-section .btn-3d:hover {
+            background: var(--theme-color, #f39041);
+            color: #000;
+        }
+
+        /* 3D Nav Menu */
+        .explorer-section .exp-nav-menu {
+            position: absolute;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: 70vh;
+            overflow-y: auto;
+            padding-right: 20px;
+            padding-left: 10px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .explorer-section .exp-nav-menu::-webkit-scrollbar { display: none; }
+
+        .explorer-section .exp-menu-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .explorer-section .exp-menu-item:hover, 
+        .explorer-section .exp-menu-item.active {
+            opacity: 1;
+        }
+
+        .explorer-section .exp-menu-item.active {
+            transform: scale(1.05) translateX(10px);
+        }
+
+        .explorer-section .exp-pip {
+            position: relative;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-right: 15px;
+            box-shadow: 0 -3px 8px rgba(0,0,0,0.8) inset;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .explorer-section .exp-menu-item.active .exp-pip {
+            border-color: #fff;
+            box-shadow: 0 0 10px var(--theme-color, #fff);
+        }
+
+        .explorer-section .exp-menu-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .explorer-section .exp-menu-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .explorer-section .exp-menu-indicator {
+            width: 0;
+            height: 1px;
+            background: var(--theme-color, #f39041);
+            margin-right: 0px;
+            transition: all 0.4s ease;
+        }
+
+        .explorer-section .exp-menu-item.active .exp-menu-indicator {
+            width: 20px;
+            margin-right: 8px;
+        }
+
+        /* Mobile specific fixes */
+        @media (max-width: 991px) {
+            .explorer-section { height: 100vh; min-height: 750px; }
+            .explorer-section .soap-orb-container { width: 300px; height: 300px; top: 25%; }
+            .explorer-section .exp-product-info { left: 50%; top: 55%; transform: translate(-50%, 0) !important; width: 90%; text-align: center; padding: 25px; }
+            .explorer-section .product-layer.active .exp-product-info { transform: translate(-50%, 0) !important; }
+            
+            /* Move Navigation to bottom row for mobile */
+            .explorer-section .exp-nav-menu { 
+                top: auto; 
+                bottom: 20px; 
+                height: auto; 
+                transform: none; 
+                left: 0; 
+                flex-direction: row; 
+                width: 100%; 
+                overflow-x: auto; 
+                padding: 10px 20px; 
+                -webkit-overflow-scrolling: touch;
+                z-index: 1000;
+            }
+            .explorer-section .exp-menu-item { flex-direction: column; opacity: 0.6; min-width: 80px; text-align: center; flex-shrink: 0; }
+            .explorer-section .exp-pip { margin-right: 0; margin-bottom: 8px; width: 55px; height: 55px; }
+            .explorer-section .exp-menu-indicator { display: none; }
+        }
+
+        /* =========================================================================
+           DYNAMIC PRINTER RECEIPT OVERLAY - POP-UP INTEGRATION
+           ========================================================================= */
+
+        .receipt-section {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0.7); /* Pop-up dark overlay */
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Ensures scroll works perfectly */
+            padding-top: 15vh; /* Initial centering */
+            overflow-y: auto;
+        }
+
+        .printer-wrapper {
+            --printer-color: #dcdac4;
+            --printer-color-2: #c0beaa;
+            --receipt-color: #f5f5f5;
+
+            font-size: 14px;
+            position: relative;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(1.2); /* Make the entire printer/receipt bigger */
+            transform-origin: top center;
+            margin: 0 auto;
+            transition: margin-bottom 0.5s;
+        }
+
+        /* Print Button Styles */
+        .print-button {
+            z-index: 15;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            position: absolute;
+            top: -30px;
+            right: 0;
+            margin: 16px;
+            border: 1px solid #0001;
+            border-radius: 6px;
+            width: 48px;
+            height: 36px;
+            background-color: var(--printer-color);
+            box-shadow: 1px 1px 2px 0 #fff8 inset, -1px -1px 2px 0 #0002 inset, 0 2px 6px 0px #0002;
+            transition: box-shadow 0.1s ease-in-out, transform 0.1s ease-in-out;
+        }
+        .print-button:hover {
+            box-shadow: 2px 2px 2px 0 #fff9 inset, -2px -2px 2px 0 #0002 inset, 0 2px 10px 0px #0002;
+            transform: scale(1.05);
+        }
+        .print-button:active {
+            box-shadow: 2px 2px 2px 0 #0002 inset, -2px -2px 2px 0 #fff9 inset, 0 0px 4px 0px #fff9;
+            transform: scale(0.95);
+        }
+
+        .printer {
+            width: 320px;
+            height: 80px;
+            border-radius: 0 0 8px 8px;
+            background-color: var(--printer-color);
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvbeQaKxFAEB6EN+cYN6xD7RYGpXpNndMmZgM5Dcs3YSNFDHUo2LGfZuukSWyUYirJAdYbF3MfqEKmjM+I2EfhA94iG3L7uKrR+GdWD73ydlIB+6hgref1QTlmgmbM3/LeX5GI1Ux1RWpgxpLuZ2+I+IjzZ8wqE4nilvQdkUdfhzI5QDWy+kw5Wgg2pGpeEVeCCA7b85BO3F9DzxB3cdqvBzWcmzbyMiqhzuYqtHRVG2y4x+KOlnyqla8AoWWpuBoYRxzXrfKuILl6SfiWCbjxoZJUaCBj1CjH7GIaDbc9kqBY3W/Rgjda1iqQcOJu2WW+76pZC9QG7M00dffe9hNnseupFL53r8F7YHSwJWUKP2q+k7RdsxyOB11n0xtOvnW4irMMFNV4H0uqwS5ExsmP9AxbDTc9JwgneAT5vTiUSm1E7BSflSt3bfa1tv8Di3R8n3Af7MNWzs49hmauE2wP+ttrq+AsWpFG2awvsuOqbipWHgtuvuaAE+A1Z/7gC9hesnr+7wqCwG8c5yAg3AL1fm8T9AZtp/bbJGwl1pNrE7RuOX7PeMRUERVaPpEs+yqeoSmuOlokqw49pgomjLeh7icHNlG19yjs6XXOMedYm5xH2YxpV2tc0Ro2jJfxC50ApuxGob7lMsxfTbeUv07TyYxpeLucEH1gNd4IKH2LAg5TdVhlCafZvpskfncCfx8pOhJzd76bJWeYFnFciwcYfubRc12Ip/ppIhA1/mSZ/RxjFDrJC5xifFjJpY2Xl5zXdguFqYyTR1zSp1Y9p+tktDYYSNflcxI0iyO4TPBdlRcpeqjK/piF5bklq77VSEaA+z8qmJTFzIWiitbnzR794USKBUaT0NTEsVjZqLaFVqJoPN9ODG70IPbfBHKK+/q/AWR0tJzYHRULOa4MP+W/HfGadZUbfw177G7j/OGbIs8TahLyynl4X4RinF793Oz+BU0saXtUHrVBFT/DnA3ctNPoGbs4hRIjTok8i+algT1lTHi4SxFvONKNrgQFAq2/gFnWMXgwffgYMJpiKYkmW3tTg3ZQ9Jq+f8XN+A5eeUKHWvJWJ2sgJ1Sop+wwhqFVijqWaJhwtD8MNlSBeWNNWTa5Z5kPZw5+LbVT99wqTdx29lMUH4OIG/D86ruKEauBjvH5xy6um/Sfj7ei6UUVk4AIl3MyD4MSSTOFgSwsH/QJWaQ5as7ZcmgBZkzjjU1UrQ74ci1gWBCSGHtuV1H2mhSnO3Wp/3fEV5a+4wz//6qy8JxjZsmxxy5+4w9CDNJY09T072iKG0EnOS0arEYgXqYnXcYHwjTtUNAcMelOd4xpkoqiTYICWFq0JSiPfPDQdnt+4/wuqcXY47QILbgAAAABJRU5ErkJggg==);
+            border: 2px solid var(--printer-color-2);
+            box-shadow: 0 16px 32px 0px #0002, 0 -30px 16px 0px #0001;
+            z-index: 10;
+        }
+
+        .printer::before {
+            content: "";
+            position: absolute;
+            top: -30px; left: 0;
+            width: 100%; height: 70px;
+            border-radius: 12px 12px 0 0;
+            border-bottom: 2px solid #0003;
+            box-shadow: 0 12px 16px -12px #fff5 inset, 0 -6px 16px -6px #0003 inset, 0 6px 8px -6px #0004;
+            box-sizing: border-box;
+            background-color: inherit;
+            background-image: inherit;
+            filter: brightness(1.12);
+            z-index: 2;
+        }
+
+        .printer::after {
+            content: "";
+            position: absolute;
+            top: 20px; left: 30px;
+            width: 260px; height: 40px;
+            border-radius: 0 0 4px 4px;
+            border-bottom: 1px solid #0003;
+            background-color: inherit;
+            background-image: linear-gradient(to top, var(--printer-color), 60%, var(--printer-color-2));
+            box-shadow: 0 4px 4px -2px #0004;
+            z-index: 1;
+        }
+
+        .printer-display {
+            z-index: 12;
+            display: flex;
+            padding: 6px 8px;
+            position: absolute;
+            top: -10px; left: 30px;
+            width: 160px; height: 32px;
+            background-color: #000;
+            background-image: linear-gradient(transparent 0, #fff2 90%, transparent 100%);
+            background-size: 100% 8px;
+            background-repeat: no-repeat;
+            border: 3px solid var(--printer-color-2);
+            border-radius: 6px;
+            box-sizing: border-box;
+            box-shadow: -1px -1px 2px 0 #fff9 inset, 1px 1px 5px 1px #000 inset, 0 0 1px 2px #0002;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.8em;
+            color: #5aff5a;
+            filter: drop-shadow(1px 1px 1px #0002);
+        }
+
+        .receipt-wrapper {
+            position: absolute;
+            top: 50px; /* Fixed cut-off issue */
+            left: 44px;
+            filter: drop-shadow(0 0 12px #0001);
+            transform: translateY(-100%);
+            clip-path: inset(100% -100px -100px -100px);
+            transition: clip-path 0.5s;
+            z-index: 5;
+            transform-origin: top center;
+        }
+
+        .receipt {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 16px;
+            width: 230px;
+            min-height: 160px;
+            font-size: 0.75em;
+            font-family: "Azeret Mono", "Roboto Mono", monospace;
+            font-weight: 400;
+            color: #444;
+            background-color: var(--receipt-color);
+            box-shadow: 0 12px 12px 0 #0001, 0 24px 24px 0 #0001, 0 36px 36px 0 #0001;
+        }
+
+        .receipt::before, .receipt::after {
+            --angle: 45deg;
+            content: ""; display: block; position: absolute; left: 0px; width: 100%; height: 8px;
+            background: linear-gradient(calc(var(--angle) * -1), var(--receipt-color) 4px, transparent 0), linear-gradient(var(--angle), var(--receipt-color) 4px, transparent 0);
+            background-position: 4px 0; background-repeat: repeat-x; background-size: 8px 8px;
+        }
+        .receipt::before { top: -8px; background-position: 4px 0; }
+        .receipt::after { bottom: -8px; background-position: 0 100%; --angle: 225deg; }
+
+        .receipt-header, .receipt-subheader, .receipt-message {
+            display: flex; justify-content: space-between; padding: 0.2em 0;
+        }
+        .receipt-header { font-size: 1.1em; font-weight: 600; display: block; }
+        .receipt-subheader { border-bottom: 1px dashed #ccc; display: block; }
+        .receipt-message { justify-content: center; text-align: center; padding: 0 1em; }
+        .receipt .logo { width: 48px; font-size: 2em; float: right; margin-top:-30px; transform: rotate(10deg); filter: grayscale(1); }
+
+        .receipt-table { font: inherit; color: inherit; text-align: left; line-height: 1.5em; width: 100%; }
+        .receipt-table th:last-child, .receipt-table td:last-child { text-align: right; }
+        .receipt-subtotal td, .receipt-total td, .receipt-tax td, .receipt-delivery td { border-top: 1px dashed #ccc; padding-top: 5px; }
+        .receipt-total td { font-weight: 600; font-size: 1.1em;}
+
+        /* Printer Animation Triggers */
+        .printer-wrapper.is-printing .receipt-wrapper {
+            animation: print 1.5s 1 forwards ease-in, display 0.4s 1 forwards cubic-bezier(0, 0.63, 0.96, 1.1);
+            animation-delay: 0s, 1.6s;
+        }
+
+        /* Download Button Styles */
+        .download-button {
+            padding: 10px 20px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-size: 14px;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 4px 6px #0003;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .download-button:hover { background: #45a049; transform: scale(1.05); }
+
+        .printer-wrapper.is-printing .download-button {
+            animation: show-download 0.4s forwards ease-out;
+            animation-delay: 2s; /* Wait for receipt to drop */
+            pointer-events: auto;
+        }
+
+        @keyframes show-download {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes print {
+            100% { transform: translateY(15px); clip-path: inset(-20% -100px -100px -100px); }
+        }
+
+        @keyframes display {
+            30% { transform: translateY(25px) rotate3d(1, 0, 1, -5deg); }
+            70% { z-index: 5; }
+            100% { z-index: 5; transform: translateY(15px) scale(1.05); }
+        }
+
+        /* --- PRINT MEDIA QUERIES --- */
+        @media print {
+            /* Hide everything except the receipt */
+            body > *:not(#receipt-section) { display: none !important; }
+            
+            #receipt-section {
+                display: block !important;
+                background: white !important;
+                position: absolute; left: 0; top: 0;
+                width: 100%; height: 100%; margin: 0; padding: 0;
+            }
+            
+            /* Hide printer machine and buttons */
+            .printer, .printer-display, .download-button, .print-button, #backToHomeBtn, #closeReceiptOverlayBtn { display: none !important; }
+            
+            .receipt-wrapper {
+                position: relative !important;
+                transform: none !important;
+                clip-path: none !important;
+                animation: none !important;
+                filter: none !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+            
+            .receipt {
+                box-shadow: none !important;
+                margin: 0 auto;
+                border: 1px solid #ddd;
+                width: 100%; max-width: 350px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR (Synced with Home/About) -->
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
         <div class="container-fluid px-3 px-lg-5">
             <a class="navbar-brand py-0 d-flex align-items-center" href="index.html">
@@ -679,7 +1260,7 @@
                     <div class="col-lg-4">
                         <div class="search-input-wrapper">
                             <i data-lucide="search" class="search-icon"></i>
-                            <input type="text" id="search-input" class="form-control search-input" placeholder="Search for soaps, ingredients...">
+                            <input type="text" id="search-input" class="form-control search-input" placeholder="        Search for soaps, ingredients...">
                         </div>
                     </div>
                 </div>
@@ -691,6 +1272,7 @@
             </div>
         </div>
     </section>
+
 
     <!-- FOOTER (Synced with Home/About) -->
     <footer>
@@ -757,27 +1339,23 @@
     <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light); overflow: hidden;">
+                <!-- Close Button -->
                 <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3 z-3 bg-white p-2 rounded-circle" data-bs-dismiss="modal" aria-label="Close" style="opacity: 0.9; box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;"></button>
                 
                 <div class="modal-body p-0">
                     <div class="row g-0">
                         <div class="col-md-6 d-flex align-items-center justify-content-center bg-light" id="modal-product-img-container" style="min-height: 300px; border-right: 1px solid var(--border-color);">
-                            <img id="modal-product-img" src="" alt="Product Image" class="img-fluid w-100 h-100" style="object-fit: cover; max-height: 600px;" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                            <img id="modal-product-img" src="" alt="Product Image" class="img-fluid w-100 h-100" style="object-fit: cover; max-height: 600px;" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&amp;w=500&amp;auto=format&amp;fit=crop'">
                         </div>
-                        
                         <div class="col-md-6 p-4 p-md-5 d-flex flex-column justify-content-center" style="background-color: var(--surface);">
                             <span id="modal-product-badge" class="text-uppercase tracking-widest small fw-bold mb-3 d-none" style="color: var(--brand-accent);"></span>
-                            
                             <h3 id="modal-product-title" class="font-serif mb-2 display-6" style="color: var(--brand-dark);"></h3>
                             <p id="modal-product-price" class="fs-4 fw-bold mb-4 font-serif" style="color: var(--brand-dark);"></p>
-
                             <p id="modal-product-desc" class="text-muted small mb-4" style="line-height: 1.8;"></p>
-
                             <div class="mb-4">
                                 <h6 class="text-uppercase tracking-wider small fw-bold mb-2" style="color: var(--brand-dark);">Key Ingredients</h6>
                                 <p id="modal-product-ingredients" class="text-muted small mb-0" style="line-height: 1.6;"></p>
                             </div>
-
                             <div class="mt-auto pt-4 border-top">
                                 <button id="modal-add-to-cart-btn" class="btn-luxury w-100 py-3 fs-6">Add to Bag</button>
                             </div>
@@ -795,7 +1373,6 @@
             <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column p-0">
-            
             <!-- FREE SHIPPING PROGRESS BAR -->
             <div class="shipping-progress-container d-none" id="shipping-tracker">
                 <p class="small mb-2 text-center text-muted" id="shipping-text">Add <span class="fw-bold text-dark">₹0.00</span> more to get <span class="fw-bold" style="color: var(--brand-dark);">FREE SHIPPING</span></p>
@@ -807,7 +1384,7 @@
             <div id="cart-items-container" class="flex-grow-1 overflow-auto px-4 py-3">
                 <!-- Cart Items Injected Here -->
             </div>
-            
+
             <div class="p-4 border-top mt-auto" style="background-color: var(--surface);">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <span class="text-uppercase tracking-widest small text-muted fw-bold">Estimated Total</span>
@@ -858,6 +1435,29 @@
                                 <input type="text" id="checkout-zip" class="form-control" required>
                             </div>
                         </div>
+
+                        <!-- NEW: PAYMENT METHOD SECTION -->
+                        <div class="mb-3">
+                            <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Payment Method</label>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="pay-whatsapp" value="whatsapp" checked>
+                                <label class="form-check-label text-muted" for="pay-whatsapp">Cash / Pay Later on WhatsApp</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="pay-online" value="online">
+                                <label class="form-check-label text-muted" for="pay-online">Pay Online (UPI / GPay)</label>
+                            </div>
+                        </div>
+
+                        <!-- NEW: ONLINE PAYMENT DETAILS (Hidden by default) -->
+                        <div id="online-payment-details" class="d-none text-center p-4 mb-4 rounded" style="background: var(--brand-light); border: 1px dashed var(--brand-accent);">
+                            <p class="small fw-bold mb-2" style="color: var(--brand-dark);">Scan to Pay or Click Below</p>
+                            <img id="dynamic-upi-qr" src="WhatsApp Image 2026-04-26 at 1.42.24 PM.jpeg" alt="UPI QR Code" class="img-fluid rounded mb-2 shadow-sm" style="max-width: 160px; border: 2px solid white;">
+                            <p class="small text-muted mb-3">UPI ID: <strong class="user-select-all text-dark">fareeha.mahek@oksbi</strong></p>
+                            <a href="#" id="direct-upi-btn" class="btn btn-outline-dark btn-sm w-100 font-serif" style="border-radius: 4px;">Pay <span id="upi-pay-amount"></span> via UPI App</a>
+                            <p class="small text-muted mt-2 mb-0" style="font-size: 0.7rem;">(Clicking will automatically open GPay/PhonePe on mobile)</p>
+                        </div>
+
                         <button type="submit" class="btn-luxury w-100 py-3 d-flex align-items-center justify-content-center gap-2">
                             Place Order via WhatsApp <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
                         </button>
@@ -893,6 +1493,7 @@
                             </div>
                         </div>
                         
+                        <!-- BASE SOAP SELECTION -->
                         <div class="mb-3">
                             <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Select Base Soap <span class="text-lowercase fw-normal" style="opacity: 0.8;">(Prices shown are base prices)</span></label>
                             <select id="cust-base-soap" class="form-select" required>
@@ -946,6 +1547,7 @@
     </div>
 
     <!-- POLICY MODALS -->
+    <!-- Shipping Modal -->
     <div class="modal fade" id="shippingModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light);">
@@ -984,18 +1586,18 @@
                     <h5 class="font-serif fs-5 mt-4 mb-2" style="color: var(--brand-dark);">Contact Information</h5>
                     <p class="text-muted small fw-light mb-1">For any shipping or return-related queries, please contact:</p>
                     <p class="text-muted small fw-bold mb-1">📧 the.soapandsoul@gmail.com</p>
-                    <p class="text-muted small fw-bold mb-0">📞 +91 98765 43210</p>
+                    <p class="text-muted small fw-bold mb-0">📞 +91 97671 71127</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- TERMS MODAL -->
+    <!-- Terms of Service Modal -->
     <div class="modal fade" id="termsModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light);">
                 <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
-                    <h4 class="modal-title w-100 font-serif fs-4" style="color: var(--brand-dark);">Terms & Conditions</h4>
+                    <h4 class="modal-title w-100 font-serif fs-4" style="color: var(--brand-dark);">Terms of Service</h4>
                     <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4 p-md-5 pt-3">
@@ -1046,7 +1648,7 @@
         </div>
     </div>
 
-    <!-- PRIVACY MODAL -->
+    <!-- Privacy Policy Modal -->
     <div class="modal fade" id="privacyModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light);">
@@ -1056,44 +1658,89 @@
                 </div>
                 <div class="modal-body p-4 p-md-5 pt-3">
                     <p class="text-muted small tracking-wider text-uppercase mb-3">The Soap & Soul</p>
-                    <p class="text-muted small fw-light mb-4">At The Soap & Soul, we are committed to protecting your personal information and privacy.</p>
+                    <p class="text-muted small fw-light mb-4">We value your privacy and are committed to protecting your personal information.</p>
                     
-                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">Information We Collect</h5>
-                    <ul class="text-muted small fw-light mb-4">
-                        <li class="mb-1">Name, phone number, and email address</li>
-                        <li class="mb-1">Shipping and billing address</li>
-                        <li class="mb-1">Order details and purchase history</li>
-                    </ul>
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">1. Information Collection</h5>
+                    <p class="text-muted small fw-light mb-4">We only collect the information required to process your order and provide you with a smooth shopping experience, such as your name, shipping address, and contact details.</p>
 
-                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">How We Use Your Information</h5>
-                    <ul class="text-muted small fw-light mb-4">
-                        <li class="mb-1">To process and deliver your orders</li>
-                        <li class="mb-1">To communicate order updates and support</li>
-                        <li class="mb-1">To improve our products and services</li>
-                    </ul>
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">2. Use of Information</h5>
+                    <p class="text-muted small fw-light mb-4">Your details are strictly used for order fulfillment, customer support, and direct communication regarding your purchases via WhatsApp or email.</p>
 
-                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">Data Sharing</h5>
-                    <ul class="text-muted small fw-light mb-4">
-                        <li class="mb-1">We do not sell or share your personal information with third parties.</li>
-                        <li class="mb-1">Your data may be shared only with trusted partners such as courier or payment services for order fulfillment.</li>
-                    </ul>
+                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">3. Data Protection</h5>
+                    <p class="text-muted small fw-light mb-4">We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. Your privacy is paramount to our artisan values.</p>
 
-                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">Data Security</h5>
-                    <p class="text-muted small fw-light mb-4">We take reasonable steps to protect your personal information from unauthorized access or misuse.</p>
-
-                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">Cookies</h5>
-                    <p class="text-muted small fw-light mb-4">Our website may use cookies to enhance user experience and improve functionality.</p>
-
-                    <h5 class="font-serif fs-6 mt-4 mb-2" style="color: var(--brand-dark);">User Consent</h5>
-                    <p class="text-muted small fw-light mb-4">By using our website, you agree to the collection and use of your information as per this policy.</p>
-
-                    <h5 class="font-serif fs-5 mt-4 mb-2" style="color: var(--brand-dark);">Contact Information</h5>
-                    <p class="text-muted small fw-light mb-1">For any privacy-related concerns, please contact:</p>
-                    <p class="text-muted small fw-bold mb-0">📧 the.soapandsoul@gmail.com</p>
+                    <div class="border-top pt-3 mt-4">
+                        <p class="text-muted small fw-bold mb-0">For any questions about your data, please contact us directly.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- ORDER RECEIPT FULL-SCREEN SECTION (NEW INTEGRATION) -->
+    <section id="receipt-section" class="receipt-section d-none">
+        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-4" id="closeReceiptOverlayBtn" aria-label="Close" style="z-index: 100000;"></button>
+        <div class="printer-wrapper">
+          <div class="printer"></div>
+          <div class="printer-display">
+            <span class="printer-message">Click to print</span>
+          </div>
+          <button class="print-button" id="startPrintBtn">🖨️</button>
+          
+          <div class="receipt-wrapper">
+            <div class="receipt">
+              <div class="receipt-header">
+                The Soap & Soul <br />
+                <span style="font-size: 0.85em; font-weight: normal; font-family: 'Montserrat', sans-serif;">Natural Skincare Essentials</span> <br />
+                <span style="font-size: 0.75em; font-weight: normal; font-family: 'Montserrat', sans-serif; color: #777;">Handcrafted with Love</span>
+                <div class="logo">🧼</div>
+              </div>
+              
+              <div class="receipt-subheader" id="receipt-order-no">
+                Order No. #000000 <br />
+                Date
+              </div>
+              
+              <table class="receipt-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="receipt-items-tbody">
+                  <!-- Dynamic Items go here -->
+                </tbody>
+                <tfoot>
+                    <tr class="receipt-subtotal">
+                        <td colspan="2">Subtotal</td>
+                        <td id="receipt-subtotal-val">₹0.00</td>
+                    </tr>
+                    <tr class="receipt-tax">
+                        <td colspan="2">GST (5%)</td>
+                        <td id="receipt-tax-val">₹0.00</td>
+                    </tr>
+                    <tr class="receipt-delivery">
+                        <td colspan="2">Delivery</td>
+                        <td id="receipt-delivery-val">₹50.00</td>
+                    </tr>
+                    <tr class="receipt-total">
+                        <td colspan="2">Total</td>
+                        <td id="receipt-total-val">₹0.00</td>
+                    </tr>
+                </tfoot>
+              </table>
+              <div class="receipt-message" id="receipt-thank-you">Thank you!</div>
+            </div>
+            
+            <div class="d-flex flex-column align-items-center">
+                <button class="download-button mt-4" id="downloadBtn">⬇️ Download PDF</button>
+                <button class="btn btn-light mt-3 px-4 py-2 shadow-sm" id="backToHomeBtn" style="opacity: 0; pointer-events: none; transition: opacity 0.4s; border-radius: 6px; font-family: 'Montserrat', sans-serif; font-weight: 600; color: var(--brand-dark);">Close & Return to Store</button>
+            </div>
+          </div>
+        </div>
+    </section>
 
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -1101,26 +1748,26 @@
     <!-- CUSTOM JAVASCRIPT LOGIC -->
     <script>
         // Store Owner's WhatsApp Number (Include Country Code, No '+' sign)
-        const WHATSAPP_NUMBER = "919876543210";
+        const WHATSAPP_NUMBER = "917057051765";
 
         // Initialize Icons
         lucide.createIcons();
 
-        // Products data needed for Cart Hydration & Search
+        // Products data needed for Search & Cart Hydration
         const productsData = [
-            { id: 1, name: "(Malaika) Rose", desc: "Romantic rose essence for luxurious hydration and floral balance.", fullDesc: "Experience the timeless elegance of fresh roses. This handcrafted bar deeply hydrates while balancing your skin's natural oils. The soothing properties of rose help calm irritation, making it perfect for a relaxing evening routine.", ingredients: "Pure Rose Water, Rose Essential Oil, Saponified Olive & Coconut Oils, Shea Butter, Pink French Clay.", price: 150.00, category: "floral", img: "shop/Rose.png", badge: "Best Seller" },
-            { id: 2, name: "Ayurvedic Ubtan", desc: "Traditional turmeric and herbs for a natural, glowing complexion.", fullDesc: "Inspired by ancient Ayurvedic traditions, this Ubtan bar is a powerhouse of natural herbs. It gently exfoliates, brightens the complexion, and helps remove tan naturally, giving you a radiant, healthy glow.", ingredients: "Turmeric Extract, Gram Flour, Sandalwood Powder, Saffron infused Almond Oil, Saponified Botanical Oils.", price: 150.00, category: "soothing", img: "shop/ubtan.png" },
-            { id: 3, name: "(Dulhan) Chiksha", desc: "A luxurious bridal blend for that perfect, flawless wedding glow.", fullDesc: "Our premium bridal blend is crafted for the ultimate pre-wedding pampering. Rich in antioxidants and brightening agents, it leaves your skin feeling exceptionally soft, smooth, and flawlessly radiant.", ingredients: "Chiksha Powder, Saffron, Rose Petals, Sweet Almond Oil, Cocoa Butter, Saponified Coconut Oil.", price: 200.00, category: "soothing", img: "shop/chiksha (dulhan).png", badge: "Premium" },
-            { id: 4, name: "Purifying Neem", desc: "Antibacterial neem leaves to protect, heal, and clarify the skin.", fullDesc: "Harness the power of nature's best antibacterial agent. Our neem soap deeply cleanses pores, helps control acne breakouts, and soothes inflamed skin without stripping away natural moisture.", ingredients: "Organic Neem Extract, Neem Oil, Tea Tree Essential Oil, Aloe Vera, Saponified Palm & Coconut Oils.", price: 100.00, category: "fresh", img: "shop/Neem.png" },
-            { id: 5, name: "Vitamin C Orange", desc: "Zesty orange extract to brighten, invigorate, and revitalize your skin.", fullDesc: "Start your day with a burst of citrus! Packed with Vitamin C, this vibrant bar helps to naturally brighten dull skin, even out skin tone, and leave you feeling completely energized and refreshed.", ingredients: "Sweet Orange Essential Oil, Dried Orange Peel, Vitamin C Serum, Mango Butter, Saponified Oils.", price: 120.00, category: "fresh", img: "shop/orange.png" },
-            { id: 6, name: "Zesty Lemon", desc: "Refreshing lemon zest for an energizing and deep cleanse.", fullDesc: "A wonderfully crisp and clean soap that cuts through oils and deeply cleanses the skin. The astringent properties of lemon make this an excellent choice for oily or combination skin types.", ingredients: "Lemon Essential Oil, Fresh Lemon Zest, Lemon Balm, Saponified Olive Oil, Castor Oil.", price: 100.00, category: "fresh", img: "shop/Lemon.jpeg" },
-            { id: 7, name: "Charcoal Detox", desc: "Activated charcoal to draw out impurities and deeply cleanse pores.", fullDesc: "The ultimate detox for your skin. Activated charcoal acts like a magnet to draw out dirt, toxins, and impurities from deep within your pores, leaving you with a fresh, clear complexion.", ingredients: "Activated Bamboo Charcoal, Peppermint Essential Oil, Kaolin Clay, Saponified Coconut & Olive Oils.", price: 150.00, category: "detox", img: "shop/Charcoal.png", badge: "Trending" },
-            { id: 8, name: "Coffee Bean Bloom", desc: "Exfoliating coffee grounds to awaken your senses and smooth skin.", fullDesc: "Buff away dead skin cells with finely ground coffee beans. This exfoliating bar promotes healthy circulation, helps reduce the appearance of cellulite, and smells like a fresh morning brew.", ingredients: "Fresh Ground Arabica Coffee, Coffee Essential Oil, Vanilla Extract, Cocoa Butter, Saponified Oils.", price: 150.00, category: "detox", img: "shop/Coofee.png" },
-            { id: 9, name: "Pure Chandan", desc: "Rich, woody aroma of sandalwood for a calming, spiritual cleanse.", fullDesc: "Immerse yourself in the rich, woody, and calming aroma of pure Sandalwood (Chandan). Known for its cooling properties, it helps soothe sunburns, clear blemishes, and calm the mind.", ingredients: "Pure Sandalwood Extract, Sandalwood Essential Oil, Multani Mitti (Fuller's Earth), Shea Butter.", price: 200.00, category: "fresh", img: "shop/Chandan.png" },
-            { id: 10, name: "Mulethi Soothing Bar", desc: "Healing mulethi extract to soothe irritation and even out skin tone.", fullDesc: "Mulethi (Licorice Root) is a gentle yet highly effective botanical that helps to naturally fade dark spots, soothe irritated skin, and provide a beautifully even and balanced skin tone.", ingredients: "Mulethi (Licorice) Root Powder, Chamomile Extract, Saponified Olive & Coconut Oils, Glycerin.", price: 150.00, category: "soothing", img: "shop/Multahi.png" },
-            { id: 11, name: "Rice Brightening", desc: "Gentle rice extract to beautifully brighten, soften, and nourish.", fullDesc: "An Asian beauty secret brought to your daily routine. Rice water and extract work synergistically to shrink pores, tighten the skin, and provide a glassy, hydrated, and brightened finish.", ingredients: "Fermented Rice Water, Rice Bran Oil, Saponified Coconut Oil, Shea Butter, White Kaolin Clay.", price: 150.00, category: "soothing", img: "shop/rice.png", badge: "New" },
-            { id: 12, name: "Hunny Bunny Baby", desc: "Ultra-gentle lotus and honey formulation for delicate baby skin.", fullDesc: "Formulated specifically for the most delicate and sensitive skin. This tear-free, ultra-mild soap combines the healing power of raw honey with soothing lotus extract to cleanse without drying.", ingredients: "Raw Organic Honey, Lotus Extract, Colloidal Oatmeal, Saponified Sweet Almond & Olive Oils.", price: 200.00, category: "soothing", img: "shop/HoneyBunny.png" },
-            { id: 13, name: "Forever Love", desc: "A beautifully sculpted blend for deep hydration and celebrating love.", fullDesc: "A masterfully sculpted soap that acts as a testament to pure botanical hydration. Infused with rich aloe vera and pure glycerin, it locks in moisture, ensuring your skin stays soft and deeply loved.", ingredients: "Pure Aloe Vera Gel, Vegetable Glycerin, Rosewood Essential Oil, Saponified Botanical Oils.", price: 200.00, category: "floral", img: "shop/AloeVera&Glycerine.png" }
+            { id: 1, name: "(Malaika) Rose", desc: "Romantic rose essence for luxurious hydration and floral balance.", fullDesc: "Experience the timeless elegance of fresh roses. This handcrafted bar deeply hydrates while balancing your skin's natural oils. The soothing properties of rose help calm irritation, making it perfect for a relaxing evening routine.", ingredients: "Pure Rose Water, Rose Essential Oil, Saponified Olive & Coconut Oils, Shea Butter, Pink French Clay.", price: 150.00, category: "floral", img: "index/rose.png", badge: "Best Seller", color: "#b47f78" },
+            { id: 2, name: "Ayurvedic Ubtan", desc: "Traditional turmeric and herbs for a natural, glowing complexion.", fullDesc: "Inspired by ancient Ayurvedic traditions, this Ubtan bar is a powerhouse of natural herbs. It gently exfoliates, brightens the complexion, and helps remove tan naturally, giving you a radiant, healthy glow.", ingredients: "Turmeric Extract, Gram Flour, Sandalwood Powder, Saffron infused Almond Oil, Saponified Botanical Oils.", price: 150.00, category: "soothing", img: "index/ubtan.png", color: "#eebb4d" },
+            { id: 3, name: "(Dulhan) Chiksha", desc: "A luxurious bridal blend for that perfect, flawless wedding glow.", fullDesc: "Our premium bridal blend is crafted for the ultimate pre-wedding pampering. Rich in antioxidants and brightening agents, it leaves your skin feeling exceptionally soft, smooth, and flawlessly radiant.", ingredients: "Chiksha Powder, Saffron, Rose Petals, Sweet Almond Oil, Cocoa Butter, Saponified Coconut Oil.", price: 200.00, category: "soothing", img: "index/chiksha (dulhan).png", badge: "Premium", color: "#d4a373" },
+            { id: 4, name: "Purifying Neem", desc: "Antibacterial neem leaves to protect, heal, and clarify the skin.", fullDesc: "Harness the power of nature's best antibacterial agent. Our neem soap deeply cleanses pores, helps control acne breakouts, and soothes inflamed skin without stripping away natural moisture.", ingredients: "Organic Neem Extract, Neem Oil, Tea Tree Essential Oil, Aloe Vera, Saponified Palm & Coconut Oils.", price: 100.00, category: "fresh", img: "index/neem.png", color: "#55efc4" },
+            { id: 5, name: "Vitamin C Orange", desc: "Zesty orange extract to brighten, invigorate, and revitalize your skin.", fullDesc: "Start your day with a burst of citrus! Packed with Vitamin C, this vibrant bar helps to naturally brighten dull skin, even out skin tone, and leave you feeling completely energized and refreshed.", ingredients: "Sweet Orange Essential Oil, Dried Orange Peel, Vitamin C Serum, Mango Butter, Saponified Oils.", price: 120.00, category: "fresh", img: "index/orange.png", color: "#e17055" },
+            { id: 6, name: "Zesty Lemon", desc: "Refreshing lemon zest for an energizing and deep cleanse.", fullDesc: "A wonderfully crisp and clean soap that cuts through oils and deeply cleanses the skin. The astringent properties of lemon make this an excellent choice for oily or combination skin types.", ingredients: "Lemon Essential Oil, Fresh Lemon Zest, Lemon Balm, Saponified Olive Oil, Castor Oil.", price: 100.00, category: "fresh", img: "index/lemon.jpeg", color: "#ffeaa7" },
+            { id: 7, name: "Charcoal Detox", desc: "Activated charcoal to draw out impurities and deeply cleanse pores.", fullDesc: "The ultimate detox for your skin. Activated charcoal acts like a magnet to draw out dirt, toxins, and impurities from deep within your pores, leaving you with a fresh, clear complexion.", ingredients: "Activated Bamboo Charcoal, Peppermint Essential Oil, Kaolin Clay, Saponified Coconut & Olive Oils.", price: 150.00, category: "detox", img: "index/Charcoal.png", badge: "Trending", color: "#636e72" },
+            { id: 8, name: "Coffee Bean Bloom", desc: "Exfoliating coffee grounds to awaken your senses and smooth skin.", fullDesc: "Buff away dead skin cells with finely ground coffee beans. This exfoliating bar promotes healthy circulation, helps reduce the appearance of cellulite, and smells like a fresh morning brew.", ingredients: "Fresh Ground Arabica Coffee, Coffee Essential Oil, Vanilla Extract, Cocoa Butter, Saponified Oils.", price: 150.00, category: "detox", img: "index/coofee.png", color: "#b29d81" },
+            { id: 9, name: "Pure Chandan", desc: "Rich, woody aroma of sandalwood for a calming, spiritual cleanse.", fullDesc: "Immerse yourself in the rich, woody, and calming aroma of pure Sandalwood (Chandan). Known for its cooling properties, it helps soothe sunburns, clear blemishes, and calm the mind.", ingredients: "Pure Sandalwood Extract, Sandalwood Essential Oil, Multani Mitti (Fuller's Earth), Shea Butter.", price: 200.00, category: "fresh", img: "index/chandan.png", color: "#d2b48c" },
+            { id: 10, name: "Mulethi Soothing Bar", desc: "Healing mulethi extract to soothe irritation and even out skin tone.", fullDesc: "Mulethi (Licorice Root) is a gentle yet highly effective botanical that helps to naturally fade dark spots, soothe irritated skin, and provide a beautifully even and balanced skin tone.", ingredients: "Mulethi (Licorice) Root Powder, Chamomile Extract, Saponified Olive & Coconut Oils, Glycerin.", price: 150.00, category: "soothing", img: "index/multahi.png", color: "#e8c39e" },
+            { id: 11, name: "Rice Brightening", desc: "Gentle rice extract to beautifully brighten, soften, and nourish.", fullDesc: "An Asian beauty secret brought to your daily routine. Rice water and extract work synergistically to shrink pores, tighten the skin, and provide a glassy, hydrated, and brightened finish.", ingredients: "Fermented Rice Water, Rice Bran Oil, Saponified Coconut Oil, Shea Butter, White Kaolin Clay.", price: 150.00, category: "soothing", img: "index/rice.png", badge: "New", color: "#f1f2f6" },
+            { id: 12, name: "Hunny Bunny Baby", desc: "Ultra-gentle lotus and honey formulation for delicate baby skin.", fullDesc: "Formulated specifically for the most delicate and sensitive skin. This tear-free, ultra-mild soap combines the healing power of raw honey with soothing lotus extract to cleanse without drying.", ingredients: "Raw Organic Honey, Lotus Extract, Colloidal Oatmeal, Saponified Sweet Almond & Olive Oils.", price: 200.00, category: "soothing", img: "index/HoneyBunny.png", color: "#f9ca24" },
+            { id: 13, name: "Forever Love", desc: "A beautifully sculpted blend for deep hydration and celebrating love.", fullDesc: "A masterfully sculpted soap that acts as a testament to pure botanical hydration. Infused with rich aloe vera and pure glycerin, it locks in moisture, ensuring your skin stays soft and deeply loved.", ingredients: "Pure Aloe Vera Gel, Vegetable Glycerin, Rosewood Essential Oil, Saponified Botanical Oils.", price: 200.00, category: "floral", img: "index/AloeVera&Glycerine.png", color: "#ff9ff3" }
         ];
 
         // --- STATE ---
@@ -1128,6 +1775,10 @@
         let currentFilter = "all";
         let searchQuery = "";
         const FREE_SHIPPING_THRESHOLD = 2000.00;
+        let active3DIndex = 0;
+        
+        // Single Global Scroll Observer to prevent memory leaks
+        let scrollObserver = null;
 
         // --- DOM ELEMENTS ---
         const productGrid = document.getElementById('product-grid');
@@ -1151,10 +1802,10 @@
 
             renderProducts();
             setupEventListeners();
-            setupScrollObserver();
             updateCartUI(); 
             initDarkMode();
             initSearch();
+            init3DExplorer(); 
             
             // Check initial scroll for navbar
             const navbar = document.getElementById('navbar');
@@ -1205,13 +1856,12 @@
                 const safeName = product.name.replace(/'/g, "\\'");
                 const safeImg = product.img.replace(/'/g, "\\'");
 
-                // Added cursor-pointer and onclick to image and title
                 productGrid.innerHTML += `
                     <div class="col-md-6 col-lg-4 fade-up" style="transition-delay: ${delay}s;">
                         <div class="product-card">
                             ${badgeHTML}
                             <div class="product-img-wrap cursor-pointer" onclick="showProductDetails(${product.id})">
-                                <img src="${product.img}" alt="${product.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                                <img src="${product.img}" alt="${product.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&amp;w=500&amp;auto=format&amp;fit=crop'">
                             </div>
                             <div class="p-4 text-center d-flex flex-column flex-grow-1">
                                 <h5 class="font-serif mb-2 cursor-pointer" style="color: var(--brand-dark);" onclick="showProductDetails(${product.id})">${product.name}</h5>
@@ -1275,6 +1925,102 @@
             bsModal.show();
         };
 
+        // --- 3D EXPLORER LOGIC (RESTORED) ---
+        function init3DExplorer() {
+            const universeEl = document.getElementById('universe');
+            const menuEl = document.getElementById('exp-nav-menu');
+
+            if (!universeEl || !menuEl) return;
+
+            universeEl.innerHTML = '';
+            menuEl.innerHTML = '';
+
+            productsData.forEach((product, index) => {
+                const safeName = product.name.replace(/'/g, "\\'");
+                const safeImg = product.img.replace(/'/g, "\\'");
+                
+                // 1. Create 3D Layer
+                const layer = document.createElement('div');
+                layer.className = `product-layer`;
+                layer.id = `layer-${index}`;
+                
+                layer.innerHTML = `
+                <div class="soap-orb-container">
+                    <div class="soap-orb" style="background-image: url('${product.img}');"></div>
+                </div>
+                <div class="exp-product-info" style="--theme-color: ${product.color || '#8a9a5b'}">
+                    ${product.badge ? `<span class="badge-3d">${product.badge}</span>` : ''}
+                    <h1>${product.name}</h1>
+                    <h2>₹${product.price}</h2>
+                    <p>${product.desc}</p>
+                    <button class="btn-3d" onclick="addToCart(${product.id}, '${safeName}', ${product.price}, '${safeImg}')">Add to Bag</button>
+                </div>
+                `;
+                universeEl.appendChild(layer);
+
+                // 2. Create Menu Item
+                const menuItem = document.createElement('div');
+                menuItem.className = 'exp-menu-item';
+                menuItem.id = `exp-menu-${index}`;
+                menuItem.onclick = () => navigate3DTo(index);
+                
+                menuItem.innerHTML = `
+                <div class="exp-pip" style="background-image: url('${product.img}'); --theme-color: ${product.color || '#8a9a5b'}"></div>
+                <div class="exp-menu-text">
+                    <div class="exp-menu-title">
+                    <div class="exp-menu-indicator" style="--theme-color: ${product.color || '#8a9a5b'}"></div>
+                    ${product.name}
+                    </div>
+                </div>
+                `;
+                menuEl.appendChild(menuItem);
+            });
+
+            // Initial Render
+            update3DPositions();
+        }
+
+        function update3DPositions() {
+            const layers = document.querySelectorAll('.product-layer');
+            const menuItems = document.querySelectorAll('.exp-menu-item');
+
+            layers.forEach((layer, index) => {
+                const distance = index - active3DIndex;
+                const translateZ = distance * -2500; 
+                const rotateX = distance === 0 ? 0 : (distance > 0 ? 5 : -5);
+                
+                layer.style.transform = `translateZ(${translateZ}px) rotateX(${rotateX}deg)`;
+                
+                if (distance === 0) {
+                    layer.style.opacity = 1;
+                    layer.style.visibility = 'visible';
+                    layer.classList.add('active');
+                } else {
+                    // Completely hide non-active layers so they don't bleed through transparent background images
+                    layer.style.opacity = 0;
+                    layer.classList.remove('active');
+                    layer.style.visibility = 'hidden'; 
+                }
+            });
+
+            menuItems.forEach((item, index) => {
+                if (index === active3DIndex) {
+                    item.classList.add('active');
+                    // Horizontal smooth scroll alignment for Mobile
+                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function navigate3DTo(index) {
+            if(index >= 0 && index < productsData.length) {
+                active3DIndex = index;
+                update3DPositions();
+            }
+        }
+
         // --- SEARCH FUNCTIONS ---
         function initSearch() {
             const searchContainer = document.querySelector('.nav-search-container');
@@ -1282,7 +2028,7 @@
             const searchInput = document.getElementById('nav-search-input');
             const suggestionsBox = document.getElementById('nav-search-suggestions');
 
-            if (!searchContainer) return;
+            if (!searchContainer || !searchBtn) return;
 
             // Toggle expanding search bar
             searchBtn.addEventListener('click', (e) => {
@@ -1333,7 +2079,7 @@
                     // Instantly pop up the product details since we're already on the shop page!
                     html += `
                         <div class="suggestion-item" onclick="showProductDetails(${product.id}); document.getElementById('nav-search-input').value=''; document.getElementById('nav-search-suggestions').classList.remove('show'); document.querySelector('.nav-search-container').classList.remove('active');">
-                            <img src="${product.img}" alt="${product.name}" class="suggestion-img" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                            <img src="${product.img}" alt="${product.name}" class="suggestion-img" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&amp;w=500&amp;auto=format&amp;fit=crop'">
                             <div class="suggestion-info">
                                 <h6 class="suggestion-title">${product.name}</h6>
                                 <p class="suggestion-price">₹${product.price.toFixed(2)}</p>
@@ -1347,7 +2093,6 @@
         }
 
         // --- CART FUNCTIONS ---
-        
         window.addToCart = (id, name, price, img) => {
             const existingItemIndex = cart.findIndex(item => item.id === id);
             
@@ -1410,6 +2155,7 @@
                 
                 let cartHTML = '';
                 
+                // Update Free Shipping Progress Bar
                 if (trackerBar && trackerText) {
                     let progressPercent = Math.min((totalPrice / FREE_SHIPPING_THRESHOLD) * 100, 100);
                     trackerBar.style.width = `${progressPercent}%`;
@@ -1427,7 +2173,7 @@
                 cart.forEach(item => {
                     cartHTML += `
                         <div class="cart-item position-relative">
-                            <img src="${item.img}" alt="${item.name}" class="cart-item-img" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=500&auto=format&fit=crop'">
+                            <img src="${item.img}" alt="${item.name}" class="cart-item-img" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&amp;w=500&amp;auto=format&amp;fit=crop'">
                             <div class="cart-item-details">
                                 <div>
                                     <h6 class="cart-item-title">${item.name}</h6>
@@ -1456,6 +2202,7 @@
 
         // --- EVENT LISTENERS ---
         function setupEventListeners() {
+            // Filter categories logic
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1465,19 +2212,44 @@
                 });
             });
 
-            const searchInput = document.getElementById('search-input');
-            if(searchInput) {
-                searchInput.addEventListener('input', (e) => {
-                    searchQuery = e.target.value.toLowerCase().trim();
-                    renderProducts();
+            // Toggle Payment Details UI
+            const payWhatsapp = document.getElementById('pay-whatsapp');
+            const payOnline = document.getElementById('pay-online');
+            const onlineDetails = document.getElementById('online-payment-details');
+
+            if (payWhatsapp && payOnline) {
+                payWhatsapp.addEventListener('change', () => {
+                    onlineDetails.classList.add('d-none');
+                });
+                payOnline.addEventListener('change', () => {
+                    onlineDetails.classList.remove('d-none');
                 });
             }
 
+            // Move from Cart to Checkout
             document.getElementById('btn-checkout').addEventListener('click', () => {
                 const offcanvasElement = document.getElementById('cartOffcanvas');
                 const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
                 bsOffcanvas.hide();
                 
+                // Calculate total for UPI Button before opening modal
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                const tax = subtotal * 0.05; 
+                const delivery = 50.00; 
+                const finalTotal = subtotal + tax + delivery;
+                
+                document.getElementById('upi-pay-amount').innerText = `₹${finalTotal.toFixed(2)}`;
+                
+                // Construct the UPI link with the exact final total
+                const upiLink = `upi://pay?pa=fareeha.mahek@oksbi&pn=The%20Soap%20and%20Soul&am=${finalTotal.toFixed(2)}&cu=INR`;
+                document.getElementById('direct-upi-btn').href = upiLink;
+
+                // Dynamically generate a QR Code containing the total amount
+                const qrImage = document.getElementById('dynamic-upi-qr');
+                if (qrImage) {
+                    qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`;
+                }
+
                 setTimeout(() => {
                     const modalElement = document.getElementById('checkoutModal');
                     const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
@@ -1485,29 +2257,30 @@
                 }, 300);
             });
 
-            // WHATSAPP CHECKOUT LOGIC
+            // Handle Normal Cart Checkout -> Redirect to WhatsApp & Trigger Receipt
             document.getElementById('checkout-form').addEventListener('submit', (e) => {
                 e.preventDefault();
-
+                
                 const name = document.getElementById('checkout-name').value;
                 const email = document.getElementById('checkout-email').value;
                 const phone = document.getElementById('checkout-phone').value;
                 const address = document.getElementById('checkout-address').value;
                 const city = document.getElementById('checkout-city').value;
                 const zip = document.getElementById('checkout-zip').value;
-
+                const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+                const paymentText = paymentMethod === 'online' ? 'Online (UPI)' : 'Cash / Pay on WhatsApp';
+                
                 if (cart.length === 0) return;
 
-                const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                const tax = subtotal * 0.05; // 5% GST
+                const delivery = 50.00; // Fixed Delivery
+                const finalTotal = subtotal + tax + delivery;
 
                 let orderSummary = '';
                 cart.forEach(item => {
                     orderSummary += `- ${item.qty}x ${item.name} (₹${(item.price * item.qty).toFixed(2)})\n`;
                 });
-
-                let shippingCost = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : 50;
-                let shippingText = totalPrice >= FREE_SHIPPING_THRESHOLD ? "Free" : `₹${shippingCost.toFixed(2)}`;
-                let finalTotal = totalPrice + shippingCost;
 
                 let msg = `*🛍️ NEW ORDER REQUEST* \n`;
                 msg += `_From: The Soap & Soul Website_\n\n`;
@@ -1519,12 +2292,17 @@
                 msg += `*📦 Order Summary:*\n`;
                 msg += orderSummary;
                 
-                msg += `\n*🚚 Shipping:* ${shippingText}\n`;
-                msg += `*💰 Estimated Total: ₹${finalTotal.toFixed(2)}*\n\n`;
-                msg += `Please confirm my order and share payment details. Thank you! ✨`;
+                msg += `\n*🛒 Subtotal: ₹${subtotal.toFixed(2)}*\n`;
+                msg += `*🧾 GST (5%): ₹${tax.toFixed(2)}*\n`;
+                msg += `*🚚 Delivery: ₹${delivery.toFixed(2)}*\n`;
+                msg += `*💰 Final Total: ₹${finalTotal.toFixed(2)}*\n`;
+                msg += `*💳 Payment Method:* ${paymentText}\n\n`;
+                msg += `Please confirm my order. Thank you! ✨`;
 
                 const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
                 window.open(whatsappUrl, '_blank');
+
+                const finalizedCart = [...cart];
 
                 cart = []; 
                 localStorage.removeItem('soapSoulCart');
@@ -1534,14 +2312,19 @@
                 const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
                 bsModal.hide();
                 e.target.reset();
+
+                // Trigger Receipt
+                setTimeout(() => {
+                    generateReceipt(finalizedCart, name);
+                }, 300);
             });
 
-            // WHATSAPP CUSTOMIZATION LOGIC
+            // Handle Bespoke Customization Request -> Redirect to WhatsApp
             const customizeForm = document.getElementById('customize-form');
             if (customizeForm) {
                 customizeForm.addEventListener('submit', (e) => {
                     e.preventDefault();
-
+                    
                     const name = document.getElementById('cust-name').value;
                     const email = document.getElementById('cust-email').value;
                     const phone = document.getElementById('cust-phone').value;
@@ -1574,6 +2357,45 @@
                 });
             }
 
+            // Print Button Event Listener
+            document.getElementById('startPrintBtn').addEventListener('click', () => {
+                const printerWrapper = document.querySelector('.printer-wrapper');
+                if(!printerWrapper.classList.contains('is-printing')) {
+                    
+                    // Adjust margin to allow scrolling down for long receipts
+                    const receiptHeight = document.querySelector('.receipt-wrapper').offsetHeight;
+                    printerWrapper.style.marginBottom = `${(receiptHeight * 1.3) + 100}px`;
+                    
+                    printerWrapper.classList.add('is-printing');
+                    document.querySelector('.printer-message').textContent = 'Printing...';
+                    
+                    // Reveal the "Close & Return to Store" button after animation finishes
+                    setTimeout(() => {
+                        const backBtn = document.getElementById('backToHomeBtn');
+                        backBtn.style.opacity = '1';
+                        backBtn.style.pointerEvents = 'auto';
+                        document.querySelector('.printer-message').textContent = 'Done!';
+                    }, 2000);
+                }
+            });
+
+            // Close Overlay X Button
+            document.getElementById('closeReceiptOverlayBtn').addEventListener('click', () => {
+                document.getElementById('receipt-section').classList.add('d-none');
+                document.body.style.overflow = 'auto'; // Restore scroll
+            });
+
+            // PDF Download Button in Receipt
+            document.getElementById('downloadBtn').addEventListener('click', () => {
+                window.print(); 
+            });
+
+            // Back to Store Button in Receipt
+            document.getElementById('backToHomeBtn').addEventListener('click', () => {
+                document.getElementById('receipt-section').classList.add('d-none');
+                document.body.style.overflow = 'auto'; // Restore scroll
+            });
+
             // Sticky Navbar logic
             window.addEventListener('scroll', () => {
                 const navbar = document.getElementById('navbar');
@@ -1596,20 +2418,80 @@
             });
         }
 
+        // ----------------------------------------------------
+        // DYNAMIC RECEIPT GENERATION & PRINTER ANIMATION
+        // ----------------------------------------------------
+        function generateReceipt(orderCart, customerName) {
+            // Prevent scrolling on the main page while the receipt is showing
+            document.body.style.overflow = 'hidden';
+
+            // Show the overlay popup section
+            const receiptSection = document.getElementById('receipt-section');
+            receiptSection.classList.remove('d-none');
+            
+            // Reset scroll position to top
+            receiptSection.scrollTo(0, 0);
+
+            // Generate Order No & Date
+            const orderNumber = 'ORD' + Math.floor(Math.random() * 1000000);
+            document.getElementById('receipt-order-no').innerHTML = `Order No. #${orderNumber} <br /> ${new Date().toLocaleString('en-IN')}`;
+
+            // Populate Items & Calculate Prices
+            const tbody = document.getElementById('receipt-items-tbody');
+            tbody.innerHTML = '';
+            let subtotal = 0;
+
+            orderCart.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                subtotal += itemTotal;
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.qty} x</td>
+                        <td>₹${itemTotal.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            const tax = subtotal * 0.05; // Calculate 5% GST
+            const delivery = 50.00; // Fixed delivery charges
+            const finalTotal = subtotal + tax + delivery;
+
+            // Update Text in DOM
+            document.getElementById('receipt-subtotal-val').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('receipt-tax-val').textContent = `₹${tax.toFixed(2)}`;
+            document.getElementById('receipt-delivery-val').textContent = `₹${delivery.toFixed(2)}`;
+            document.getElementById('receipt-total-val').textContent = `₹${finalTotal.toFixed(2)}`;
+            document.getElementById('receipt-thank-you').innerHTML = `Thank you, ${customerName.split(' ')[0]}!<br>Your skin will love this.`;
+
+            // Reset Printer State (Waiting for user to click Print)
+            const printerWrapper = document.querySelector('.printer-wrapper');
+            printerWrapper.classList.remove('is-printing');
+            printerWrapper.style.marginBottom = '0px'; // Reset margin
+            document.querySelector('.printer-message').textContent = 'Click to print';
+
+            // Hide backBtn temporarily (revealed after printing)
+            const backBtn = document.getElementById('backToHomeBtn');
+            backBtn.style.opacity = '0';
+            backBtn.style.pointerEvents = 'none';
+        }
+
         // --- SCROLL ANIMATIONS ---
         function setupScrollObserver() {
-            const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); 
-                    }
-                });
-            }, observerOptions);
+            if (!scrollObserver) {
+                const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+                scrollObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            scrollObserver.unobserve(entry.target); 
+                        }
+                    });
+                }, observerOptions);
+            }
 
             setTimeout(() => {
-                document.querySelectorAll('.fade-up:not(.visible)').forEach(element => observer.observe(element));
+                document.querySelectorAll('.fade-up:not(.visible)').forEach(element => scrollObserver.observe(element));
             }, 100);
         }
 
