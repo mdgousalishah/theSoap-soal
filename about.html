@@ -229,12 +229,20 @@
             align-items: center;
         }
 
-        /* EXPANDABLE NAVBAR SEARCH */
+        /* =======================================================
+           EXPANDABLE NAVBAR SEARCH & DROPDOWN SUGGESTIONS (FIXED)
+           ======================================================= */
         .nav-search-container {
-            position: relative;
+            position: static; /* Let dropdown position relative to navbar */
             display: flex;
             align-items: center;
         }
+        @media (min-width: 992px) {
+            .nav-search-container {
+                position: relative; /* Revert to relative for desktop */
+            }
+        }
+
         .nav-search-input {
             width: 0;
             opacity: 0;
@@ -249,32 +257,39 @@
         }
         .nav-search-input:focus { outline: none; }
         .nav-search-container.active .nav-search-input {
-            width: 120px;
+            width: clamp(120px, 35vw, 200px);
             opacity: 1;
             padding: 0.2rem 0.5rem;
             border-bottom-color: var(--brand-dark);
             margin-left: 0.5rem;
         }
-        @media (min-width: 768px) {
-            .nav-search-container.active .nav-search-input { width: 200px; }
-        }
         
+        /* Fixed Responsive Dropdown anchoring */
         .search-suggestions {
             position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 15px;
+            top: 100%; /* Align directly under the navbar */
+            left: 1rem;
+            right: 1rem;
+            margin-top: 0.5rem;
             background-color: var(--surface);
             border: 1px solid var(--border-color);
             border-radius: 4px;
-            width: 250px;
-            max-height: 350px;
+            width: calc(100vw - 2rem); /* Dynamic width minus padding */
+            max-width: 350px; /* Cap size on larger devices */
+            max-height: 60vh;
             overflow-y: auto;
             display: none;
             z-index: 1050;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
-        @media (min-width: 768px) { .search-suggestions { width: 280px; } }
+        @media (min-width: 992px) {
+            .search-suggestions {
+                left: auto;
+                right: 0; /* Align perfectly to the edge on desktop */
+                width: 350px;
+            }
+        }
+        
         .nav-search-container.active .search-suggestions.show { display: block; }
         .suggestion-item {
             padding: 10px 15px;
@@ -288,10 +303,47 @@
         }
         .suggestion-item:last-child { border-bottom: none; }
         .suggestion-item:hover { background-color: var(--brand-light); color: var(--brand-dark); }
-        .suggestion-img { width: 45px; height: 45px; object-fit: cover; border-radius: 4px; margin-right: 12px; border: 1px solid var(--border-color); }
-        .suggestion-info { flex-grow: 1; overflow: hidden; }
-        .suggestion-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; margin: 0 0 3px 0; color: var(--brand-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .suggestion-price { font-size: 0.75rem; font-weight: 600; margin: 0; color: var(--text-muted); }
+        
+        /* Lock suggestion images to stop flexbox squishing */
+        .suggestion-img { 
+            width: 45px !important; 
+            height: 45px !important; 
+            min-width: 45px !important;
+            min-height: 45px !important;
+            object-fit: cover; 
+            border-radius: 4px; 
+            margin-right: 12px; 
+            border: 1px solid var(--border-color);
+            flex-shrink: 0 !important; 
+            display: block;
+        }
+        
+        /* Secure text formatting */
+        .suggestion-info { 
+            flex: 1 1 auto; 
+            overflow: hidden; 
+            min-width: 0; /* CRITICAL FIX: Allows text ellipsis to function in flex container */
+            display: flex;
+            flex-direction: column;
+        }
+        .suggestion-title { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 0.95rem; 
+            margin: 0 0 3px 0; 
+            color: var(--brand-dark); 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            width: 100%;
+            display: block;
+        }
+        .suggestion-price { 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            margin: 0; 
+            color: var(--text-muted); 
+            display: block;
+        }
 
         /* Highlighted Owner Name Pill */
         .owner-highlight {
@@ -546,6 +598,44 @@
         /* ANIMATIONS */
         .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+
+        /* DARK MODE STYLES */
+        body.dark-mode {
+            --brand-dark: #f9e8ea;
+            --brand-light: #161811;
+            --brand-accent: #a5b576;
+            --brand-accent-light: #414a2a;
+            --text-main: #e8e3e4;
+            --text-muted: #a3a69a;
+            --surface: #1e2117;
+            --border-color: #2f3325;
+        }
+        
+        body.dark-mode .navbar { background: rgba(22, 24, 17, 0.95); }
+        body.dark-mode .owner-highlight { background-color: var(--brand-accent); color: #161811 !important; }
+        body.dark-mode .bg-harmony { background-color: var(--surface); }
+        body.dark-mode .scrub-bg { background: linear-gradient(135deg, #2a2523 0%, #29242a 50%, #2a2a22 100%); }
+        
+        @media (max-width: 991.98px) {
+            body.dark-mode .navbar-collapse { background: var(--surface); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        }
+        
+        body.dark-mode .nav-link::after { background: var(--brand-dark); }
+        body.dark-mode .form-control::placeholder, body.dark-mode .form-select { color: #aaa; }
+        body.dark-mode .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
+        body.dark-mode .border, body.dark-mode .border-top, body.dark-mode .border-bottom, body.dark-mode .border-start, body.dark-mode .border-end { border-color: var(--border-color) !important; }
+        body.dark-mode .customization-card::after { border-color: var(--brand-accent); opacity: 0.2; }
+        body.dark-mode .nav-search-input { color: var(--text-main); }
+        body.dark-mode .nav-search-container.active .nav-search-input { border-bottom-color: var(--brand-accent); }
+        body.dark-mode .suggestion-item:hover { background-color: var(--brand-light); color: var(--text-main); }
+        body.dark-mode select option { background-color: var(--surface); color: var(--text-main); }
+        body.dark-mode #modal-product-img-container { background-color: var(--surface) !important; }
 
         /* MODAL OVERRIDES FOR TEXT */
         .modal-body ul { padding-left: 1.2rem; }
@@ -866,7 +956,7 @@
 
     <!-- PAGE HEADER -->
     <header class="page-hero">
-        <div class="container px-4 fade-up">
+        <div class="container px-4 fade-in visible">
             <span class="text-uppercase tracking-widest text-muted small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">Our Heritage</span>
             <h1 class="display-4 font-serif mb-4" style="color: var(--brand-dark);">Our Roots</h1>
             <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto 1.5rem auto;"></div>
@@ -976,7 +1066,7 @@
     <section class="section-padding" style="background-color: var(--surface);">
         <div class="container px-4 px-lg-5">
             <div class="row justify-content-center">
-                <div class="col-lg-10 col-xl-8 fade-up">
+                <div class="col-12 col-lg-10 col-xl-8 fade-up">
                     <div class="customization-card text-center">
                         <i data-lucide="sparkles" style="color: var(--brand-accent); width: 40px; height: 40px; margin-bottom: 1.5rem; stroke-width: 1px;"></i>
                         <span class="text-uppercase tracking-widest small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">Bespoke Creations</span>
@@ -1065,37 +1155,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- PRODUCT DETAILS MODAL -->
-    <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 rounded-0 shadow-lg" style="background-color: var(--brand-light); overflow: hidden;">
-                <!-- Close Button -->
-                <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3 z-3 bg-white p-2 rounded-circle" data-bs-dismiss="modal" aria-label="Close" style="opacity: 0.9; box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;"></button>
-                
-                <div class="modal-body p-0">
-                    <div class="row g-0">
-                        <div class="col-md-6 d-flex align-items-center justify-content-center bg-light" id="modal-product-img-container" style="min-height: 300px; border-right: 1px solid var(--border-color);">
-                            <img id="modal-product-img" src="" alt="Product Image" class="img-fluid w-100 h-100" style="object-fit: cover; max-height: 600px;" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&amp;w=500&amp;auto=format&amp;fit=crop'">
-                        </div>
-                        <div class="col-md-6 p-4 p-md-5 d-flex flex-column justify-content-center" style="background-color: var(--surface);">
-                            <span id="modal-product-badge" class="text-uppercase tracking-widest small fw-bold mb-3 d-none" style="color: var(--brand-accent);"></span>
-                            <h3 id="modal-product-title" class="font-serif mb-2 display-6" style="color: var(--brand-dark);"></h3>
-                            <p id="modal-product-price" class="fs-4 fw-bold mb-4 font-serif" style="color: var(--brand-dark);"></p>
-                            <p id="modal-product-desc" class="text-muted small mb-4" style="line-height: 1.8;"></p>
-                            <div class="mb-4">
-                                <h6 class="text-uppercase tracking-wider small fw-bold mb-2" style="color: var(--brand-dark);">Key Ingredients</h6>
-                                <p id="modal-product-ingredients" class="text-muted small mb-0" style="line-height: 1.6;"></p>
-                            </div>
-                            <div class="mt-auto pt-4 border-top">
-                                <button id="modal-add-to-cart-btn" class="btn-luxury w-100 py-3 fs-6">Add to Bag</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- REDESIGNED BOOTSTRAP OFFCANVAS CART -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" style="background-color: var(--brand-light);">
@@ -1555,7 +1614,19 @@
             { id: 18, name: "Moroccan Neela Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Brightening Moroccan Neela scrub for flawless skin.", fullDesc: "Combine the brightening power of Moroccan Neela with gentle exfoliation. Perfect for targeting dark areas and evening out skin tone. Special Offer: 150g size!", ingredients: "Moroccan Neela Powder, Fine Sugar, Argan Oil, Shea Butter.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Moroccan Neela Powder Scrub.jpg", badge: "150g Offer", color: "#273c75" },
             { id: 19, name: "Mulethi Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Soothing licorice root scrub for pigmentation control.", fullDesc: "Harness the ancient power of Mulethi (Licorice). This scrub gently exfoliates while actively working to reduce pigmentation and dark spots. Special Offer: 150g size!", ingredients: "Brown Sugar, Mulethi Root Extract, Sweet Almond Oil, Vitamin E.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Mulethi Scrub.jpg", badge: "150g Offer", color: "#cd84f1" },
             { id: 20, name: "Orange Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Vitamin C packed orange scrub for youthful radiance.", fullDesc: "Packed with Vitamin C, this energizing orange scrub sloughs off dead skin, promoting cell turnover and a healthy, youthful radiance. Special Offer: 150g size!", ingredients: "Organic Sugar, Sweet Orange Essential Oil, Orange Peel Powder, Coconut Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Orange Scrub.jpg", badge: "150g Offer", color: "#e1b12c" },
-            { id: 21, name: "Rose Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Delicate rose scrub for soft, supple, and romantic skin.", fullDesc: "Indulge in romance. Finely ground sugar and real rose petals work together to gently exfoliate and deeply moisturize your skin. Special Offer: 150g size!", ingredients: "Fine Sugar, Rose Petals, Rose Geranium Essential Oil, Rosehip Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Rose Scrub.jpg", badge: "150g Offer", color: "#ff9ff3" }
+            { id: 21, name: "Rose Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Delicate rose scrub for soft, supple, and romantic skin.", fullDesc: "Indulge in romance. Finely ground sugar and real rose petals work together to gently exfoliate and deeply moisturize your skin. Special Offer: 150g size!", ingredients: "Fine Sugar, Rose Petals, Rose Geranium Essential Oil, Rosehip Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Rose Scrub.jpg", badge: "150g Offer", color: "#ff9ff3" },
+            { id: 22, name: "D-Tan Body Scrub Soap", desc: "Exfoliating Tan-Removal Bar with Coffee & Turmeric.", fullDesc: "Remove stubborn tan and dead skin cells with our powerful D-Tan Body Scrub Soap. Crafted with real coffee and turmeric to reveal brighter, even-toned skin.", ingredients: "Coffee, Turmeric, Exfoliants, Natural Soaps", price: 200.00, category: "scrubs", img: "shop/D-Tan Body Scrub Soap.jpg", badge: "New Arrival", color: "#8b5a2b" },
+            { id: 23, name: "Hand & Feet Brightening Scrub Soap", desc: "Brightening, Exfoliating & Revitalizing with Fine Sea Salt & Lemon.", fullDesc: "Specially formulated for hands and feet to exfoliate rough patches, remove dead skin, and brighten the complexion with fine sea salt and lemon extracts.", ingredients: "Fine Sea Salt, Lemon Extracts, Natural Oils", price: 200.00, category: "scrubs", img: "shop/Hand and feet brightening srubsoap.jpg", badge: "New Arrival", color: "#f1c40f" },
+            { id: 24, name: "Heel & Foot Scrub Soap", desc: "Natural Exfoliation, Deep Clean & Repair with Pumice & Sea Salt.", fullDesc: "Tackle cracked heels and rough feet with our intensive Heel & Foot Scrub Soap. Contains pumice to gently grind away calluses.", ingredients: "Pumice, Sea Salt, Exfoliating Base", price: 200.00, category: "scrubs", img: "shop/Heel & Foot Scrub Soap.jpg", badge: "New Arrival", color: "#95a5a6" },
+            { id: 25, name: "Rough Elbow & Knee Scrub Soap", desc: "Intensive Exfoliation & Repair with Activated Charcoal & Volcanic Pumice.", fullDesc: "Target stubborn rough areas like elbows and knees with activated charcoal and volcanic pumice for powerful exfoliation and skin repair.", ingredients: "Activated Charcoal, Volcanic Pumice, Soap Base", price: 200.00, category: "scrubs", img: "shop/ROUGH ELBOW & KNEE SCRUB SOAP.jpg", badge: "New Arrival", color: "#2c3e50" },
+            { id: 26, name: "Strawberry Skin Scrub Soap", desc: "Natural Exfoliating & Brightening with fresh ingredients.", fullDesc: "Sweet, fresh, and highly effective. This Strawberry Skin Scrub Soap naturally exfoliates and brightens for soft, glowing skin.", ingredients: "Strawberry Extracts, Seeds, Natural Soaps", price: 200.00, category: "scrubs", img: "shop/Strawberry Skin Scrub Soap.jpg", badge: "New Arrival", color: "#e74c3c" },
+            { id: 27, name: "Uneven Body Tone Scrub Soap", desc: "Exfoliating, Balancing & Correction with Aloe Vera & Saffron.", fullDesc: "Balance and correct uneven body tone with the soothing power of Aloe Vera and the brightening effects of Saffron.", ingredients: "Aloe Vera, Saffron Extracts, Exfoliants", price: 200.00, category: "scrubs", img: "shop/Uneven Body Tone Scrub Soap.jpg", badge: "New Arrival", color: "#27ae60" },
+            { id: 28, name: "Body Acne & Back Acne Scrub Soap", desc: "Exfoliating & Purifying Antibacterial Formula with Neem & Tea Tree.", fullDesc: "Fight body and back acne with our purifying scrub soap. Enriched with Neem and Tea Tree for maximum antibacterial protection.", ingredients: "Neem, Tea Tree Oil, Scrub Particles", price: 200.00, category: "scrubs", img: "shop/Body Acne & Back Acne Scrub Soap.jpg", badge: "New Arrival", color: "#1abc9c" },
+            { id: 29, name: "Body Polishing & Glow Scrub Soap", desc: "Exfoliating, Brightening & Radiant Skin with Turmeric & Saffron.", fullDesc: "Achieve a spa-like body polish at home. This scrub soap leaves your skin perfectly exfoliated, brightened, and radiant.", ingredients: "Turmeric, Saffron, Gentle Exfoliants", price: 200.00, category: "scrubs", img: "shop/Body Polishing & Glow Scrub Soap.jpg", badge: "New Arrival", color: "#f39c12" },
+            { id: 30, name: "Dark Body Folds Scrub Soap", desc: "Exfoliating, Brightening & Even Skin Tone with Turmeric & Sandalwood.", fullDesc: "Gently exfoliate and brighten dark body folds with the traditional healing properties of Turmeric and Sandalwood.", ingredients: "Turmeric, Sandalwood, Exfoliating Base", price: 200.00, category: "scrubs", img: "shop/Dark Body Folds Scrub Soap.jpg", badge: "New Arrival", color: "#d35400" },
+            { id: 31, name: "Dry Skin Nourishment Scrub Soap", desc: "Soothing, Moisturizing & Gentle Care with Oats & Honey.", fullDesc: "A gentle exfoliating scrub designed specifically for dry skin. Oats soothe while honey provides deep, lasting moisture.", ingredients: "Oats, Honey, Moisturizing Oils", price: 200.00, category: "scrubs", img: "shop/Dry Skin Nourishment Scrub Soap.jpg", badge: "New Arrival", color: "#e67e22" },
+            { id: 32, name: "Chiksa Scrub (200g)", desc: "Traditional Bridal Haldi Ritual with Sandalwood & Turmeric Polish.", fullDesc: "Embrace the traditional bridal haldi ritual with our Chiksa Scrub. A perfect blend of Sandalwood and Turmeric to polish your skin and reveal a luminous glow.", ingredients: "Sandalwood, Turmeric, Exfoliating Base", price: 250.00, category: "scrubs", img: "shop/Chiksa Scrub.jpg", badge: "New Arrival", color: "#d4a373" },
+            { id: 33, name: "Ubtan Scrub (150g)", desc: "Herbal Face & Body Polish for luminous, glowing skin.", fullDesc: "Achieve luminous, glowing skin with our Ubtan Scrub. An herbal face and body polish crafted in small batches with Turmeric, Sandalwood, and Rose Petals.", ingredients: "Turmeric, Sandalwood, Rose Petals", price: 200.00, category: "scrubs", img: "shop/Ubtan Scrub.jpg", badge: "New Arrival", color: "#eebb4d" }
         ];
 
         // --- STATE ---
@@ -1582,7 +1653,7 @@
             }
 
             setupEventListeners();
-            setupScrollObserver();
+            setupScrollObserver(); // Starts the scroll animations
             updateCartUI(); 
             initSearch();
             
@@ -1637,7 +1708,7 @@
                 }
 
                 const filteredProducts = productsData.filter(product => 
-                    product.name.toLowerCase().includes(query)
+                    product.name.toLowerCase().includes(query) || (product.desc && product.desc.toLowerCase().includes(query))
                 );
 
                 if (filteredProducts.length === 0) {

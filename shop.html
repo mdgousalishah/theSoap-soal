@@ -255,12 +255,20 @@
             align-items: center;
         }
 
-        /* EXPANDABLE NAVBAR SEARCH */
+        /* =======================================================
+           EXPANDABLE NAVBAR SEARCH & DROPDOWN SUGGESTIONS (FIXED)
+           ======================================================= */
         .nav-search-container {
-            position: relative;
+            position: static; /* Let dropdown position relative to navbar */
             display: flex;
             align-items: center;
         }
+        @media (min-width: 992px) {
+            .nav-search-container {
+                position: relative; /* Revert to relative for desktop */
+            }
+        }
+
         .nav-search-input {
             width: 0;
             opacity: 0;
@@ -277,32 +285,39 @@
             outline: none;
         }
         .nav-search-container.active .nav-search-input {
-            width: 130px;
+            width: clamp(120px, 35vw, 200px);
             opacity: 1;
             padding: 0.2rem 0.5rem;
             border-bottom-color: var(--brand-dark);
             margin-left: 0.5rem;
         }
-        @media (min-width: 768px) {
-            .nav-search-container.active .nav-search-input {
-                width: 200px;
-            }
-        }
+        
+        /* Fixed Responsive Dropdown anchoring */
         .search-suggestions {
             position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 15px;
+            top: 100%; /* Align directly under the navbar */
+            left: 1rem;
+            right: 1rem;
+            margin-top: 0.5rem;
             background-color: var(--surface);
             border: 1px solid var(--border-color);
             border-radius: 4px;
-            width: 280px;
-            max-height: 350px;
+            width: calc(100vw - 2rem); /* Dynamic width minus padding */
+            max-width: 350px; /* Cap size on larger devices */
+            max-height: 60vh;
             overflow-y: auto;
             display: none;
             z-index: 1050;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
+        @media (min-width: 992px) {
+            .search-suggestions {
+                left: auto;
+                right: 0; /* Align perfectly to the edge on desktop */
+                width: 350px;
+            }
+        }
+        
         .nav-search-container.active .search-suggestions.show {
             display: block;
         }
@@ -323,17 +338,26 @@
             background-color: var(--brand-light);
             color: var(--brand-dark);
         }
+        /* Lock suggestion images to stop flexbox squishing */
         .suggestion-img {
-            width: 45px;
-            height: 45px;
+            width: 45px !important;
+            height: 45px !important;
+            min-width: 45px !important;
+            min-height: 45px !important;
             object-fit: cover;
             border-radius: 4px;
             margin-right: 12px;
             border: 1px solid var(--border-color);
+            flex-shrink: 0 !important; 
+            display: block;
         }
+        /* Secure text formatting */
         .suggestion-info {
-            flex-grow: 1;
+            flex: 1 1 auto;
             overflow: hidden;
+            min-width: 0; /* CRITICAL FIX: Allows text ellipsis to function in flex container */
+            display: flex;
+            flex-direction: column;
         }
         .suggestion-title {
             font-family: 'Playfair Display', serif;
@@ -343,12 +367,15 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            width: 100%;
+            display: block;
         }
         .suggestion-price {
             font-size: 0.75rem;
             font-weight: 600;
             margin: 0;
             color: var(--text-muted);
+            display: block;
         }
 
         /* PAGE HERO */
@@ -625,310 +652,6 @@
         
         /* Product Modal Overrides */
         body.dark-mode #modal-product-img-container { background-color: var(--surface) !important; }
-
-        /* =======================================================
-        3D EXPLORER SECTION STYLES (STABLE & ELEGANT)
-        ======================================================= */
-        .explorer-section {
-            --exp-bg-color: #0d110b; /* Deep botanical dark */
-            --exp-text-main: #ffffff;
-            --orb-size: 500px; 
-            
-            position: relative;
-            width: 100%;
-            height: 90vh; 
-            background: var(--exp-bg-color);
-            color: var(--exp-text-main);
-            overflow: hidden;
-            user-select: none;
-            -webkit-user-select: none;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        @media (min-width: 992px) {
-            .explorer-section { height: 80vh; --orb-size: 550px; }
-        }
-
-        .explorer-section .section-title {
-            position: absolute;
-            top: 30px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 14px;
-            text-transform: uppercase;
-            font-weight: 400;
-            letter-spacing: 6px;
-            z-index: 100;
-            color: rgba(255,255,255,0.9);
-        }
-        .explorer-section .section-title span {
-            font-size: 11px;
-            color: var(--brand-accent);
-            display: block;
-            letter-spacing: 4px;
-            font-weight: 600;
-            margin-top: 5px;
-        }
-
-        /* 3D Universe Container */
-        .explorer-section .universe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            perspective: 1200px;
-            transform-style: preserve-3d;
-            overflow: hidden;
-        }
-
-        .explorer-section .horizon {
-            position: absolute;
-            bottom: -40vh;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200vw;
-            height: 60vh;
-            background: radial-gradient(ellipse at top, rgba(138, 154, 91, 0.15) 0%, rgba(0,0,0,0.8) 70%);
-            border-radius: 100% 100% 0 0;
-            border-top: 2px solid rgba(138, 154, 91, 0.2);
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .explorer-section .product-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 2.5s cubic-bezier(0.33, 0, 0, 1), opacity 2s ease, visibility 2.5s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none; /* Prevents hidden layers from stealing clicks */
-        }
-
-        .explorer-section .product-layer.active {
-            pointer-events: auto; /* Active layer gets interactions */
-            z-index: 10;
-        }
-
-        .explorer-section .soap-orb-container {
-            position: absolute;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: var(--orb-size);
-            height: var(--orb-size);
-            transition: all 2.5s cubic-bezier(0.33, 0, 0, 1);
-        }
-
-        /* STABLE PRODUCT IMAGE */
-        .explorer-section .soap-orb {
-            width: 100%;
-            height: 100%;
-            border-radius: 16px; 
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6); 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .explorer-section .exp-product-info {
-            position: absolute;
-            top: 55%;
-            left: 60%;
-            transform: translateY(-50%) translateZ(100px);
-            width: 380px;
-            opacity: 0;
-            transition: opacity 1s ease 1s, transform 1.5s ease 0.5s;
-            pointer-events: none;
-            background: rgba(10, 10, 10, 0.65);
-            padding: 35px;
-            border-radius: 12px;
-            border-left: 4px solid var(--theme-color, #f39041);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            color: white;
-            text-align: left;
-        }
-
-        .explorer-section .product-layer.active .exp-product-info {
-            opacity: 1;
-            transform: translateY(-50%) translateZ(150px);
-            pointer-events: auto;
-        }
-
-        .explorer-section .badge-3d {
-            display: inline-block;
-            padding: 4px 12px;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: var(--theme-color, #f39041);
-            color: #000;
-            font-weight: 700;
-            border-radius: 20px;
-            margin-bottom: 12px;
-        }
-
-        .explorer-section .exp-product-info h1 {
-            margin: 0 0 5px 0;
-            font-size: 28px;
-            font-weight: 400;
-            color: var(--theme-color, #fff);
-            font-family: 'Playfair Display', serif;
-        }
-
-        .explorer-section .exp-product-info h2 {
-            margin: 0 0 15px 0;
-            font-size: 20px;
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
-            color: white;
-        }
-
-        .explorer-section .exp-product-info p {
-            font-size: 12px;
-            line-height: 1.7;
-            color: #ccc;
-            margin-bottom: 15px;
-        }
-
-        .explorer-section .btn-3d {
-            display: inline-block;
-            padding: 10px 25px;
-            border: 1px solid var(--theme-color, #f39041);
-            color: white;
-            background: rgba(0,0,0,0.3);
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 2px;
-            transition: all 0.3s;
-            border-radius: 30px;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
-        }
-
-        .explorer-section .btn-3d:hover {
-            background: var(--theme-color, #f39041);
-            color: #000;
-        }
-
-        /* 3D Nav Menu */
-        .explorer-section .exp-nav-menu {
-            position: absolute;
-            left: 40px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            height: 70vh;
-            overflow-y: auto;
-            padding-right: 20px;
-            padding-left: 10px;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .explorer-section .exp-nav-menu::-webkit-scrollbar { display: none; }
-
-        .explorer-section .exp-menu-item {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            opacity: 0.4;
-            transition: all 0.3s;
-            color: white;
-        }
-
-        .explorer-section .exp-menu-item:hover, 
-        .explorer-section .exp-menu-item.active {
-            opacity: 1;
-        }
-
-        .explorer-section .exp-menu-item.active {
-            transform: scale(1.05) translateX(10px);
-        }
-
-        .explorer-section .exp-pip {
-            position: relative;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            margin-right: 15px;
-            box-shadow: 0 -3px 8px rgba(0,0,0,0.8) inset;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .explorer-section .exp-menu-item.active .exp-pip {
-            border-color: #fff;
-            box-shadow: 0 0 10px var(--theme-color, #fff);
-        }
-
-        .explorer-section .exp-menu-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .explorer-section .exp-menu-title {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 2px;
-            display: flex;
-            align-items: center;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .explorer-section .exp-menu-indicator {
-            width: 0;
-            height: 1px;
-            background: var(--theme-color, #f39041);
-            margin-right: 0px;
-            transition: all 0.4s ease;
-        }
-
-        .explorer-section .exp-menu-item.active .exp-menu-indicator {
-            width: 20px;
-            margin-right: 8px;
-        }
-
-        /* Mobile specific fixes */
-        @media (max-width: 991px) {
-            .explorer-section { height: 100vh; min-height: 750px; }
-            .explorer-section .soap-orb-container { width: 300px; height: 300px; top: 25%; }
-            .explorer-section .exp-product-info { left: 50%; top: 55%; transform: translate(-50%, 0) !important; width: 90%; text-align: center; padding: 25px; }
-            .explorer-section .product-layer.active .exp-product-info { transform: translate(-50%, 0) !important; }
-            
-            /* Move Navigation to bottom row for mobile */
-            .explorer-section .exp-nav-menu { 
-                top: auto; 
-                bottom: 20px; 
-                height: auto; 
-                transform: none; 
-                left: 0; 
-                flex-direction: row; 
-                width: 100%; 
-                overflow-x: auto; 
-                padding: 10px 20px; 
-                -webkit-overflow-scrolling: touch;
-                z-index: 1000;
-            }
-            .explorer-section .exp-menu-item { flex-direction: column; opacity: 0.6; min-width: 80px; text-align: center; flex-shrink: 0; }
-            .explorer-section .exp-pip { margin-right: 0; margin-bottom: 8px; width: 55px; height: 55px; }
-            .explorer-section .exp-menu-indicator { display: none; }
-        }
 
         /* =========================================================================
             DYNAMIC PRINTER RECEIPT OVERLAY - POP-UP INTEGRATION
@@ -1247,7 +970,7 @@
 
     <!-- PAGE HEADER -->
     <header class="page-hero">
-        <div class="container px-4 fade-up">
+        <div class="container px-4 fade-in">
             <span class="text-uppercase tracking-widest text-muted small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">The Catalog</span>
             <h1 class="display-4 font-serif mb-4" style="color: var(--brand-dark);">Our Collection</h1>
             <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto 1.5rem auto;"></div>
@@ -1260,7 +983,7 @@
         <div class="container px-4 px-lg-5">
             
             <!-- CONTROLS: Filtering and Searching -->
-            <div class="shop-controls fade-up">
+            <div class="shop-controls fade-in">
                 <div class="row align-items-center justify-content-center">
                     <div class="col-12">
                         <!-- MOBILE FILTER TOGGLE -->
@@ -1274,6 +997,7 @@
                         <div class="collapse d-md-block" id="filterCollapse">
                             <div class="d-flex flex-wrap justify-content-center gap-2" id="category-filters">
                                 <button class="filter-btn active" data-filter="all">All</button>
+                                <button class="filter-btn" data-filter="new-arrival">New Arrivals</button>
                                 <button class="filter-btn" data-filter="floral">Floral & Delicate</button>
                                 <button class="filter-btn" data-filter="detox">Detox & Cleanse</button>
                                 <button class="filter-btn" data-filter="soothing">Soothing & Gentle</button>
@@ -1363,7 +1087,7 @@
                 <div class="modal-body p-0">
                     <div class="row g-0">
                         <div class="col-md-6 d-flex align-items-center justify-content-center bg-light" id="modal-product-img-container" style="min-height: 300px; border-right: 1px solid var(--border-color);">
-                            <img id="modal-product-img" src="" alt="Product Image" class="img-fluid w-100 h-100" style="object-fit: cover; max-height: 600px;" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&amp;w=500&amp;auto=format&amp;fit=crop'">
+                            <img id="modal-product-img" src="" alt="Product Image" class="img-fluid w-100 h-100" style="object-fit: cover; max-height: 600px;" onerror="this.onerror=null; this.src='https://placehold.co/500x500/f9e8ea/3b4524?text=Soap'">
                         </div>
                         <div class="col-md-6 p-4 p-md-5 d-flex flex-column justify-content-center" style="background-color: var(--surface);">
                             <span id="modal-product-badge" class="text-uppercase tracking-widest small fw-bold mb-3 d-none" style="color: var(--brand-accent);"></span>
@@ -1503,7 +1227,7 @@
 
                             <!-- Hidden QR and Instructions -->
                             <div id="qr-content" class="d-none animate-fade-in">
-                                <img id="dynamic-upi-qr" src="" alt="UPI QR Code" class="img-fluid rounded mb-2 shadow-sm" style="max-width: 160px; border: 2px solid white;">
+                                <img id="dynamic-upi-qr" src="WhatsApp Image 2026-04-26 at 1.42.24 PM.jpeg" alt="UPI QR Code" class="img-fluid rounded mb-2 shadow-sm" style="max-width: 160px; border: 2px solid white;">
                                 <p class="small text-muted mb-3">UPI ID: <strong class="user-select-all text-dark">fareeha.mahek@oksbi</strong></p>
                                 <a href="#" id="direct-upi-btn" class="btn btn-outline-dark btn-sm w-100 font-serif mb-3" style="border-radius: 4px;">Pay <span id="upi-pay-amount"></span> via UPI App</a>
                                 
@@ -1842,7 +1566,19 @@
             { id: 18, name: "Moroccan Neela Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Brightening Moroccan Neela scrub for flawless skin.", fullDesc: "Combine the brightening power of Moroccan Neela with gentle exfoliation. Perfect for targeting dark areas and evening out skin tone. Special Offer: 150g size!", ingredients: "Moroccan Neela Powder, Fine Sugar, Argan Oil, Shea Butter.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Moroccan Neela Powder Scrub.png", badge: "150g Offer", color: "#273c75" },
             { id: 19, name: "Mulethi Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Soothing licorice root scrub for pigmentation control.", fullDesc: "Harness the ancient power of Mulethi (Licorice). This scrub gently exfoliates while actively working to reduce pigmentation and dark spots. Special Offer: 150g size!", ingredients: "Brown Sugar, Mulethi Root Extract, Sweet Almond Oil, Vitamin E.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Mulethi Scrub.png", badge: "150g Offer", color: "#cd84f1" },
             { id: 20, name: "Orange Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Vitamin C packed orange scrub for youthful radiance.", fullDesc: "Packed with Vitamin C, this energizing orange scrub sloughs off dead skin, promoting cell turnover and a healthy, youthful radiance. Special Offer: 150g size!", ingredients: "Organic Sugar, Sweet Orange Essential Oil, Orange Peel Powder, Coconut Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Orange Scrub.png", badge: "150g Offer", color: "#e1b12c" },
-            { id: 21, name: "Rose Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Delicate rose scrub for soft, supple, and romantic skin.", fullDesc: "Indulge in romance. Finely ground sugar and real rose petals work together to gently exfoliate and deeply moisturize your skin. Special Offer: 150g size!", ingredients: "Fine Sugar, Rose Petals, Rose Geranium Essential Oil, Rosehip Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Rose Scrub.png", badge: "150g Offer", color: "#ff9ff3" }
+            { id: 21, name: "Rose Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Delicate rose scrub for soft, supple, and romantic skin.", fullDesc: "Indulge in romance. Finely ground sugar and real rose petals work together to gently exfoliate and deeply moisturize your skin. Special Offer: 150g size!", ingredients: "Fine Sugar, Rose Petals, Rose Geranium Essential Oil, Rosehip Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Rose Scrub.png", badge: "150g Offer", color: "#ff9ff3" },
+            { id: 22, name: "D-Tan Body Scrub Soap", desc: "Exfoliating Tan-Removal Bar with Coffee & Turmeric.", fullDesc: "Remove stubborn tan and dead skin cells with our powerful D-Tan Body Scrub Soap. Crafted with real coffee and turmeric to reveal brighter, even-toned skin.", ingredients: "Coffee, Turmeric, Exfoliants, Natural Soaps", price: 200.00, category: "scrubs", img: "shop/D-Tan Body Scrub Soap.png", badge: "New Arrival", color: "#8b5a2b" },
+            { id: 23, name: "Hand & Feet Brightening Scrub Soap", desc: "Brightening, Exfoliating & Revitalizing with Fine Sea Salt & Lemon.", fullDesc: "Specially formulated for hands and feet to exfoliate rough patches, remove dead skin, and brighten the complexion with fine sea salt and lemon extracts.", ingredients: "Fine Sea Salt, Lemon Extracts, Natural Oils", price: 200.00, category: "scrubs", img: "shop/Hand and feet brightening srubsoap.png", badge: "New Arrival", color: "#f1c40f" },
+            { id: 24, name: "Heel & Foot Scrub Soap", desc: "Natural Exfoliation, Deep Clean & Repair with Pumice & Sea Salt.", fullDesc: "Tackle cracked heels and rough feet with our intensive Heel & Foot Scrub Soap. Contains pumice to gently grind away calluses.", ingredients: "Pumice, Sea Salt, Exfoliating Base", price: 200.00, category: "scrubs", img: "shop/Heel & Foot Scrub Soap.png", badge: "New Arrival", color: "#95a5a6" },
+            { id: 25, name: "Rough Elbow & Knee Scrub Soap", desc: "Intensive Exfoliation & Repair with Activated Charcoal & Volcanic Pumice.", fullDesc: "Target stubborn rough areas like elbows and knees with activated charcoal and volcanic pumice for powerful exfoliation and skin repair.", ingredients: "Activated Charcoal, Volcanic Pumice, Soap Base", price: 200.00, category: "scrubs", img: "shop/ROUGH ELBOW & KNEE SCRUB SOAP.png", badge: "New Arrival", color: "#2c3e50" },
+            { id: 26, name: "Strawberry Skin Scrub Soap", desc: "Natural Exfoliating & Brightening with fresh ingredients.", fullDesc: "Sweet, fresh, and highly effective. This Strawberry Skin Scrub Soap naturally exfoliates and brightens for soft, glowing skin.", ingredients: "Strawberry Extracts, Seeds, Natural Soaps", price: 200.00, category: "scrubs", img: "shop/Strawberry Skin Scrub Soap.png", badge: "New Arrival", color: "#e74c3c" },
+            { id: 27, name: "Uneven Body Tone Scrub Soap", desc: "Exfoliating, Balancing & Correction with Aloe Vera & Saffron.", fullDesc: "Balance and correct uneven body tone with the soothing power of Aloe Vera and the brightening effects of Saffron.", ingredients: "Aloe Vera, Saffron Extracts, Exfoliants", price: 200.00, category: "scrubs", img: "shop/Uneven Body Tone Scrub Soap.png", badge: "New Arrival", color: "#27ae60" },
+            { id: 28, name: "Body Acne & Back Acne Scrub Soap", desc: "Exfoliating & Purifying Antibacterial Formula with Neem & Tea Tree.", fullDesc: "Fight body and back acne with our purifying scrub soap. Enriched with Neem and Tea Tree for maximum antibacterial protection.", ingredients: "Neem, Tea Tree Oil, Scrub Particles", price: 200.00, category: "scrubs", img: "shop/Body Acne & Back Acne Scrub Soap.png", badge: "New Arrival", color: "#1abc9c" },
+            { id: 29, name: "Body Polishing & Glow Scrub Soap", desc: "Exfoliating, Brightening & Radiant Skin with Turmeric & Saffron.", fullDesc: "Achieve a spa-like body polish at home. This scrub soap leaves your skin perfectly exfoliated, brightened, and radiant.", ingredients: "Turmeric, Saffron, Gentle Exfoliants", price: 200.00, category: "scrubs", img: "shop/Body Polishing & Glow Scrub Soap.png", badge: "New Arrival", color: "#f39c12" },
+            { id: 30, name: "Dark Body Folds Scrub Soap", desc: "Exfoliating, Brightening & Even Skin Tone with Turmeric & Sandalwood.", fullDesc: "Gently exfoliate and brighten dark body folds with the traditional healing properties of Turmeric and Sandalwood.", ingredients: "Turmeric, Sandalwood, Exfoliating Base", price: 200.00, category: "scrubs", img: "shop/Dark Body Folds Scrub Soap.png", badge: "New Arrival", color: "#d35400" },
+            { id: 31, name: "Dry Skin Nourishment Scrub Soap", desc: "Soothing, Moisturizing & Gentle Care with Oats & Honey.", fullDesc: "A gentle exfoliating scrub designed specifically for dry skin. Oats soothe while honey provides deep, lasting moisture.", ingredients: "Oats, Honey, Moisturizing Oils", price: 200.00, category: "scrubs", img: "shop/Dry Skin Nourishment Scrub Soap.png", badge: "New Arrival", color: "#e67e22" },
+            { id: 32, name: "Chiksa Scrub (200g)", desc: "Traditional Bridal Haldi Ritual with Sandalwood & Turmeric Polish.", fullDesc: "Embrace the traditional bridal haldi ritual with our Chiksa Scrub. A perfect blend of Sandalwood and Turmeric to polish your skin and reveal a luminous glow.", ingredients: "Sandalwood, Turmeric, Exfoliating Base", price: 250.00, category: "scrubs", img: "shop/Chiksa Scrub.png", badge: "New Arrival", color: "#d4a373" },
+            { id: 33, name: "Ubtan Scrub (150g)", desc: "Herbal Face & Body Polish for luminous, glowing skin.", fullDesc: "Achieve luminous, glowing skin with our Ubtan Scrub. An herbal face and body polish crafted in small batches with Turmeric, Sandalwood, and Rose Petals.", ingredients: "Turmeric, Sandalwood, Rose Petals", price: 200.00, category: "scrubs", img: "shop/Ubtan Scrub.png", badge: "New Arrival", color: "#eebb4d" }
         ];
 
         // --- STATE ---
@@ -1877,10 +1613,10 @@
 
             renderProducts();
             setupEventListeners();
+            setupScrollObserver(); // Fixed: Re-added the observer setup to trigger fade-ins
             updateCartUI(); 
             initDarkMode();
             initSearch();
-            init3DExplorer(); 
             
             // Check initial scroll for navbar
             const navbar = document.getElementById('navbar');
@@ -1903,58 +1639,72 @@
         // --- RENDER PRODUCTS WITH FILTERS ---
         function renderProducts() {
             if(!productGrid) return;
-            productGrid.innerHTML = '';
             
-            const filteredProducts = productsData.filter(product => {
-                const matchesFilter = currentFilter === 'all' || product.category === currentFilter;
-                const matchesSearch = product.name.toLowerCase().includes(searchQuery) || product.desc.toLowerCase().includes(searchQuery);
-                return matchesFilter && matchesSearch;
-            });
+            try {
+                const filteredProducts = productsData.filter(product => {
+                    const matchesFilter = currentFilter === 'all' || product.category === currentFilter || (currentFilter === 'new-arrival' && product.badge === 'New Arrival');
+                    const matchesSearch = product.name.toLowerCase().includes(searchQuery) || (product.desc && product.desc.toLowerCase().includes(searchQuery));
+                    return matchesFilter && matchesSearch;
+                });
 
-            if (filteredProducts.length === 0) {
-                productGrid.innerHTML = `
-                    <div class="col-12 text-center py-5 fade-up">
-                        <i data-lucide="search-x" class="text-muted mb-3" style="width: 48px; height: 48px;"></i>
-                        <h4 class="font-serif" style="color: var(--brand-dark);">No products found</h4>
-                        <p class="text-muted small">Try adjusting your filters or search terms.</p>
-                        <button class="btn-outline-luxury mt-3 w-100 w-sm-auto" onclick="resetFilters()">Clear Filters</button>
-                    </div>`;
-                lucide.createIcons();
-                setupScrollObserver();
-                return;
-            }
+                if (filteredProducts.length === 0) {
+                    productGrid.innerHTML = `
+                        <div class="col-12 text-center py-5 fade-in visible">
+                            <i data-lucide="search-x" class="text-muted mb-3" style="width: 48px; height: 48px;"></i>
+                            <h4 class="font-serif" style="color: var(--brand-dark);">No products found</h4>
+                            <p class="text-muted small">Try adjusting your filters or search terms.</p>
+                            <button class="btn-outline-luxury mt-3 w-100 w-sm-auto" onclick="resetFilters()">Clear Filters</button>
+                        </div>`;
+                    lucide.createIcons();
+                    return;
+                }
 
-            filteredProducts.forEach((product, index) => {
-                const delay = (index % 3) * 0.1; 
-                const badgeHTML = product.badge ? `<div class="product-badge">${product.badge}</div>` : '';
+                let html = '';
+                filteredProducts.forEach((product, index) => {
+                    const delay = (index % 3) * 0.1; 
+                    const badgeHTML = product.badge ? `<div class="product-badge">${product.badge}</div>` : '';
 
-                const safeName = product.name.replace(/'/g, "\\'");
-                const safeImg = product.img.replace(/'/g, "\\'");
+                    const safeName = product.name ? product.name.replace(/'/g, "\\'") : '';
+                    const safeImg = product.img ? product.img.replace(/'/g, "\\'") : '';
 
-                productGrid.innerHTML += `
-                    <div class="col-6 col-md-6 col-lg-4 fade-up" style="transition-delay: ${delay}s;">
-                        <div class="product-card">
-                            ${badgeHTML}
-                            <div class="product-img-wrap cursor-pointer" onclick="showProductDetails(${product.id})">
-                                <img src="${product.img}" alt="${product.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&amp;w=500&amp;auto=format&amp;fit=crop'">
-                            </div>
-                            <div class="p-4 text-center d-flex flex-column flex-grow-1">
-                                <h5 class="font-serif mb-2 cursor-pointer" style="color: var(--brand-dark);" onclick="showProductDetails(${product.id})">${product.name}</h5>
-                                <p class="text-muted small mb-3 flex-grow-1">${product.desc}</p>
-                                <div class="mt-auto">
-                                    <p class="product-price mb-3">
-                                        ${product.oldPrice ? `<span class="text-decoration-line-through text-muted small me-1" style="font-size: 0.8em;">₹${product.oldPrice.toFixed(2)}</span>` : ''}
-                                        ₹${product.price.toFixed(2)}
-                                    </p>
-                                    <button class="btn-outline-luxury w-100" onclick="addToCart(${product.id}, '${safeName}', ${product.price}, '${safeImg}')">Add to Bag</button>
+                    html += `
+                        <div class="col-6 col-md-6 col-lg-4 fade-up" style="transition-delay: ${delay}s;">
+                            <div class="product-card">
+                                ${badgeHTML}
+                                <div class="product-img-wrap cursor-pointer" onclick="showProductDetails(${product.id})">
+                                    <img src="${product.img}" alt="${product.name}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/500x500/f9e8ea/3b4524?text=Soap'">
+                                </div>
+                                <div class="p-4 text-center d-flex flex-column flex-grow-1">
+                                    <h5 class="font-serif mb-2 cursor-pointer" style="color: var(--brand-dark);" onclick="showProductDetails(${product.id})">${product.name}</h5>
+                                    <p class="text-muted small mb-3 flex-grow-1">${product.desc}</p>
+                                    <div class="mt-auto">
+                                        <p class="product-price mb-3">
+                                            ${product.oldPrice ? `<span class="text-decoration-line-through text-muted small me-1" style="font-size: 0.8em;">₹${product.oldPrice.toFixed(2)}</span>` : ''}
+                                            ₹${product.price.toFixed(2)}
+                                        </p>
+                                        <button class="btn-outline-luxury w-100" onclick="addToCart(${product.id}, '${safeName}', ${product.price}, '${safeImg}')">Add to Bag</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                `;
-            });
-            
-            setupScrollObserver(); 
+                    `;
+                });
+                
+                // Batch DOM update
+                productGrid.innerHTML = html;
+                
+                // Ensure elements become immediately visible bypassing slow scroll observers
+                setTimeout(() => {
+                    const items = productGrid.querySelectorAll('.fade-up');
+                    items.forEach(item => item.classList.add('visible'));
+                }, 50);
+                
+                setupScrollObserver();
+
+            } catch(err) {
+                console.error("Error rendering products:", err);
+                productGrid.innerHTML = `<div class="col-12 text-center py-5">Error loading products. Please refresh the page.</div>`;
+            }
         }
 
         window.resetFilters = () => {
@@ -2008,102 +1758,6 @@
             const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
             bsModal.show();
         };
-
-        // --- 3D EXPLORER LOGIC (RESTORED) ---
-        function init3DExplorer() {
-            const universeEl = document.getElementById('universe');
-            const menuEl = document.getElementById('exp-nav-menu');
-
-            if (!universeEl || !menuEl) return;
-
-            universeEl.innerHTML = '';
-            menuEl.innerHTML = '';
-
-            productsData.forEach((product, index) => {
-                const safeName = product.name.replace(/'/g, "\\'");
-                const safeImg = product.img.replace(/'/g, "\\'");
-                
-                // 1. Create 3D Layer
-                const layer = document.createElement('div');
-                layer.className = `product-layer`;
-                layer.id = `layer-${index}`;
-                
-                layer.innerHTML = `
-                <div class="soap-orb-container">
-                    <div class="soap-orb" style="background-image: url('${product.img}');"></div>
-                </div>
-                <div class="exp-product-info" style="--theme-color: ${product.color || '#8a9a5b'}">
-                    ${product.badge ? `<span class="badge-3d">${product.badge}</span>` : ''}
-                    <h1>${product.name}</h1>
-                    <h2>₹${product.price}</h2>
-                    <p>${product.desc}</p>
-                    <button class="btn-3d" onclick="addToCart(${product.id}, '${safeName}', ${product.price}, '${safeImg}')">Add to Bag</button>
-                </div>
-                `;
-                universeEl.appendChild(layer);
-
-                // 2. Create Menu Item
-                const menuItem = document.createElement('div');
-                menuItem.className = 'exp-menu-item';
-                menuItem.id = `exp-menu-${index}`;
-                menuItem.onclick = () => navigate3DTo(index);
-                
-                menuItem.innerHTML = `
-                <div class="exp-pip" style="background-image: url('${product.img}'); --theme-color: ${product.color || '#8a9a5b'}"></div>
-                <div class="exp-menu-text">
-                    <div class="exp-menu-title">
-                    <div class="exp-menu-indicator" style="--theme-color: ${product.color || '#8a9a5b'}"></div>
-                    ${product.name}
-                    </div>
-                </div>
-                `;
-                menuEl.appendChild(menuItem);
-            });
-
-            // Initial Render
-            update3DPositions();
-        }
-
-        function update3DPositions() {
-            const layers = document.querySelectorAll('.product-layer');
-            const menuItems = document.querySelectorAll('.exp-menu-item');
-
-            layers.forEach((layer, index) => {
-                const distance = index - active3DIndex;
-                const translateZ = distance * -2500; 
-                const rotateX = distance === 0 ? 0 : (distance > 0 ? 5 : -5);
-                
-                layer.style.transform = `translateZ(${translateZ}px) rotateX(${rotateX}deg)`;
-                
-                if (distance === 0) {
-                    layer.style.opacity = 1;
-                    layer.style.visibility = 'visible';
-                    layer.classList.add('active');
-                } else {
-                    // Completely hide non-active layers so they don't bleed through transparent background images
-                    layer.style.opacity = 0;
-                    layer.classList.remove('active');
-                    layer.style.visibility = 'hidden'; 
-                }
-            });
-
-            menuItems.forEach((item, index) => {
-                if (index === active3DIndex) {
-                    item.classList.add('active');
-                    // Horizontal smooth scroll alignment for Mobile
-                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-        }
-
-        function navigate3DTo(index) {
-            if(index >= 0 && index < productsData.length) {
-                active3DIndex = index;
-                update3DPositions();
-            }
-        }
 
         // --- SEARCH FUNCTIONS ---
         function initSearch() {
@@ -2163,7 +1817,7 @@
                     // Instantly pop up the product details since we're already on the shop page!
                     html += `
                         <div class="suggestion-item" onclick="showProductDetails(${product.id}); document.getElementById('nav-search-input').value=''; document.getElementById('nav-search-suggestions').classList.remove('show'); document.querySelector('.nav-search-container').classList.remove('active');">
-                            <img src="${product.img}" alt="${product.name}" class="suggestion-img" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&amp;w=500&amp;auto=format&amp;fit=crop'">
+                            <img src="${product.img}" alt="${product.name}" class="suggestion-img" onerror="this.onerror=null; this.src='https://placehold.co/100x100/f9e8ea/3b4524?text=Soap'">
                             <div class="suggestion-info">
                                 <h6 class="suggestion-title">${product.name}</h6>
                                 <p class="suggestion-price">₹${product.price.toFixed(2)}</p>
@@ -2257,7 +1911,7 @@
                 cart.forEach(item => {
                     cartHTML += `
                         <div class="cart-item position-relative">
-                            <img src="${item.img}" alt="${item.name}" class="cart-item-img" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&amp;w=500&amp;auto=format&amp;fit=crop'">
+                            <img src="${item.img}" alt="${item.name}" class="cart-item-img" onerror="this.onerror=null; this.src='https://placehold.co/100x100/f9e8ea/3b4524?text=Soap'">
                             <div class="cart-item-details">
                                 <div>
                                     <h6 class="cart-item-title">${item.name}</h6>
