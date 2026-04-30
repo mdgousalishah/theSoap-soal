@@ -527,7 +527,7 @@
             border: none;
             color: var(--text-main);
             display: inline-flex; 
-            align-items: center justify-content center; 
+            align-items: center; justify-content: center; 
             font-size: 1rem;
             transition: var(--transition-fast); 
         }
@@ -564,12 +564,18 @@
             cursor: pointer;
         }
         .footer-link:hover { color: var(--brand-dark); }
-        .social-links a { color: var(--brand-dark); margin-right: 15px; transition: var(--transition-fast); text-decoration: none; }
+        .social-links a { color: var(--brand-dark); transition: var(--transition-fast); text-decoration: none; }
         .social-links a:hover { color: var(--brand-accent); }
 
         /* ANIMATIONS */
         .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
 
         /* DARK MODE STYLES */
         body.dark-mode {
@@ -923,6 +929,15 @@
             --scale: clamp(200px, 22vw, 300px);
         }
 
+        /* Responsive specific sizes for 3D Cards to look perfect on mobile */
+        @media (max-width: 767.98px) {
+            .model-cards-wrapper { gap: 1.5rem; }
+            .model-card {
+                --scale: 280px; /* Better scale for mobile reading */
+                height: 340px;
+            }
+        }
+
         .model-card {
             --clr: #7da072;
             --fclr: #f0ffe2;
@@ -1101,8 +1116,8 @@
         }
 
         /* =========================================================================
-           DYNAMIC PRINTER RECEIPT OVERLAY - POP-UP INTEGRATION
-           ========================================================================= */
+            DYNAMIC PRINTER RECEIPT OVERLAY - POP-UP INTEGRATION
+            ========================================================================= */
 
         .receipt-section {
             position: fixed;
@@ -1360,8 +1375,8 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
         <div class="container-fluid px-3 px-lg-5">
-            <a class="navbar-brand py-0 d-flex align-items-center" href="index.html">
-                <img src="index/Logo.png" alt="The Soap & Soul Logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;" onerror="this.src='https://via.placeholder.com/40?text=S'">
+            <a class="navbar-brand py-0 d-flex align-items-center" href="#">
+                <img src="index/Logo.png" alt="The Soap & Soul Logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;" onerror="this.src='index.html'">
                 <span>The Soap & Soul.</span>
             </a>
             
@@ -1396,7 +1411,7 @@
 
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav text-center text-lg-start">
-                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
@@ -1412,7 +1427,7 @@
     </nav>
 
     <!-- HERO SECTION WITH VIDEO BACKGROUND -->
-    <header class="home-hero">
+    <header class="home-hero" id="hero-top">
         <video class="hero-bg-video" src="index/Hero_Video.mp4" autoplay loop muted playsinline preload="auto" onerror="this.src='index/Hero Video.mp4'"></video>
         <div class="container hero-content fade-up">
             <span class="text-uppercase tracking-widest small fw-bold mb-3 d-block" style="color: var(--brand-dark);">Artisanal Apothecary</span>
@@ -1462,7 +1477,7 @@
                     <p class="text-muted fw-light mb-5" style="line-height: 1.8; font-size: 1.05rem;">
                         Exfoliate, smooth, and reveal your natural glow. Infused with fresh botanical fragrances and deeply nourishing oils, our new scrubs transform your bathing ritual into a restorative spa experience.
                     </p>
-                    <a href="shop.html" class="btn-luxury px-5 py-3">Explore Scrubs</a>
+                    <a href="shop.html?filter=scrubs" class="btn-luxury px-5 py-3">Explore Scrubs</a>
                 </div>
                 <div class="col-lg-7 fade-up" style="transition-delay: 0.2s;">
                     <img src="index/scrub.png" alt="Botanical Body Scrubs - Rose, Lavender, Lemon" class="img-fluid w-100 drop-shadow-lg" style="object-fit: contain; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1)); max-height: 500px;" onerror="this.src='https://images.unsplash.com/photo-1608248593842-8951d2f782c5?q=80&amp;w=800&amp;auto=format&amp;fit=crop'">
@@ -1588,7 +1603,7 @@
                 <div class="col-12 col-md-4 fade-up">
                     <div class="text-center group">
                         <div class="overflow-hidden rounded-circle mx-auto mb-4" style="width: 150px; height: 150px; border: 2px solid var(--border-color); padding: 5px;">
-                            <img src="index/upcoming-scrub.jpg" alt="Body Scrubs" class="img-fluid w-100 h-100 rounded-circle" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&amp;w=400&amp;auto=format&amp;fit=crop'" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                            <img src="index/Charcoal Scrub.png" alt="Body Scrubs" class="img-fluid w-100 h-100 rounded-circle" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&amp;w=400&amp;auto=format&amp;fit=crop'" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
                         </div>
                         <h4 class="font-serif mb-2" style="color: var(--brand-dark);">Botanical Body Scrubs</h4>
                         <p class="text-muted small fw-light mx-auto" style="max-width: 250px; line-height: 1.6;">Exfoliating blends to reveal your natural glow and elevate your bathing ritual.</p>
@@ -1598,7 +1613,7 @@
                 <div class="col-12 col-md-4 fade-up" style="transition-delay: 0.1s;">
                     <div class="text-center group">
                         <div class="overflow-hidden rounded-circle mx-auto mb-4" style="width: 150px; height: 150px; border: 2px solid var(--border-color); padding: 5px;">
-                            <img src="index/upcoming-oil.jpg" alt="Hair Oils" class="img-fluid w-100 h-100 rounded-circle" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1608282361661-8ee2449fc61d?q=80&amp;w=400&amp;auto=format&amp;fit=crop'" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                            <img src="index/Hair Oil.png" alt="Hair Oils" class="img-fluid w-100 h-100 rounded-circle" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1608282361661-8ee2449fc61d?q=80&amp;w=400&amp;auto=format&amp;fit=crop'" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
                         </div>
                         <h4 class="font-serif mb-2" style="color: var(--brand-dark);">Nourishing Hair Oils</h4>
                         <p class="text-muted small fw-light mx-auto" style="max-width: 250px; line-height: 1.6;">Traditional oil blends designed to restore root-to-tip vitality and strength.</p>
@@ -1608,7 +1623,7 @@
                 <div class="col-12 col-md-4 fade-up" style="transition-delay: 0.2s;">
                     <div class="text-center group">
                         <div class="overflow-hidden rounded-circle mx-auto mb-4" style="width: 150px; height: 150px; border: 2px solid var(--border-color); padding: 5px;">
-                            <img src="index/upcoming-ubtan.jpg" alt="Ubtan Powder" class="img-fluid w-100 h-100 rounded-circle" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1615397323116-3e74c86927eb?q=80&amp;w=400&amp;auto=format&amp;fit=crop'" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                            <img src="index/Traditional Ubtan.png" alt="Ubtan Powder" class="img-fluid w-100 h-100 rounded-circle" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1615397323116-3e74c86927eb?q=80&amp;w=400&amp;auto=format&amp;fit=crop'" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
                         </div>
                         <h4 class="font-serif mb-2" style="color: var(--brand-dark);">Traditional Ubtan</h4>
                         <p class="text-muted small fw-light mx-auto" style="max-width: 250px; line-height: 1.6;">A heritage recipe powder for unmistakable bridal radiance and daily purification.</p>
@@ -1698,7 +1713,7 @@
             <div class="row gy-4 gy-lg-5 gx-4 mb-5">
                 <div class="col-12 col-lg-4 text-center text-lg-start">
                     <h2 class="font-serif fs-4 mb-3">
-                        <img src="index/Logo.png" alt="The Soap & Soul Logo" style="height: 60px; border-radius: 4px; margin-bottom: 5px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/60?text=S'">
+                        <img src="index/Logo.png" alt="The Soap & Soul Logo" style="height: 60px; border-radius: 4px; margin-bottom: 5px; object-fit: cover;" onerror="this.src='index.html'">
                     </h2>
                     <p class="text-muted small fw-light mb-4 mx-auto mx-lg-0" style="max-width: 300px;">Elevating the science of botanical skincare. Purify, nourish, and restore with uncompromising quality.</p>
                 </div>
@@ -1727,21 +1742,21 @@
                     <h5 class="text-uppercase tracking-wider small fw-bold mb-4" style="color: var(--brand-dark);">Connect</h5>
                     <ul class="list-unstyled social-links">
                         <li class="mb-3">
-                            <a href="https://www.instagram.com/the.soapandsoul?igsh=eGV5bHVqZGxpYXM2" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
-                                <i data-lucide="instagram" width="20" stroke-width="1.5"></i>
-                                <span class="footer-link d-inline-block m-0 p-0">Instagram</span>
+                            <a href="https://www.instagram.com/the.soapandsoul?igsh=eGV5bHVqZGxpYXM2" target="_blank" rel="noopener noreferrer" class="footer-link d-inline-flex align-items-center gap-2">
+                                <i data-lucide="instagram" width="18" stroke-width="1.5"></i>
+                                <span>Instagram</span>
                             </a>
                         </li>
                         <li class="mb-3">
-                            <a href="https://www.facebook.com/share/1ESqzBqs2J/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
-                                <i data-lucide="facebook" width="20" stroke-width="1.5"></i>
-                                <span class="footer-link d-inline-block m-0 p-0">Facebook</span>
+                            <a href="https://www.facebook.com/share/1ESqzBqs2J/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="footer-link d-inline-flex align-items-center gap-2">
+                                <i data-lucide="facebook" width="18" stroke-width="1.5"></i>
+                                <span>Facebook</span>
                             </a>
                         </li>
                         <li class="mb-3">
-                            <a href="mailto:the.soapandsoul@gmail.com" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
-                                <i data-lucide="mail" width="20" stroke-width="1.5"></i>
-                                <span class="footer-link d-inline-block m-0 p-0">Email Us</span>
+                            <a href="mailto:the.soapandsoul@gmail.com" target="_blank" rel="noopener noreferrer" class="footer-link d-inline-flex align-items-center gap-2">
+                                <i data-lucide="mail" width="18" stroke-width="1.5"></i>
+                                <span>Email Us</span>
                             </a>
                         </li>
                     </ul>
@@ -1823,7 +1838,6 @@
                     <button type="button" class="btn-close shadow-none position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <p class="text-center text-muted small mb-4">Your order details will be securely sent to our WhatsApp for confirmation and payment.</p>
                     <form id="checkout-form">
                         <div class="mb-3">
                             <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Full Name</label>
@@ -1844,11 +1858,15 @@
                             <input type="text" id="checkout-address" class="form-control" required>
                         </div>
                         <div class="row g-3 mb-4">
-                            <div class="col-12 col-sm-6">
+                            <div class="col-12 col-sm-4">
                                 <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">City</label>
                                 <input type="text" id="checkout-city" class="form-control" required>
                             </div>
-                            <div class="col-12 col-sm-6">
+                            <div class="col-12 col-sm-4">
+                                <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">State</label>
+                                <input type="text" id="checkout-state" class="form-control" required>
+                            </div>
+                            <div class="col-12 col-sm-4">
                                 <label class="form-label small text-muted fw-bold tracking-wider text-uppercase">Pincode / Zip</label>
                                 <input type="text" id="checkout-zip" class="form-control" required>
                             </div>
@@ -1867,13 +1885,51 @@
                             </div>
                         </div>
 
-                        <!-- NEW: ONLINE PAYMENT DETAILS (Hidden by default) -->
+                        <!-- ONLINE PAYMENT DETAILS (QR Initially Hidden) -->
                         <div id="online-payment-details" class="d-none text-center p-4 mb-4 rounded" style="background: var(--brand-light); border: 1px dashed var(--brand-accent);">
-                            <p class="small fw-bold mb-2" style="color: var(--brand-dark);">Scan to Pay or Click Below</p>
-                            <img id="dynamic-upi-qr" src="WhatsApp Image 2026-04-26 at 1.42.24 PM.jpeg" alt="UPI QR Code" class="img-fluid rounded mb-2 shadow-sm" style="max-width: 160px; border: 2px solid white;">
-                            <p class="small text-muted mb-3">UPI ID: <strong class="user-select-all text-dark">fareeha.mahek@oksbi</strong></p>
-                            <a href="#" id="direct-upi-btn" class="btn btn-outline-dark btn-sm w-100 font-serif" style="border-radius: 4px;">Pay <span id="upi-pay-amount"></span> via UPI App</a>
-                            <p class="small text-muted mt-2 mb-0" style="font-size: 0.7rem;">(Clicking will automatically open GPay/PhonePe on mobile)</p>
+                            <p class="small fw-bold mb-3" style="color: var(--brand-dark);">Scan to Pay or Click Below</p>
+                            
+                            <!-- Toggle Button to reveal QR -->
+                            <button type="button" id="show-qr-btn" class="btn btn-outline-dark btn-sm mb-3 px-4">Show QR Code</button>
+                            
+                            <!-- Payment Breakdown -->
+                            <div class="mb-3">
+                                <a href="#payment-breakdown-collapse" data-bs-toggle="collapse" role="button" aria-expanded="false" class="small fw-bold text-decoration-none d-inline-flex align-items-center" style="color: var(--text-muted);">
+                                    See Payment Details 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ms-1"><path d="m6 9 6 6 6-6"/></svg>
+                                </a>
+                                <div class="collapse mt-2" id="payment-breakdown-collapse">
+                                    <div class="card card-body border-0 shadow-sm small text-start p-3" style="background-color: var(--surface);">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>Subtotal:</span> <span id="breakdown-subtotal">₹0.00</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>GST (5%):</span> <span id="breakdown-tax">₹0.00</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                            <span>Delivery:</span> <span id="breakdown-delivery">₹50.00</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between fw-bold" style="color: var(--brand-dark);">
+                                            <span>Total:</span> <span id="breakdown-total">₹0.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hidden QR and Instructions -->
+                            <div id="qr-content" class="d-none animate-fade-in">
+                                <img id="dynamic-upi-qr" src="WhatsApp Image 2026-04-26 at 1.42.24 PM.jpeg" alt="UPI QR Code" class="img-fluid rounded mb-2 shadow-sm" style="max-width: 160px; border: 2px solid white;">
+                                <p class="small text-muted mb-3">UPI ID: <strong class="user-select-all text-dark">fareeha.mahek@oksbi</strong></p>
+                                <a href="#" id="direct-upi-btn" class="btn btn-outline-dark btn-sm w-100 font-serif mb-3" style="border-radius: 4px;">Pay <span id="upi-pay-amount"></span> via UPI App</a>
+                                
+                                <div class="mt-3 pt-3 border-top">
+                                    <button type="button" id="payment-done-btn" class="btn btn-luxury w-100 py-2 d-none fade-in">Done the Payment</button>
+                                    <div id="payment-thanks-msg" class="d-none mt-3 p-3 bg-white rounded shadow-sm">
+                                        <p class="small fw-bold text-success mb-1">Thank you for your payment!</p>
+                                        <p class="small text-muted mb-0">Please share the payment screenshot to the WhatsApp for confirmation.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn-luxury w-100 py-3 d-flex align-items-center justify-content-center gap-2">
@@ -1930,6 +1986,14 @@
                                 <option value="Rice soap">Rice soap - ₹150/-</option>
                                 <option value="Hunny bunny">Hunny bunny - ₹200/-</option>
                                 <option value="Forever love">Forever love - ₹200/-</option>
+                                <option value="Moroccan Neela Soap">Moroccan Neela Soap - ₹200/-</option>
+                                <option value="Arabian Oud Scrub">Arabian Oud Scrub (150g) - ₹200/-</option>
+                                <option value="Charcoal Scrub">Charcoal Scrub (150g) - ₹200/-</option>
+                                <option value="Lemon Scrub">Lemon Scrub (150g) - ₹200/-</option>
+                                <option value="Moroccan Neela Scrub">Moroccan Neela Scrub (150g) - ₹200/-</option>
+                                <option value="Mulethi Scrub">Mulethi Scrub (150g) - ₹200/-</option>
+                                <option value="Orange Scrub">Orange Scrub (150g) - ₹200/-</option>
+                                <option value="Rose Scrub">Rose Scrub (150g) - ₹200/-</option>
                                 <option value="Completely Custom">Create Completely New Custom Soap</option>
                             </select>
                         </div>
@@ -2185,7 +2249,15 @@
             { id: 10, name: "Mulethi Soothing Bar", desc: "Healing mulethi extract to soothe irritation and even out skin tone.", fullDesc: "Mulethi (Licorice Root) is a gentle yet highly effective botanical that helps to naturally fade dark spots, soothe irritated skin, and provide a beautifully even and balanced skin tone.", ingredients: "Mulethi (Licorice) Root Powder, Chamomile Extract, Saponified Olive & Coconut Oils, Glycerin.", price: 150.00, category: "soothing", img: "index/multahi.png", color: "#e8c39e" },
             { id: 11, name: "Rice Brightening", desc: "Gentle rice extract to beautifully brighten, soften, and nourish.", fullDesc: "An Asian beauty secret brought to your daily routine. Rice water and extract work synergistically to shrink pores, tighten the skin, and provide a glassy, hydrated, and brightened finish.", ingredients: "Fermented Rice Water, Rice Bran Oil, Saponified Coconut Oil, Shea Butter, White Kaolin Clay.", price: 150.00, category: "soothing", img: "index/rice.png", badge: "New", color: "#f1f2f6" },
             { id: 12, name: "Hunny Bunny Baby", desc: "Ultra-gentle lotus and honey formulation for delicate baby skin.", fullDesc: "Formulated specifically for the most delicate and sensitive skin. This tear-free, ultra-mild soap combines the healing power of raw honey with soothing lotus extract to cleanse without drying.", ingredients: "Raw Organic Honey, Lotus Extract, Colloidal Oatmeal, Saponified Sweet Almond & Olive Oils.", price: 200.00, category: "soothing", img: "index/HoneyBunny.png", color: "#f9ca24" },
-            { id: 13, name: "Forever Love", desc: "A beautifully sculpted blend for deep hydration and celebrating love.", fullDesc: "A masterfully sculpted soap that acts as a testament to pure botanical hydration. Infused with rich aloe vera and pure glycerin, it locks in moisture, ensuring your skin stays soft and deeply loved.", ingredients: "Pure Aloe Vera Gel, Vegetable Glycerin, Rosewood Essential Oil, Saponified Botanical Oils.", price: 200.00, category: "floral", img: "index/AloeVera&Glycerine.png", color: "#ff9ff3" }
+            { id: 13, name: "Forever Love", desc: "A beautifully sculpted blend for deep hydration and celebrating love.", fullDesc: "A masterfully sculpted soap that acts as a testament to pure botanical hydration. Infused with rich aloe vera and pure glycerin, it locks in moisture, ensuring your skin stays soft and deeply loved.", ingredients: "Pure Aloe Vera Gel, Vegetable Glycerin, Rosewood Essential Oil, Saponified Botanical Oils.", price: 200.00, category: "floral", img: "index/AloeVera&Glycerine.png", color: "#ff9ff3" },
+            { id: 14, name: "Moroccan Neela Soap", desc: "Luxurious Neela powder for skin brightening and purifying.", fullDesc: "Experience the magic of Moroccan Neela. This soap naturally brightens the skin, helps fade dark spots, and provides a deep, purifying cleanse.", ingredients: "Moroccan Neela Powder, Indigo Extract, Saponified Olive Oil, Argan Oil.", price: 200.00, category: "detox", img: "shop/Moroccan Neela Powder Soap.png", badge: "New", color: "#2d3436" },
+            { id: 15, name: "Arabian Oud Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Rich oud fragrance with gentle exfoliating granules.", fullDesc: "Transport your senses with the deep, woody aroma of Arabian Oud. This luxurious scrub exfoliates dead skin cells while leaving a lasting, royal fragrance. Special Offer: 150g size!", ingredients: "Sugar, Arabian Oud Essential Oil, Argan Oil, Sweet Almond Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Arabian Oud Scrub.png", badge: "150g Offer", color: "#8B4513" },
+            { id: 16, name: "Charcoal Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Detoxifying activated charcoal to draw out impurities.", fullDesc: "Deeply cleanse and exfoliate with activated charcoal. This scrub unclogs pores, removes blackheads, and leaves your skin feeling incredibly fresh. Special Offer: 150g size!", ingredients: "Activated Charcoal, Sea Salt, Coconut Oil, Peppermint Essential Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Charcoal Scrub.png", badge: "150g Offer", color: "#353b48" },
+            { id: 17, name: "Lemon Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Zesty lemon scrub for a bright, energized complexion.", fullDesc: "Wake up your skin! Our Lemon Scrub uses natural citrus extracts and exfoliating crystals to buff away dullness and reveal a radiant glow. Special Offer: 150g size!", ingredients: "Cane Sugar, Lemon Essential Oil, Lemon Zest, Jojoba Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Lemon Scrub.png", badge: "150g Offer", color: "#fbc531" },
+            { id: 18, name: "Moroccan Neela Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Brightening Moroccan Neela scrub for flawless skin.", fullDesc: "Combine the brightening power of Moroccan Neela with gentle exfoliation. Perfect for targeting dark areas and evening out skin tone. Special Offer: 150g size!", ingredients: "Moroccan Neela Powder, Fine Sugar, Argan Oil, Shea Butter.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Moroccan Neela Powder Scrub.png", badge: "150g Offer", color: "#273c75" },
+            { id: 19, name: "Mulethi Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Soothing licorice root scrub for pigmentation control.", fullDesc: "Harness the ancient power of Mulethi (Licorice). This scrub gently exfoliates while actively working to reduce pigmentation and dark spots. Special Offer: 150g size!", ingredients: "Brown Sugar, Mulethi Root Extract, Sweet Almond Oil, Vitamin E.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Mulethi Scrub.png", badge: "150g Offer", color: "#cd84f1" },
+            { id: 20, name: "Orange Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Vitamin C packed orange scrub for youthful radiance.", fullDesc: "Packed with Vitamin C, this energizing orange scrub sloughs off dead skin, promoting cell turnover and a healthy, youthful radiance. Special Offer: 150g size!", ingredients: "Organic Sugar, Sweet Orange Essential Oil, Orange Peel Powder, Coconut Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Orange Scrub.png", badge: "150g Offer", color: "#e1b12c" },
+            { id: 21, name: "Rose Scrub (150g)", desc: "Offer: Get 150g for the price of 100g! Delicate rose scrub for soft, supple, and romantic skin.", fullDesc: "Indulge in romance. Finely ground sugar and real rose petals work together to gently exfoliate and deeply moisturize your skin. Special Offer: 150g size!", ingredients: "Fine Sugar, Rose Petals, Rose Geranium Essential Oil, Rosehip Oil.", price: 200.00, oldPrice: 250.00, category: "scrubs", img: "shop/Rose Scrub.png", badge: "150g Offer", color: "#ff9ff3" }
         ];
 
         // --- STATE ---
@@ -2300,7 +2372,6 @@
                     layer.style.visibility = 'visible';
                     layer.classList.add('active');
                 } else {
-                    // Completely hide non-active layers so they don't bleed through transparent background images
                     layer.style.opacity = 0;
                     layer.classList.remove('active');
                     layer.style.visibility = 'hidden'; 
@@ -2310,7 +2381,6 @@
             menuItems.forEach((item, index) => {
                 if (index === active3DIndex) {
                     item.classList.add('active');
-                    // Horizontal smooth scroll alignment for Mobile
                     item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else {
                     item.classList.remove('active');
@@ -2325,20 +2395,23 @@
             }
         }
 
-        // --- PRODUCT DETAILS MODAL FUNCTION ---
         window.showProductDetails = (productId) => {
             const product = productsData.find(p => p.id === productId);
             if (!product) return;
 
-            // Populate Modal Content
             document.getElementById('modal-product-img').src = product.img;
             document.getElementById('modal-product-img').alt = product.name;
             document.getElementById('modal-product-title').textContent = product.name;
-            document.getElementById('modal-product-price').textContent = `₹${product.price.toFixed(2)}`;
+            
+            if (product.oldPrice) {
+                document.getElementById('modal-product-price').innerHTML = `<span class="text-decoration-line-through text-muted small me-2" style="font-size: 0.6em;">₹${product.oldPrice.toFixed(2)}</span>₹${product.price.toFixed(2)} <span class="badge bg-success ms-2 fs-6 align-middle" style="background-color: var(--brand-accent) !important; font-family: 'Montserrat', sans-serif;">Save ₹${(product.oldPrice - product.price).toFixed(0)}</span>`;
+            } else {
+                document.getElementById('modal-product-price').innerHTML = `₹${product.price.toFixed(2)}`;
+            }
+            
             document.getElementById('modal-product-desc').textContent = product.fullDesc || product.desc;
             document.getElementById('modal-product-ingredients').textContent = product.ingredients || "Saponified botanical oils, essential oils, natural clays, and botanical extracts.";
 
-            // Handle Badge
             const badgeEl = document.getElementById('modal-product-badge');
             if (product.badge) {
                 badgeEl.textContent = product.badge;
@@ -2347,7 +2420,6 @@
                 badgeEl.classList.add('d-none');
             }
 
-            // Bind Add to Cart Button for this specific product
             const addBtn = document.getElementById('modal-add-to-cart-btn');
             const safeName = product.name.replace(/'/g, "\\'");
             const safeImg = product.img.replace(/'/g, "\\'");
@@ -2356,13 +2428,11 @@
                 addToCart(product.id, safeName, product.price, safeImg);
             };
 
-            // Show Modal
             const modalElement = document.getElementById('productDetailsModal');
             const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
             bsModal.show();
         };
 
-        // --- SEARCH FUNCTIONS ---
         function initSearch() {
             const searchContainer = document.querySelector('.nav-search-container');
             const searchBtn = document.getElementById('nav-search-btn');
@@ -2413,7 +2483,6 @@
 
                 let html = '';
                 filteredProducts.forEach(product => {
-                    // Instantly pop up the product details since we're already on the shop page!
                     html += `
                         <div class="suggestion-item" onclick="showProductDetails(${product.id}); document.getElementById('nav-search-input').value=''; document.getElementById('nav-search-suggestions').classList.remove('show'); document.querySelector('.nav-search-container').classList.remove('active');">
                             <img src="${product.img}" alt="${product.name}" class="suggestion-img" onerror="this.src='https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&amp;w=500&amp;auto=format&amp;fit=crop'">
@@ -2429,7 +2498,6 @@
             });
         }
 
-        // --- CART FUNCTIONS ---
         window.addToCart = (id, name, price, img) => {
             const existingItemIndex = cart.findIndex(item => item.id === id);
             
@@ -2492,7 +2560,6 @@
                 
                 let cartHTML = '';
                 
-                // Update Free Shipping Progress Bar
                 if (trackerBar && trackerText) {
                     let progressPercent = Math.min((totalPrice / FREE_SHIPPING_THRESHOLD) * 100, 100);
                     trackerBar.style.width = `${progressPercent}%`;
@@ -2547,10 +2614,73 @@
             if (payWhatsapp && payOnline) {
                 payWhatsapp.addEventListener('change', () => {
                     onlineDetails.classList.add('d-none');
+                    resetOnlinePaymentUI();
                 });
                 payOnline.addEventListener('change', () => {
                     onlineDetails.classList.remove('d-none');
                 });
+            }
+
+            // Toggle QR Content
+            const showQrBtn = document.getElementById('show-qr-btn');
+            const qrContent = document.getElementById('qr-content');
+            const paymentDoneBtn = document.getElementById('payment-done-btn');
+            const thanksMsg = document.getElementById('payment-thanks-msg');
+            const directUpiBtn = document.getElementById('direct-upi-btn');
+            let paymentTimer;
+
+            if(showQrBtn) {
+                showQrBtn.addEventListener('click', () => {
+                    qrContent.classList.toggle('d-none');
+                    const isShowing = !qrContent.classList.contains('d-none');
+                    showQrBtn.innerText = isShowing ? 'Hide QR Code' : 'Show QR Code';
+                    
+                    clearTimeout(paymentTimer);
+                    if (isShowing) {
+                        paymentDoneBtn.classList.add('d-none'); 
+                        paymentTimer = setTimeout(() => {
+                            if (thanksMsg.classList.contains('d-none')) {
+                                paymentDoneBtn.classList.remove('d-none');
+                            }
+                        }, 6000); 
+                    } else {
+                        paymentDoneBtn.classList.add('d-none');
+                    }
+                });
+            }
+
+            if(directUpiBtn) {
+                directUpiBtn.addEventListener('click', () => {
+                    clearTimeout(paymentTimer);
+                    paymentDoneBtn.classList.add('d-none'); 
+                    paymentTimer = setTimeout(() => {
+                        if (thanksMsg.classList.contains('d-none')) {
+                            paymentDoneBtn.classList.remove('d-none');
+                        }
+                    }, 6000);
+                });
+            }
+
+            // Payment Done Action
+            if(paymentDoneBtn) {
+                paymentDoneBtn.addEventListener('click', () => {
+                    thanksMsg.classList.remove('d-none');
+                    paymentDoneBtn.classList.add('d-none');
+                });
+            }
+
+            function resetOnlinePaymentUI() {
+                if(qrContent) qrContent.classList.add('d-none');
+                if(thanksMsg) thanksMsg.classList.add('d-none');
+                if(paymentDoneBtn) paymentDoneBtn.classList.add('d-none');
+                if(showQrBtn) showQrBtn.innerText = 'Show QR Code';
+                // Reset collapse
+                const paymentBreakdown = document.getElementById('payment-breakdown-collapse');
+                if(paymentBreakdown && paymentBreakdown.classList.contains('show')) {
+                    const bsCollapse = bootstrap.Collapse.getInstance(paymentBreakdown);
+                    if(bsCollapse) bsCollapse.hide();
+                }
+                clearTimeout(paymentTimer);
             }
 
             // Move from Cart to Checkout
@@ -2564,6 +2694,12 @@
                 const tax = subtotal * 0.05; 
                 const delivery = 50.00; 
                 const finalTotal = subtotal + tax + delivery;
+
+                // Populate Payment Details Breakdown
+                document.getElementById('breakdown-subtotal').innerText = `₹${subtotal.toFixed(2)}`;
+                document.getElementById('breakdown-tax').innerText = `₹${tax.toFixed(2)}`;
+                document.getElementById('breakdown-delivery').innerText = `₹${delivery.toFixed(2)}`;
+                document.getElementById('breakdown-total').innerText = `₹${finalTotal.toFixed(2)}`;
                 
                 document.getElementById('upi-pay-amount').innerText = `₹${finalTotal.toFixed(2)}`;
                 
@@ -2578,6 +2714,7 @@
                 }
 
                 setTimeout(() => {
+                    resetOnlinePaymentUI();
                     const modalElement = document.getElementById('checkoutModal');
                     const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
                     bsModal.show();
@@ -2593,6 +2730,7 @@
                 const phone = document.getElementById('checkout-phone').value;
                 const address = document.getElementById('checkout-address').value;
                 const city = document.getElementById('checkout-city').value;
+                const state = document.getElementById('checkout-state').value;
                 const zip = document.getElementById('checkout-zip').value;
                 const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
                 const paymentText = paymentMethod === 'online' ? 'Online (UPI)' : 'Cash / Pay on WhatsApp';
@@ -2615,7 +2753,7 @@
                 msg += `Name: ${name}\n`;
                 msg += `WhatsApp: ${phone}\n`;
                 if(email) msg += `Email: ${email}\n`;
-                msg += `Address: ${address}, ${city} - ${zip}\n\n`;
+                msg += `Address: ${address}, ${city}, ${state} - ${zip}\n\n`;
                 msg += `*📦 Order Summary:*\n`;
                 msg += orderSummary;
                 
@@ -2631,12 +2769,14 @@
 
                 const finalizedCart = [...cart];
 
+                cart = []; 
+                localStorage.removeItem('soapSoulCart');
+                updateCartUI();
+
                 const modalElement = document.getElementById('checkoutModal');
                 const bsModal = bootstrap.Modal.getOrCreateInstance(modalElement);
                 bsModal.hide();
-                cart = [];
-                localStorage.removeItem('soapSoulCart');
-                updateCartUI();
+                e.target.reset();
 
                 // Trigger Receipt
                 setTimeout(() => {
