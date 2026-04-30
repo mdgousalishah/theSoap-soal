@@ -133,7 +133,7 @@
 
         /* NAVBAR */
         .navbar {
-            padding: 1rem 0;
+            padding: 0.8rem 0;
             transition: var(--transition-fast);
             background: rgba(249, 232, 234, 0.95);
             backdrop-filter: blur(10px);
@@ -158,13 +158,24 @@
 
         .navbar-brand {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            font-size: clamp(0.95rem, 4vw, 1.5rem);
             color: var(--brand-dark) !important;
             letter-spacing: 0.02em;
             text-decoration: none;
+            white-space: nowrap;
         }
+
+        .nav-logo-img {
+            width: clamp(28px, 6vw, 40px);
+            height: clamp(28px, 6vw, 40px);
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 8px;
+        }
+
         @media (min-width: 992px) {
             .navbar-brand { font-size: 1.8rem; }
+            .nav-logo-img { margin-right: 12px; }
         }
 
         /* Mobile Menu */
@@ -221,8 +232,11 @@
             border: none;
             color: var(--brand-dark);
             position: relative;
-            padding: 5px;
+            padding: 4px;
             transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .cart-btn:hover { color: var(--brand-accent); }
         .cart-count {
@@ -1175,23 +1189,23 @@
 
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
-        <div class="container-fluid px-3 px-lg-5">
-            <a class="navbar-brand py-0 d-flex align-items-center" href="index.html">
-                <img src="shop/Logo.png" alt="The Soap & Soul Logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;" onerror="this.src='https://via.placeholder.com/40?text=S'">
-                <span>The Soap & Soul.</span>
+        <div class="container-fluid px-2 px-lg-5">
+            <a class="navbar-brand py-0 d-flex align-items-center flex-shrink-1" href="index.html" style="min-width: 0;">
+                <img src="shop/Logo.png" alt="The Soap & Soul Logo" class="nav-logo-img" onerror="this.src='https://via.placeholder.com/40?text=S'">
+                <span class="text-truncate">The Soap & Soul.</span>
             </a>
             
-            <div class="d-flex align-items-center order-lg-last">
-                <a href="https://www.instagram.com/the.soapandsoul?igsh=eGV5bHVqZGxpYXM2" target="_blank" class="cart-btn d-none d-md-flex align-items-center justify-content-center" aria-label="Instagram">
+            <div class="d-flex align-items-center order-lg-last flex-shrink-0 gap-1 gap-md-2">
+                <a href="https://www.instagram.com/the.soapandsoul?igsh=eGV5bHVqZGxpYXM2" target="_blank" class="cart-btn d-none d-md-flex" aria-label="Instagram">
                     <i data-lucide="instagram" stroke-width="1.5" width="20"></i>
                 </a>
-                <a href="https://www.facebook.com/share/1ESqzBqs2J/?mibextid=wwXIfr" target="_blank" class="cart-btn d-none d-md-flex align-items-center justify-content-center" aria-label="Facebook">
+                <a href="https://www.facebook.com/share/1ESqzBqs2J/?mibextid=wwXIfr" target="_blank" class="cart-btn d-none d-md-flex" aria-label="Facebook">
                     <i data-lucide="facebook" stroke-width="1.5" width="20"></i>
                 </a>
                 
                 <!-- EXPANDABLE SEARCH -->
-                <div class="nav-search-container me-2 ms-2 ms-md-0">
-                    <button class="cart-btn d-flex align-items-center justify-content-center" id="nav-search-btn" aria-label="Search">
+                <div class="nav-search-container">
+                    <button class="cart-btn" id="nav-search-btn" aria-label="Search">
                         <i data-lucide="search" stroke-width="1.5" width="20"></i>
                     </button>
                     <input type="text" id="nav-search-input" class="nav-search-input" placeholder="Search...">
@@ -1201,14 +1215,14 @@
                     </div>
                 </div>
 
-                <button class="cart-btn" id="theme-toggle" type="button" aria-label="Toggle Dark Mode">
+                <button class="cart-btn p-1 p-md-2" id="theme-toggle" type="button" aria-label="Toggle Dark Mode">
                     <i data-lucide="moon" stroke-width="1.5"></i>
                 </button>
-                <button class="cart-btn ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                <button class="cart-btn p-1 p-md-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
                     <i data-lucide="shopping-bag" stroke-width="1.5"></i>
                     <span class="cart-count" id="cart-count">0</span>
                 </button>
-                <button class="navbar-toggler border-0 shadow-none ms-2 p-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <button class="navbar-toggler border-0 shadow-none p-1 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <i data-lucide="menu" stroke-width="1.5" style="color: currentColor;"></i>
                 </button>
             </div>
