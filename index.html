@@ -478,7 +478,58 @@
             text-shadow: 0 10px 30px rgba(0,0,0,0.8);
             margin-bottom: 15px;
         }
+/* GLASSMORPHISM UTILITIES */
+        .glass-panel {
+            background: rgba(255, 244, 245, 0.352);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 60px rgba(59, 69, 36, 0.05);
+        }
 
+        /* MAGNETIC BUTTONS */
+        .magnetic-wrap {
+            display: inline-block;
+            position: relative;
+        }
+        .btn-luxury {
+            background-color: var(--brand-dark);
+            color: var(--brand-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 40px; /* Modern rounded look */
+            transition: background-color 0.4s ease, color 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
+        }
+        .btn-luxury::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--brand-accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: -1;
+            border-radius: 40px;
+        }
+        .btn-luxury:hover {
+            color: var(--brand-light) !important;
+        }
+        .btn-luxury:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
         /* REVIEWS */
         .review-card {
             background-color: var(--surface);
@@ -1711,28 +1762,27 @@
         </div>
     </section>
 
-    <!-- BESPOKE CUSTOMIZATION SECTION -->
-    <section class="section-padding" style="background-color: var(--surface);">
-        <div class="container px-4 px-lg-5">
+    <!-- BESPOKE CUSTOMIZATION (GLASSMORPHISM) -->
+    <section class="section-padding position-relative" style="background: url('index/Background img.png') center/cover fixed;">
+        <div class="position-absolute inset-0 bg-dark" style="opacity: 0.4;"></div>
+        <div class="container px-4 px-lg-5 position-relative z-1">
             <div class="row justify-content-center">
-                <div class="col-12 col-lg-10 col-xl-8 fade-up">
-                    <div class="customization-card text-center">
-                        <i data-lucide="sparkles" style="color: var(--brand-accent); width: 40px; height: 40px; margin-bottom: 1.5rem; stroke-width: 1px;"></i>
-                        <span class="text-uppercase tracking-widest small fw-bold mb-3 d-block" style="color: var(--brand-accent) !important;">Bespoke Creations</span>
+                <div class="col-12 col-lg-8">
+                    <div class="glass-panel p-5 rounded-4 text-center gsap-reveal">
+                        <i data-lucide="sparkles" class="mb-4" style="color: var(--brand-accent); width: 32px; height: 32px;"></i>
+                        <span class="text-uppercase tracking-widest small fw-bold mb-3 d-block" style="color: var(--brand-dark);">Bespoke Creations</span>
                         <h2 class="display-5 font-serif mb-4" style="color: var(--brand-dark);">Crafted Exclusively For You</h2>
-                        <div style="width: 40px; height: 1px; background-color: var(--brand-dark); margin: 0 auto 1.5rem auto;"></div>
-                        
-                        <p class="text-muted mb-5 fw-light mx-auto" style="line-height: 1.8; font-size: 0.95rem; max-width: 600px;">
-                            Looking for a signature scent for your boutique, personalized wedding favors, or a therapeutic blend crafted specifically for your unique skin needs? Work directly with our master artisan to create a custom batch of cold-process soap tailored perfectly to your exact specifications.
+                        <p class="mb-5 mx-auto" style="color: var(--text-main); font-size: 1.05rem; max-width: 500px; opacity: 0.8;">
+                            Work directly with our master artisan to create a custom batch of cold-process soap tailored perfectly to your unique skin needs.
                         </p>
-                        
-                        <button class="btn-luxury w-100 w-sm-auto px-5" data-bs-toggle="modal" data-bs-target="#customizeModal">Request Custom Soap</button>
+                        <div class="magnetic-wrap">
+                            <button class="btn-luxury w-100 px-5" data-bs-toggle="modal" data-bs-target="#customizeModal">Request Custom Order</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- CUSTOMER REVIEWS SECTION -->
     <section class="section-padding bg-brand-light">
         <div class="container px-4 px-lg-5">
